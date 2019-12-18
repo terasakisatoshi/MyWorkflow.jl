@@ -1,0 +1,16 @@
+version: '3'
+services:
+  jupyter:
+    build: ./
+    container_name: myjupyter
+    volumes:
+      - ./:/work
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
+  julia:
+    build: ./
+    container_name: myjulia
+    volumes:
+      - ./:/work
+    command: julia --project=.
