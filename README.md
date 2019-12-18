@@ -17,7 +17,7 @@
 
 ## Build Docker image
 
-- There are two ways to build
+- There are several ways to build
 
 ### Case 1: Use Docker
 
@@ -29,6 +29,12 @@ $ docker build -t myjulia .
 
 ```console
 $ docker-compose build --parallel
+```
+
+### Case 3: Use Makefile
+
+```
+$ make build
 ```
 
 ## Run Docker Container
