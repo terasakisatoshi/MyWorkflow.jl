@@ -12,9 +12,11 @@
 
 ## Prepare Environment
 
-1. Install Docker and Docker Compose
-
-
+- Install Docker and Docker Compose. see the following link to learn more with your operating system:
+  - [Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/)
+  - [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/)
+  - [Get Docker Engine - Community for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+  
 ## Build Docker image
 
 - There are several ways to build
