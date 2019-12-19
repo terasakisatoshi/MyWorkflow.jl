@@ -3,7 +3,7 @@
 all: build
 
 build:
-	docker-compose build --parallel
+	docker-compose build
 	docker build -t myjulia .
 
 # Excecute in docker container
