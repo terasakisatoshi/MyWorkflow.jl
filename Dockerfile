@@ -3,6 +3,7 @@ FROM julia:1.3.0
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
+    cmake \
     python3 \
     python3-dev \
     python3-distutils \
@@ -73,4 +74,7 @@ Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
+# For Jupyter Notebook
 EXPOSE 8888
+# For Http Server
+EXPOSE 8000

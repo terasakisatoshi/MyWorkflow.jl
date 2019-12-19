@@ -14,3 +14,11 @@ services:
     volumes:
       - ./:/work
     command: julia --project=.
+  web:
+    build: ./
+    container_name: mypackagedocs
+    volumes:
+      - ./:/work
+    ports:
+      - "8000:8000"
+    command: make web

@@ -98,7 +98,7 @@ $ docker-compose up jupyter
 
 ```
 
-Open your web browser and access `localhost:8888`
+Open your web browser and access http://localhost:8888/
 
 #### Clean up
 
@@ -106,3 +106,15 @@ Open your web browser and access `localhost:8888`
 $ docker rmi myjulia
 $ docker-compose down
 ```
+
+## Generate `docs/build`
+
+Just run `make web` on your local machine or
+
+
+```console
+$ docker-compose up web
+```
+
+Open your web browser and access http://localhost:8000/
+
