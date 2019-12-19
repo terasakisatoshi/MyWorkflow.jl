@@ -65,7 +65,6 @@ using IJulia, Atom, Juno; # for precompilation\
 WORKDIR /work
 
 COPY ./Project.toml /work/Project.toml
-COPY ./Manifest.toml /work/Manifest.toml
 
 # Initialize Julia package using /work/Project.toml
 RUN julia --project=/work -e 'using Pkg;\
