@@ -5,16 +5,18 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 
-- An example of workflow using Docker and GitHub
+- An example of workflow using Docker and GitHub Actions
 
 
 # How to use
 
 ## Prepare Environment
 
-1. Install Docker and Docker Compose
-
-
+- Install Docker and Docker Compose. see the following link to learn more with your operating system:
+  - [Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/)
+  - [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/)
+  - [Get Docker Engine - Community for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+  
 ## Build Docker image
 
 - There are several ways to build
@@ -68,7 +70,7 @@ $ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myjupyter myjulia j
 ... some stuff happens
 ```
 
-Open your web browser and access `localhost:8888`
+Open your web browser and access http://localhost:8000/
 
 ### Case 2: Use Docker Compose
 
@@ -107,9 +109,17 @@ $ docker rmi myjulia
 $ docker-compose down
 ```
 
-## Generate `docs/build`
+## Generate docs
 
-Just run `make web` on your local machine or
+### Run Makefile on your local machine
+
+- Make sure your version of Python >= 3.7
+
+```
+$ make web
+```
+
+### Use Docker Compose
 
 
 ```console
