@@ -5,7 +5,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 
-- An example of workflow using Docker and GitHub
+- An example of workflow using Docker and GitHub Actions
 
 
 # How to use
