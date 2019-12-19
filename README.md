@@ -70,7 +70,7 @@ $ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myjupyter myjulia j
 ... some stuff happens
 ```
 
-Open your web browser and access `localhost:8888`
+Open your web browser and access http://localhost:8000/
 
 ### Case 2: Use Docker Compose
 
@@ -109,9 +109,17 @@ $ docker rmi myjulia
 $ docker-compose down
 ```
 
-## Generate `docs/build`
+## Generate docs
 
-Just run `make web` on your local machine or
+### Run Makefile on your local machine
+
+- Make sure your version of Python >= 3.7
+
+```
+$ make web
+```
+
+### Use Docker Compose
 
 
 ```console
