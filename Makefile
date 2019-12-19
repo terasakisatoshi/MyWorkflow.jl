@@ -1,4 +1,4 @@
-.phony : all, build, docs, web
+.phony : all, build, web
 
 all: build
 
@@ -6,13 +6,12 @@ build:
 	docker-compose build --parallel
 	docker build -t myjulia .
 
-docs:
+# Excecute in docker container
+web: docs
 	julia --project=docs -e '\
 		using Pkg;\
 		Pkg.develop(PackageSpec(path=pwd()));\
 		Pkg.instantiate();\
 		include("docs/make.jl");\
 		'
-web: buildweb
-	cd docs/build && python3 -m http.server --bind localhost
-	cd $(PWD)
+	python3 -m http.server --bind 0.0.0.0 --directory docs/build
