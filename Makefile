@@ -5,6 +5,7 @@ all: build
 build:
 	docker-compose build
 	docker build -t myjulia .
+	docker-compose run --rm julia julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
 # Excecute in docker container
 web: docs
