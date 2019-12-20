@@ -58,6 +58,7 @@ $ docker run --rm -it myjulia julia --project=.
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
+julia> using Pkg; Pkg.instantiate() # Once execute this, you do not have to do again when you initialize docker
 julia> using Example
 julia> hello("World")
 "Hello, World"
