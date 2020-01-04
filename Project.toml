@@ -1,7 +1,7 @@
 name = "MyWorkflow"
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"
 authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 Example = "7876af07-990d-54b4-ab0e-23690620f79a"
