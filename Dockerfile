@@ -28,7 +28,7 @@ c.NotebookApp.token = u''\n\
 # prepare to install extension
 RUN jupyter contrib nbextension install --user && \
     jupyter nbextensions_configurator enable --user && \
-    # enable extensions what you want 
+    # enable extensions what you want
     jupyter nbextension enable select_keymap/main && \
     jupyter nbextension enable highlight_selected_word/main && \
     jupyter nbextension enable toggle_all_line_numbers/main && \
@@ -45,20 +45,22 @@ ENV["JUPYTER"]=Sys.which("jupyter")\n\
 \n\
 import Pkg\n\
 let\n\
-    pkgs = ["Revise"]\n\
+    pkgs = ["Revise","OhMyREPL"]\n\
     for pkg in pkgs\n\
         if Base.find_package(pkg) === nothing\n\
             Pkg.add(pkg)\n\
         end\n\
     end\n\
 end\n\
+using OhMyREPL \n\
 using Revise \n\
 ' >> /root/.julia/config/startup.jl
 
 # Install Julia Package
 RUN julia -E 'using Pkg;\
 Pkg.add(["IJulia","Atom","Juno"]);\
-using IJulia, Atom, Juno; # for precompilation\
+Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master"));\
+using IJulia, Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
 # Switch working directory
@@ -66,13 +68,19 @@ WORKDIR /work
 
 COPY ./Project.toml /work/Project.toml
 
+RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise' && \
+    julia -e 'using PackageCompilerX; \
+              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise]; precompile_statements_file="traced.jl", replace_default=true)\
+             ' && \
+    rm traced.jl
+
 # Initialize Julia package using /work/Project.toml
 RUN julia --project=/work -e 'using Pkg;\
 Pkg.instantiate();\
 Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
-
+    
 # For Jupyter Notebook
 EXPOSE 8888
 # For Http Server
