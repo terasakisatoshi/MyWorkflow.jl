@@ -8,7 +8,7 @@ Example = "7876af07-990d-54b4-ab0e-23690620f79a"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 
 [compat]
-Example = "= 0.5.1"
+Example = "= 0.5.1, 0.5"
 julia = "1.3"
 
 [extras]
