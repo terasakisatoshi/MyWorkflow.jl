@@ -1,0 +1,26 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7.4-stretch
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: build Docker
+          command: |
+            sudo docker build -t jltestimage .
+            sudo docker-compose build
+      - run:
+          name: test julia
+          command: |
+            echo ${PWD}
+            sudo docker run -d --name=tester --rm -it -w /project jltestimage /bin/bash
+            sudo docker cp ~/project tester:/
+            sudo docker exec tester  \
+              julia --project=/project -e '\
+              using Pkg; \
+              Pkg.test(); \
+            '
+            sudo docker stop tester
