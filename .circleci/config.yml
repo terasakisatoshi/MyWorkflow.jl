@@ -10,17 +10,17 @@ jobs:
       - run:
           name: build Docker
           command: |
-            sudo docker build -t jltestimage .
-            sudo docker-compose build
+            docker build -t jltestimage .
+            docker-compose build
       - run:
           name: test julia
           command: |
             echo ${PWD}
-            sudo docker run -d --name=tester --rm -it -w /project jltestimage /bin/bash
-            sudo docker cp ~/project tester:/
-            sudo docker exec tester  \
+            docker run -d --name=tester --rm -it -w /project jltestimage /bin/bash
+            docker cp ~/project tester:/
+            docker exec tester  \
               julia --project=/project -e '\
               using Pkg; \
               Pkg.test(); \
             '
-            sudo docker stop tester
+            docker stop tester
