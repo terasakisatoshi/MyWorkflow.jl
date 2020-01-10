@@ -23,12 +23,3 @@ jobs:
               Pkg.test(); \
             '
             docker stop tester
-
-workflows:
-  version: 2
-  commit:
-    jobs:
-      - build:
-          filters:
-            branches:
-              ignore: gh-pages
