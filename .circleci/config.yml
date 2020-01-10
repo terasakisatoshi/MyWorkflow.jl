@@ -26,9 +26,9 @@ jobs:
 
 workflows:
   version: 2
-  commit:
+  build:
     jobs:
       - build:
-          filters:
-            branches:
-              ignore: gh-pages
+          branches:
+            ignore: 
+              - gh-pages
