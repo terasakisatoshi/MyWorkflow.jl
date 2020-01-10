@@ -10,8 +10,7 @@ jobs:
       - run:
           name: build Docker
           command: |
-            docker build -t jltestimage .
-            docker-compose build
+            docker build -t jltestimage
       - run:
           name: test julia
           command: |
