@@ -1,5 +1,7 @@
 .phony : all, build, web
 
+OS:=$(shell uname -s)
+
 all: build
 
 build:
@@ -8,8 +10,12 @@ build:
 	docker-compose run --rm julia julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
 atom:
-	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -L .atom/init.jl
-
+ifeq ($(OS), Linux)
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -L .atom/init_linux.jl
+endif
+ifeq ($(OS),Darwin) # i.e. macOS
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -L .atom/init_mac.jl
+endif
 # Excecute in docker container
 web: docs
 	julia --project=docs -e '\

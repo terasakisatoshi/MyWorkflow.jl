@@ -1,5 +1,7 @@
 #
 # Edit `Port for Communication with the Julia Process` to 9999
 #
+
+include("port.jl")
 using Atom
-using Juno; Juno.connect("host.docker.internal", 9999)
+using Atom; using Juno; Juno.connect(port)
