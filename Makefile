@@ -1,4 +1,4 @@
-.phony : all, build, web
+.phony : all, build, web, clean
 
 OS:=$(shell uname -s)
 
@@ -13,7 +13,7 @@ atom:
 ifeq ($(OS), Linux)
 	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -L .atom/init_linux.jl
 endif
-ifeq ($(OS),Darwin) # i.e. macOS
+ifeq ($(OS), Darwin) # i.e. macOS
 	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -L .atom/init_mac.jl
 endif
 # Excecute in docker container
@@ -25,3 +25,7 @@ web: docs
 		include("docs/make.jl");\
 		'
 	python3 -m http.server --bind 0.0.0.0 --directory docs/build
+
+clean:
+	docker rmi jlatom
+	rm -rf docs/build
