@@ -27,5 +27,7 @@ web: docs
 	python3 -m http.server --bind 0.0.0.0 --directory docs/build
 
 clean:
-	docker rmi jlatom
+	docker-compose down
+	rm -f  Manifest.toml
 	rm -rf docs/build
+
