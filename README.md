@@ -8,6 +8,32 @@
 
 - An example of workflow using Docker and GitHub Actions
 
+# Directory Structure
+
+```
+$ tree
+.
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── Project.toml
+├── README.md
+├── docker-compose.yml
+├── docs
+│   ├── Manifest.toml
+│   ├── Project.toml
+│   ├── make.jl
+│   └── src
+│       └── index.md
+├── experiments
+│   └── notebook
+│       ├── example.ipynb
+│       └── example.jl
+├── src
+│   └── MyWorkflow.jl
+└── test
+    └── runtests.jl
+```
 
 # How to use
 
