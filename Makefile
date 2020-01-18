@@ -5,6 +5,7 @@ OS:=$(shell uname -s)
 all: build
 
 build:
+	rm -f Manifest.toml
 	docker-compose build
 	docker build -t jlatom .
 	docker-compose run --rm julia julia --project=. -e 'using Pkg; Pkg.instantiate()'
