@@ -58,7 +58,7 @@ using Revise \n\
 
 # Install Julia Package
 RUN julia -E 'using Pkg;\
-Pkg.add(["IJulia","Atom","Juno"]);\
+Pkg.add(["IJulia", "Atom", "Juno", "Plots", "GR", "PyCall"]);\
 Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master"));\
 using IJulia, Atom, Juno, PackageCompilerX; # for precompilation\
 '
@@ -66,11 +66,15 @@ using IJulia, Atom, Juno, PackageCompilerX; # for precompilation\
 # Switch working directory
 WORKDIR /work
 
+COPY ./requirements.txt /work/requirements.txt
+
+RUN pip install -r requirements.txt
+
 COPY ./Project.toml /work/Project.toml
 
-RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise' && \
+RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall' && \
     julia -e 'using PackageCompilerX; \
-              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise]; precompile_statements_file="traced.jl", replace_default=true)\
+              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall]; precompile_statements_file="traced.jl", replace_default=true)\
              ' && \
     rm traced.jl
 
@@ -80,7 +84,7 @@ Pkg.instantiate();\
 Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
-    
+
 # For Jupyter Notebook
 EXPOSE 8888
 # For Http Server
