@@ -4,6 +4,7 @@ authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
 version = "0.2.1"
 
 [deps]
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Example = "7876af07-990d-54b4-ab0e-23690620f79a"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
