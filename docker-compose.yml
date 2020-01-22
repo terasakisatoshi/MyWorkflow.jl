@@ -5,6 +5,7 @@ services:
     container_name: myjupyter
     volumes:
       - ./:/work
+    working_dir: /work
     ports:
       - "8888:8888"
     command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
@@ -13,12 +14,14 @@ services:
     container_name: myjulia
     volumes:
       - ./:/work
+    working_dir: /work
     command: julia --project=.
   web:
     build: ./
     container_name: mypackagedocs
     volumes:
       - ./:/work
+    working_dir: /work
     ports:
       - "8000:8000"
     command: make web
