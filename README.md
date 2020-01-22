@@ -29,6 +29,7 @@ $ tree
 │   └── notebook
 │       ├── example.ipynb
 │       └── example.jl
+├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
 └── test
