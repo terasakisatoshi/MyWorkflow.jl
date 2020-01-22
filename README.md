@@ -134,8 +134,7 @@ Open your web browser and access http://localhost:8888/
 #### Clean up
 
 ```console
-$ docker rmi myjulia
-$ docker-compose down
+$ make clean
 ```
 
 ## Generate docs
