@@ -36,8 +36,9 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
 
-RUN julia -e 'using Pkg; Pkg.add("Revise")'
-RUN mkdir -p /root/.julia/config && \
+
+RUN julia -e 'using Pkg; Pkg.add("Revise")' && \
+    mkdir -p /root/.julia/config && \
     echo '\
 # set environment variables\n\
 ENV["PYTHON"]=Sys.which("python3")\n\
@@ -58,12 +59,18 @@ using Revise \n\
 
 # Install Julia Package
 RUN julia -E 'using Pkg;\
-Pkg.add(["IJulia", "Atom", "Juno", "Plots", "GR", "PyCall"]);\
+Pkg.add(["IJulia", "Atom", "Juno", "Plots", "GR", "PyCall", "DataFrames"]);\
 Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master"));\
 using IJulia, Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
-# Switch working directory
+RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
+    julia -e 'using PackageCompilerX; \
+              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true)\
+             ' && \
+    rm traced.jl
+
+# working directory
 WORKDIR /work
 
 COPY ./requirements.txt /work/requirements.txt
@@ -71,12 +78,6 @@ COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY ./Project.toml /work/Project.toml
-
-RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall' && \
-    julia -e 'using PackageCompilerX; \
-              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall]; precompile_statements_file="traced.jl", replace_default=true)\
-             ' && \
-    rm traced.jl
 
 # Initialize Julia package using /work/Project.toml
 RUN julia --project=/work -e 'using Pkg;\
