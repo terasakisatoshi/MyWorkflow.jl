@@ -37,8 +37,7 @@ RUN jupyter contrib nbextension install --user && \
     echo Done
 
 
-RUN julia -e 'using Pkg; Pkg.add("Revise")' && \
-    mkdir -p /root/.julia/config && \
+RUN mkdir -p /root/.julia/config && \
     echo '\
 # set environment variables\n\
 ENV["PYTHON"]=Sys.which("python3")\n\
@@ -57,19 +56,26 @@ using OhMyREPL \n\
 using Revise \n\
 ' >> /root/.julia/config/startup.jl
 
+
 # Install Julia Package
-RUN julia -E 'using Pkg;\
-Pkg.add(["IJulia", "Atom", "Juno", "Plots", "GR", "PyCall", "DataFrames"]);\
-Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master"));\
-using IJulia, Atom, Juno, PackageCompilerX; # for precompilation\
+RUN julia -E 'using Pkg; \
+Pkg.add(["Atom", "Juno"]); \
+Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
+Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master")); \
+using Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
     julia -e 'using PackageCompilerX; \
-              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true)\
+              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
 
+# Pkgs with respect to Jupyter
+RUN jupyter nbextension uninstall --user webio/main && \
+    jupyter nbextension uninstall --user webio-jupyter-notebook && \
+    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); using WebIO; WebIO.install_jupyter_nbextension()' && \
+    echo Done
 # working directory
 WORKDIR /work
 
