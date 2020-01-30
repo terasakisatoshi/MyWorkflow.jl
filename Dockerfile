@@ -75,6 +75,7 @@ RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall,
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); using WebIO; WebIO.install_jupyter_nbextension()' && \
+    julia -e 'using IJulia, Interact' && \
     echo Done
 # working directory
 WORKDIR /work
