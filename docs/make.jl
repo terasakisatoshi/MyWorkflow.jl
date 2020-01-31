@@ -1,5 +1,9 @@
 using MyWorkflow
 using Documenter
+using Weave
+
+# Generate markdown with GitHub flavor
+weave("docs/src/weavesample.jmd", "github")
 
 makedocs(;
     modules=[MyWorkflow],
