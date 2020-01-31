@@ -13,6 +13,9 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Example(日本語)" => "example.md",
+        "MyWorkflow.jl" => "myworkflow.md",
+        "weavesample.md",
     ],
 )
 
