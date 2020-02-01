@@ -13,5 +13,4 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: '1.0'
-      - run: |
-        docker build -t jl .
+      - run: docker build -t jl .
