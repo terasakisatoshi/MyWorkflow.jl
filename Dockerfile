@@ -8,7 +8,8 @@ RUN apt-get update && \
     python3-dev \
     python3-distutils \
     curl \
-    ca-certificates
+    ca-certificates \
+    git
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
