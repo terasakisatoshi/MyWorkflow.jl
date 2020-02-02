@@ -31,7 +31,7 @@ body {
     font-style: italic;
 }
 .lemma:before {
-    content: "Lemma" counter(theorem) ".";
+    content: "Lemma " counter(theorem) ".";
     font-weight: bold;
     font-style: normal;
 }
@@ -41,7 +41,7 @@ body {
     font-style: normal;
 }
 .proof:before {
-    content: "Proof." "\A";
+    content: "Proof.";
     font-style: italic;
 }
 .proof:after {
