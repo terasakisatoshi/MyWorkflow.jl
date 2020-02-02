@@ -11,6 +11,11 @@ CurrentModule = MyWorkflow
 ## Contents
 
 ```@contents
-Pages = ["example.md", "myworkflow.md", "weavesample.md"]
+Pages = [
+    "example.md",
+    "myworkflow.md",
+    "weavesample.md",
+    "math.md",
+]
 Depth = 3
 ```
