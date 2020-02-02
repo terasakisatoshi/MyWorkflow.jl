@@ -1,0 +1,10 @@
+body {
+  counter-reset: theorem;
+}
+p.theorem::before {
+  counter-increment: theorem;
+  content: "Theorem " counter(theorem) " \2014 ";
+}
+p.theorem[data-attribution]::before {
+  content: "Theorem " counter(theorem) " (" attr(data-attribution) ")  \2014 ";
+}

@@ -13,7 +13,7 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://terasakisatoshi.github.io/MyWorkflow.jl",
-        assets=String[],
+        assets=[asset("assets/theorem.css",islocal=true)],
     ),
     pages=[
         "Home" => "index.md",
