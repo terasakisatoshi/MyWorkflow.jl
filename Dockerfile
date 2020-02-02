@@ -98,3 +98,6 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
+
+ENV JULIA_PROJECT=/work
+
