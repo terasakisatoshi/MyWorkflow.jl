@@ -13,10 +13,6 @@
 #     name: julia-1.3
 # ---
 
-# +
-using Pkg
-Pkg.activate()
-
 using Plots
 using Distributions
 using LinearAlgebra
