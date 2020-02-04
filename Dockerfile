@@ -23,7 +23,6 @@ RUN jupyter notebook --generate-config && \
     echo "\
 c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
 c.NotebookApp.open_browser = False\n\
-c.NotebookApp.token = u''\n\
 " >> /root/.jupyter/jupyter_notebook_config.py
 
 # prepare to install extension
