@@ -107,6 +107,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
     echo Done
 
 # Make sure the contents of our repo are in ${HOME}
+WORKDIR ${HOME}
 COPY . ${HOME}
 USER root
 RUN chown -R ${NB_UID} ${HOME}
