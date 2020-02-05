@@ -4,14 +4,24 @@
 [![Build Status](https://github.com/terasakisatoshi/MyWorkflow.jl/workflows/CI/badge.svg)](https://github.com/terasakisatoshi/MyWorkflow.jl/actions)
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
 
 - An example of workflow using Docker and GitHub Actions
+
+# Feature
+
+- This repository gives us some useful techniques such as:
+  1. how to utilize Docker Docker Compose with your Julia workflow.
+  2. how to customize Julia's system image via PackageCompilerX.jl to reduce an overhead of package's loading time e.g. Plots.jl, PyCall.jl, or DataFrames.jl etc...
+  3. how to share our work on the Internet. Check our repository on Binder from [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
+  4. how to use GitHub actions as a CI functionality.
+
 
 # Directory Structure
 
 ```
 $ tree
+tree
 .
 ├── Dockerfile
 ├── LICENSE
@@ -24,16 +34,26 @@ $ tree
 │   ├── Project.toml
 │   ├── make.jl
 │   └── src
-│       └── index.md
+│       ├── assets
+│       │   └── theorem.css
+│       ├── example.md
+│       ├── index.md
+│       ├── math.md
+│       ├── myworkflow.md
+│       └── weavesample.jmd
 ├── experiments
 │   └── notebook
-│       ├── example.ipynb
-│       └── example.jl
+│       ├── coordinate_system.jl
+│       ├── example.jl.jl
+│       ├── interact_sample.jl
+│       ├── plots_sample.jl
+│       └── tangent_space.jl
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
+
 ```
 
 # How to use
@@ -44,7 +64,7 @@ $ tree
   - [Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/)
   - [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/)
   - [Get Docker Engine - Community for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
-  
+
 ## Build Docker image
 
 - There are several ways to build
@@ -155,4 +175,3 @@ $ docker-compose up web
 ```
 
 Open your web browser and access http://localhost:8000/
-
