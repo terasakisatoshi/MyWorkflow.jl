@@ -77,8 +77,6 @@ using OhMyREPL \n\
 using Revise \n\
 ' >> ${HOME}/.julia/config/startup.jl
 
-RUN julia -e 'using InteractiveUtils; versioninfo()'
-
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
