@@ -40,6 +40,7 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
 RUN jupyter notebook --generate-config && \
     echo "\
 c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
+c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
 c.NotebookApp.open_browser = False\n\
 " >> ${HOME}/.jupyter/jupyter_notebook_config.py
 
