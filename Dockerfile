@@ -87,16 +87,16 @@ using Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
 # Do Ahead of Time Compilation using PackageCompilerX
-# We switch default user to root and switch back again
-# We 
+# For some technical reason, we switch default user to root then we switch back again
 USER root
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
     julia -e 'using PackageCompilerX; \
               PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
-# swich user again to NB_USER
+# Make NB_USER Occupy julia binary
 RUN chown -R ${NB_UID} /usr/local/julia
+# Swich user again to NB_USER
 USER ${NB_USER}
 
 # Pkgs with respect to Jupyter
