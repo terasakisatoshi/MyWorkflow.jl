@@ -1,5 +1,18 @@
 FROM julia:1.3.1
 
+ARG NB_USER=azarashi
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV NB_UID ${NB_UID}
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+
+USER root
+
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -11,6 +24,10 @@ RUN apt-get update && \
     ca-certificates \
     git
 
+# Switch default user
+USER ${NB_USER}
+ENV PATH=$HOME/.local/bin:$PATH
+
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
@@ -19,11 +36,12 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator
 
+
 RUN jupyter notebook --generate-config && \
     echo "\
 c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
 c.NotebookApp.open_browser = False\n\
-" >> /root/.jupyter/jupyter_notebook_config.py
+" >> $HOME/.jupyter/jupyter_notebook_config.py
 
 # prepare to install extension
 RUN jupyter contrib nbextension install --user && \
@@ -39,7 +57,7 @@ RUN jupyter contrib nbextension install --user && \
     echo Done
 
 
-RUN mkdir -p /root/.julia/config && \
+RUN mkdir -p $HOME/.julia/config && \
     echo '\
 # set environment variables\n\
 ENV["PYTHON"]=Sys.which("python3")\n\
@@ -56,8 +74,9 @@ let\n\
 end\n\
 using OhMyREPL \n\
 using Revise \n\
-' >> /root/.julia/config/startup.jl
+' >> $HOME/.julia/config/startup.jl
 
+RUN julia -e 'using InteractiveUtils; versioninfo()'
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
@@ -67,11 +86,17 @@ Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git"
 using Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
+USER root
+
+
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
     julia -e 'using PackageCompilerX; \
               PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
+
+RUN chown -R ${NB_UID} /usr/local/julia
+USER ${NB_USER}
 
 # Pkgs with respect to Jupyter
 RUN jupyter nbextension uninstall --user webio/main && \
@@ -102,3 +127,8 @@ EXPOSE 8000
 
 ENV JULIA_PROJECT=/work
 
+# Make sure the contents of our repo are in ${HOME}
+COPY . ${HOME}
+USER root
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
