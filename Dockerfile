@@ -1,5 +1,18 @@
 FROM julia:1.3.1
 
+ARG NB_USER=jovyan
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV NB_UID ${NB_UID}
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+
+USER root
+
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -11,6 +24,10 @@ RUN apt-get update && \
     ca-certificates \
     git
 
+# Switch default user
+USER ${NB_USER}
+ENV PATH=${HOME}/.local/bin:$PATH
+
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
@@ -19,11 +36,13 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator
 
+
 RUN jupyter notebook --generate-config && \
     echo "\
 c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
+c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
 c.NotebookApp.open_browser = False\n\
-" >> /root/.jupyter/jupyter_notebook_config.py
+" >> ${HOME}/.jupyter/jupyter_notebook_config.py
 
 # prepare to install extension
 RUN jupyter contrib nbextension install --user && \
@@ -39,7 +58,7 @@ RUN jupyter contrib nbextension install --user && \
     echo Done
 
 
-RUN mkdir -p /root/.julia/config && \
+RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
 # set environment variables\n\
 ENV["PYTHON"]=Sys.which("python3")\n\
@@ -56,8 +75,7 @@ let\n\
 end\n\
 using OhMyREPL \n\
 using Revise \n\
-' >> /root/.julia/config/startup.jl
-
+' >> ${HOME}/.julia/config/startup.jl
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
@@ -67,11 +85,18 @@ Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git"
 using Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
+# Do Ahead of Time Compilation using PackageCompilerX
+# For some technical reason, we switch default user to root then we switch back again
+USER root
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
     julia -e 'using PackageCompilerX; \
               PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
+# Make NB_USER Occupy julia binary
+RUN chown -R ${NB_UID} /usr/local/julia
+# Swich user again to NB_USER
+USER ${NB_USER}
 
 # Pkgs with respect to Jupyter
 RUN jupyter nbextension uninstall --user webio/main && \
@@ -79,17 +104,18 @@ RUN jupyter nbextension uninstall --user webio/main && \
     julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); using WebIO; WebIO.install_jupyter_nbextension()' && \
     julia -e 'using IJulia, Interact' && \
     echo Done
-# working directory
-WORKDIR /work
 
-COPY ./requirements.txt /work/requirements.txt
+# Make sure the contents of our repo are in ${HOME}
+WORKDIR ${HOME}
+COPY . ${HOME}
+USER root
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
 
 RUN pip install -r requirements.txt
-
-COPY ./Project.toml /work/Project.toml
-
+ENV JULIA_PROJECT=${HOME}
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=/work -e 'using Pkg;\
+RUN julia --project=${HOME} -e 'using Pkg;\
 Pkg.instantiate();\
 Pkg.precompile()' && \
 # Check Julia version \
@@ -99,6 +125,3 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
-
-ENV JULIA_PROJECT=/work
-
