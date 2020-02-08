@@ -81,7 +81,7 @@ using Revise \n\
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
-Pkg.add(PackageSpec(url="https://github.com/KristofferC/PackageCompilerX.jl.git",rev="master")); \
+Pkg.add(PackageSpec(url="https://github.com/JuliaComputing/PackageCompilerX.jl.git",rev="master")); \
 using Atom, Juno, PackageCompilerX; # for precompilation\
 '
 
