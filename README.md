@@ -12,7 +12,7 @@
 
 - This repository gives us some useful techniques such as:
   1. how to utilize Docker Docker Compose with your Julia workflow.
-  2. how to customize Julia's system image via PackageCompilerX.jl to reduce an overhead of package's loading time e.g. Plots.jl, PyCall.jl, or DataFrames.jl etc...
+  2. how to customize Julia's system image via PackageCompiler.jl to reduce an overhead of package's loading time e.g. Plots.jl, PyCall.jl, or DataFrames.jl etc...
   3. how to share our work on the Internet. Check our repository on Binder from [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
   4. how to use GitHub actions as a CI functionality.
 
