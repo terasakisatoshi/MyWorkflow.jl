@@ -81,16 +81,16 @@ using Revise \n\
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
-Pkg.add(PackageSpec(url="https://github.com/JuliaComputing/PackageCompilerX.jl.git",rev="master")); \
-using Atom, Juno, PackageCompilerX; # for precompilation\
+Pkg.add(PackageSpec(url="https://github.com/JuliaLang/PackageCompiler.jl.git",rev="master")); \
+using Atom, Juno, PackageCompiler; # for precompilation\
 '
 
-# Do Ahead of Time Compilation using PackageCompilerX
+# Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
 USER root
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
-    julia -e 'using PackageCompilerX; \
-              PackageCompilerX.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
+    julia -e 'using PackageCompiler; \
+              PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
 # Make NB_USER Occupy julia binary
