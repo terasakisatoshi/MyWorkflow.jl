@@ -22,7 +22,8 @@ RUN apt-get update && \
     python3-distutils \
     curl \
     ca-certificates \
-    git
+    git \
+    zip
 
 # Switch default user
 USER ${NB_USER}
