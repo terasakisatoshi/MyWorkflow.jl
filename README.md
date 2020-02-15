@@ -21,7 +21,6 @@
 
 ```
 $ tree
-tree
 .
 ├── Dockerfile
 ├── LICENSE
@@ -44,8 +43,10 @@ tree
 ├── experiments
 │   └── notebook
 │       ├── coordinate_system.jl
+│       ├── curved_surface.jl
 │       ├── example.jl.jl
 │       ├── interact_sample.jl
+│       ├── plotly_surface.jl
 │       ├── plots_sample.jl
 │       └── tangent_space.jl
 ├── requirements.txt
@@ -54,6 +55,7 @@ tree
 └── test
     └── runtests.jl
 
+7 directories, 25 files
 ```
 
 # How to use
