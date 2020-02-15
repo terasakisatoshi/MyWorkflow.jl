@@ -23,6 +23,9 @@ RUN apt-get update && \
     curl \
     ca-certificates \
     git \
+    libgconf-2-4 \
+    xvfb \
+    libgtk-3-0 \
     zip
 
 # Switch default user
