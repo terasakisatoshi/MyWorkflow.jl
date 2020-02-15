@@ -29,6 +29,8 @@ web: docs
 
 clean:
 	rm -f docs/src/weavesample.md
+	rm -f experiments/notebook/*.ipynb
+	rm -r experiments/notebook/*.gif
 	docker-compose down
 	rm -f  Manifest.toml
 	rm -rf docs/build
