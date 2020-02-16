@@ -103,11 +103,17 @@ RUN chown -R ${NB_UID} /usr/local/julia
 USER ${NB_USER}
 
 # Pkgs with respect to Jupyter
+# When initialize jupyter notebook ...
+# Install kernel so that `JULIA_PROJECT` should be ${HOME}
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
-    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); using WebIO; WebIO.install_jupyter_nbextension()' && \
-    julia -e 'using IJulia, Interact' && \
-    echo Done
+    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
+              using WebIO; WebIO.install_jupyter_nbextension(); \
+              using IJulia, Interact; \
+              envhome=ENV["HOME"]; \
+              installkernel("Julia", "--project=$envhome");\
+              ' && \
+    echo "Done"
 
 # Make sure the contents of our repo are in ${HOME}
 WORKDIR ${HOME}
