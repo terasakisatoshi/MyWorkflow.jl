@@ -60,6 +60,7 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable toggle_all_line_numbers/main && \
     jupyter nbextension enable varInspector/main && \
     jupyter nbextension enable toc2/main && \
+    jupyter nbextension enable equation-numbering/main && \
     jupyter nbextension enable livemdpreview/livemdpreview && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
