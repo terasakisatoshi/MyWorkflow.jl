@@ -8,7 +8,7 @@ build:
 	rm -f Manifest.toml
 	docker build -t jlatom .
 	docker-compose build
-	docker-compose run --rm julia julia --project=. -e 'using Pkg; Pkg.instantiate()'
+	docker-compose run --rm julia julia --project=/home/jovyan -e 'using Pkg; Pkg.instantiate()'
 
 atom:
 ifeq ($(OS), Linux)
