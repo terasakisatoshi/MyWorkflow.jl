@@ -26,7 +26,10 @@ RUN apt-get update && \
     libgconf-2-4 \
     xvfb \
     libgtk-3-0 \
+    dvipng \
+    texlive-latex-recommended  \
     zip
+
 
 # Switch default user
 USER ${NB_USER}
