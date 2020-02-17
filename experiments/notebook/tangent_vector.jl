@@ -13,11 +13,6 @@
 #     name: julia-1.3
 # ---
 
-# + [markdown] toc=true
-# <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#曲線座標系での接ベクトルのお話" data-toc-modified-id="曲線座標系での接ベクトルのお話-0"><span class="toc-item-num">0&nbsp;&nbsp;</span>曲線座標系での接ベクトルのお話</a></span><ul class="toc-item"><li><span><a href="#概要" data-toc-modified-id="概要-0.1"><span class="toc-item-num">0.1&nbsp;&nbsp;</span>概要</a></span></li><li><span><a href="#必要な-Julia-のライブラリを導入" data-toc-modified-id="必要な-Julia-のライブラリを導入-0.2"><span class="toc-item-num">0.2&nbsp;&nbsp;</span>必要な Julia のライブラリを導入</a></span></li></ul></li><li><span><a href="#曲線座標系の導入" data-toc-modified-id="曲線座標系の導入-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>曲線座標系の導入</a></span><ul class="toc-item"><li><span><a href="#試しに描画してみる" data-toc-modified-id="試しに描画してみる-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>試しに描画してみる</a></span><ul class="toc-item"><li><span><a href="#対話的操作で確認" data-toc-modified-id="対話的操作で確認-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>対話的操作で確認</a></span></li></ul></li><li><span><a href="#曲線による平面の点の特徴付け" data-toc-modified-id="曲線による平面の点の特徴付け-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>曲線による平面の点の特徴付け</a></span><ul class="toc-item"><li><span><a href="#確認のため描画" data-toc-modified-id="確認のため描画-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>確認のため描画</a></span></li></ul></li></ul></li><li><span><a href="#曲線座標系での接ベクトル" data-toc-modified-id="曲線座標系での接ベクトル-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>曲線座標系での接ベクトル</a></span><ul class="toc-item"><li><span><a href="#一つのパラメータを動かしてみる" data-toc-modified-id="一つのパラメータを動かしてみる-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>一つのパラメータを動かしてみる</a></span></li><li><span><a href="#接ベクトルの可視化" data-toc-modified-id="接ベクトルの可視化-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>接ベクトルの可視化</a></span></li><li><span><a href="#念のため検算" data-toc-modified-id="念のため検算-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>念のため検算</a></span><ul class="toc-item"><li><span><a href="#偏微分を計算できるようにする" data-toc-modified-id="偏微分を計算できるようにする-2.3.1"><span class="toc-item-num">2.3.1&nbsp;&nbsp;</span>偏微分を計算できるようにする</a></span></li><li><span><a href="#p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる" data-toc-modified-id="p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる-2.3.2"><span class="toc-item-num">2.3.2&nbsp;&nbsp;</span><code>p</code>, <code>q</code> の型が実数などの数値を取れば ForwardDiffのロジックを使って微分計算をすることになる</a></span></li><li><span><a href="#SymPy-で計算" data-toc-modified-id="SymPy-で計算-2.3.3"><span class="toc-item-num">2.3.3&nbsp;&nbsp;</span>SymPy で計算</a></span></li></ul></li></ul></li></ul></div>
-# -
-
 # # 曲線座標系での接ベクトルのお話
 # ## 概要
 #   - 「情報幾何学の基礎」の Example を Julia を介して理解しようという試みのノートです．
@@ -73,8 +68,8 @@ vis_pqcurve(p₀, q₀)
 # - せっかくなので $(p,q)$ を動かした時に $C_p$, $C_q$ がどのように振舞うかを確認する.
 
 # +
-p_slider = slider(0.001:0.1:3,label=L"p")
-q_slider = slider(0.001:0.1:3,label=L"q")
+p_slider = slider(0.001:0.1:3,label="p")
+q_slider = slider(0.001:0.1:3,label="q")
 
 
 cross_pt = map(
@@ -114,8 +109,8 @@ cross_pt = map(
 xlim=(0.,3.)
 ylim=(0.,3.)
 
-z1_slider = slider(0.001:0.1:3,label=L"z^1")
-z2_slider = slider(0.001:0.1:3,label=L"z^2")
+z1_slider = slider(0.001:0.1:3,label="z¹")
+z2_slider = slider(0.001:0.1:3,label="z²")
 
 cross_pt = map(
     (z1,z2) -> begin 
@@ -148,8 +143,8 @@ cross_pt = map(
 # - もちろん $p$ を止めて $q$ を動かすこともできる. 適宜 `ui` 変数をいじると良い．
 
 # +
-p_slider = slider(0.001:0.1:3,label=L"p")
-q_slider = slider(0.001:0.1:3,label=L"q")
+p_slider = slider(0.001:0.1:3,label="p")
+q_slider = slider(0.001:0.1:3,label="q")
 
 function vis_interactie_pqcurve(p,q)
     plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
@@ -254,8 +249,8 @@ function vis_tangent_vector(p,q)
 end
 
 
-p_slider = slider(0.001:0.05:3,label=L"p")
-q_slider = slider(0.001:0.1:3,label=L"q")
+p_slider = slider(0.001:0.05:3,label="p")
+q_slider = slider(0.001:0.1:3,label="q")
 
 function vis_interactie_pqcurve(p,q)
     plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
