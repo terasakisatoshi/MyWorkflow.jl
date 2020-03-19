@@ -17,6 +17,7 @@ Rotations = "6038ab10-8711-5258-84ad-4b1120ba62dc"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 
 [compat]
+Combinatorics = "1.0"
 Distributions = "0.22, 0.23"
 Example = "= 0.5.1, 0.5"
 ForwardDiff = "0.10"
