@@ -1,15 +1,15 @@
 FROM julia:1.3.1
 
-ARG NB_USER=jovyan
-ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
-ENV HOME /home/${NB_USER}
+#ARG NB_USER=jovyan
+#ARG NB_UID=1000
+#ENV USER ${NB_USER}
+#ENV NB_UID ${NB_UID}
+#ENV HOME /home/${NB_USER}
 
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+#RUN adduser --disabled-password \
+#    --gecos "Default user" \
+#    --uid ${NB_UID} \
+#    ${NB_USER}
 
 USER root
 
@@ -32,7 +32,7 @@ RUN apt-get update && \
 
 
 # Switch default user
-USER ${NB_USER}
+#USER ${NB_USER}
 ENV PATH=${HOME}/.local/bin:$PATH
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
@@ -95,41 +95,42 @@ using Atom, Juno, PackageCompiler; # for precompilation\
 
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
-USER root
+#USER root
 RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
 # Make NB_USER Occupy julia binary
-RUN chown -R ${NB_UID} /usr/local/julia
+
+#RUN chown -R ${NB_UID} /usr/local/julia
 # Swich user again to NB_USER
-USER ${NB_USER}
+#USER ${NB_USER}
 
 # Pkgs with respect to Jupyter
 # When initialize jupyter notebook ...
-# Install kernel so that `JULIA_PROJECT` should be ${HOME}
+
+# Make sure the contents of our repo are in ${HOME}
+WORKDIR /work
+ENV JULIA_PROJECT=/work
+
+# Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
               using WebIO; WebIO.install_jupyter_nbextension(); \
               using IJulia, Interact; \
-              envhome=ENV["HOME"]; \
+              envhome=${JULIA_PROJECT}; \
               installkernel("Julia", "--project=$envhome");\
               ' && \
     echo "Done"
 
-# Make sure the contents of our repo are in ${HOME}
-WORKDIR ${HOME}
-COPY . ${HOME}
-USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
-
+COPY ./Project.toml /work/Project.toml
+COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
-ENV JULIA_PROJECT=${HOME}
+
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=${HOME} -e 'using Pkg;\
+RUN julia --project=/work -e 'using Pkg;\
 Pkg.instantiate();\
 Pkg.precompile()' && \
 # Check Julia version \
