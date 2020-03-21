@@ -8,14 +8,14 @@ services:
     working_dir: /work
     ports:
       - "8888:8888"
-    command: jupyter notebook --notebook-dir /work --ip=0.0.0.0
+    command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
   julia:
     build: ./
     container_name: myjulia
     volumes:
       - ./:/work
     working_dir: /work
-    command: julia --project=/home/jovyan
+    command: julia --project=/work
   web:
     build: ./
     container_name: mypackagedocs
