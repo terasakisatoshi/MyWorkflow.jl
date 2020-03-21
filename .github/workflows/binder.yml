@@ -1,4 +1,4 @@
-name: Build container
+name: Build Binder container
 
 on:
   - push
