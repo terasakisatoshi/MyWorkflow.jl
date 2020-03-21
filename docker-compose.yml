@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/work
     working_dir: /work
-    command: julia --project=/home/jovyan
+    command: julia --project=/work
   web:
     build: ./
     container_name: mypackagedocs
