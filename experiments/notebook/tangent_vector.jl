@@ -6,16 +6,21 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.3.3
+#       jupytext_version: 1.3.4
 #   kernelspec:
 #     display_name: Julia 1.3.1
 #     language: julia
 #     name: julia-1.3
 # ---
 
+# + [markdown] toc=true
+# <h1>Table of Contents<span class="tocSkip"></span></h1>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#曲線座標系での接ベクトルのお話" data-toc-modified-id="曲線座標系での接ベクトルのお話-0"><span class="toc-item-num">0&nbsp;&nbsp;</span>曲線座標系での接ベクトルのお話</a></span><ul class="toc-item"><li><span><a href="#概要" data-toc-modified-id="概要-0.1"><span class="toc-item-num">0.1&nbsp;&nbsp;</span>概要</a></span></li><li><span><a href="#必要な-Julia-のライブラリを導入" data-toc-modified-id="必要な-Julia-のライブラリを導入-0.2"><span class="toc-item-num">0.2&nbsp;&nbsp;</span>必要な Julia のライブラリを導入</a></span></li></ul></li><li><span><a href="#曲線座標系の導入" data-toc-modified-id="曲線座標系の導入-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>曲線座標系の導入</a></span><ul class="toc-item"><li><span><a href="#試しに描画してみる" data-toc-modified-id="試しに描画してみる-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>試しに描画してみる</a></span><ul class="toc-item"><li><span><a href="#対話的操作で確認" data-toc-modified-id="対話的操作で確認-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>対話的操作で確認</a></span></li></ul></li><li><span><a href="#曲線による平面の点の特徴付け" data-toc-modified-id="曲線による平面の点の特徴付け-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>曲線による平面の点の特徴付け</a></span><ul class="toc-item"><li><span><a href="#確認のため描画" data-toc-modified-id="確認のため描画-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>確認のため描画</a></span></li></ul></li></ul></li><li><span><a href="#曲線座標系での接ベクトル" data-toc-modified-id="曲線座標系での接ベクトル-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>曲線座標系での接ベクトル</a></span><ul class="toc-item"><li><span><a href="#一つのパラメータを動かしてみる" data-toc-modified-id="一つのパラメータを動かしてみる-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>一つのパラメータを動かしてみる</a></span></li><li><span><a href="#接ベクトルの可視化" data-toc-modified-id="接ベクトルの可視化-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>接ベクトルの可視化</a></span></li><li><span><a href="#念のため検算" data-toc-modified-id="念のため検算-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>念のため検算</a></span><ul class="toc-item"><li><span><a href="#偏微分を計算できるようにする" data-toc-modified-id="偏微分を計算できるようにする-2.3.1"><span class="toc-item-num">2.3.1&nbsp;&nbsp;</span>偏微分を計算できるようにする</a></span></li><li><span><a href="#p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる" data-toc-modified-id="p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる-2.3.2"><span class="toc-item-num">2.3.2&nbsp;&nbsp;</span><code>p</code>, <code>q</code> の型が実数などの数値を取れば ForwardDiffのロジックを使って微分計算をすることになる</a></span></li><li><span><a href="#SymPy-で計算" data-toc-modified-id="SymPy-で計算-2.3.3"><span class="toc-item-num">2.3.3&nbsp;&nbsp;</span>SymPy で計算</a></span></li></ul></li></ul></li><li><span><a href="#ある方向に対しての接ベクトル" data-toc-modified-id="ある方向に対しての接ベクトル-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>ある方向に対しての接ベクトル</a></span></li><li><span><a href="#接空間が導入できた" data-toc-modified-id="接空間が導入できた-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>接空間が導入できた</a></span></li><li><span><a href="#いやでも，目で見えるじゃん，比較できそうじゃん" data-toc-modified-id="いやでも，目で見えるじゃん，比較できそうじゃん-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>いやでも，目で見えるじゃん，比較できそうじゃん</a></span></li><li><span><a href="#せやな！それを正当化するのが接続とか共変微分とかの話やで！" data-toc-modified-id="せやな！それを正当化するのが接続とか共変微分とかの話やで！-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>せやな！それを正当化するのが接続とか共変微分とかの話やで！</a></span></li></ul></div>
+# -
+
 # # 曲線座標系での接ベクトルのお話
 # ## 概要
-#   - 「情報幾何学の基礎」の Example を Julia を介して理解しようという試みのノートです．
+#   - 藤原著「情報幾何学の基礎」牧野書店 Chapter1 のモチベーションを Julia を介して理解しようという試みのノートです．
 #   
 
 # ## 必要な Julia のライブラリを導入
@@ -56,7 +61,7 @@ function vis_pqcurve(p, q)
     y = range(ylim...,length=30) |> collect
     plot!(x,p*x.^2,color=:blue, label=L"C_p")
     plot!(q*y.^2,y,color=:orange, label=L"C_q")
-    scatter!([φ¹(p,q)],[φ²(p,q)], label="P")
+    scatter!([φ¹(p,q)],[φ²(p,q)], label=L"P")
 end
 
 p₀, q₀=(1.,2.4) # 適当に定める.
@@ -240,11 +245,13 @@ function vis_tangent_vector(p,q)
         [φ¹(pq),φ¹(pq)+∂P∂p[1]],
         [φ²(pq),φ²(pq)+∂P∂p[2]],
         line=:arrow,
+        label=L"e_p(P)"
     )
     plot!(
         [φ¹(pq),φ¹(pq)+∂P∂q[1]],
         [φ²(pq),φ²(pq)+∂P∂q[2]],
         line=:arrow,
+        label=L"e_q(P)"
     )
 end
 
@@ -284,7 +291,6 @@ ui .|> display;
 # SymPy.jl に優しい形で `φ¹(p::Sym,q::Sym), φ²(p::Sym,q::Sym)` を定義しておく
 #
 
-@vars p q
 φ¹(p::Sym,q::Sym) = 1/(∛(p))^2 * 1/∛(q)
 φ²(p::Sym,q::Sym) = 1/∛(p) * 1/(∛(q))^2
 
@@ -310,7 +316,7 @@ ui .|> display;
 #
 # まずは記号計算で偏微分を計算する
 
-∂P∂p(p,q)
+∂P∂p(Sym("p"),Sym("q"))
 
 # 次にForwardDiffを呼ぶようにランダムな値を生成しその出力を見る
 
@@ -319,9 +325,10 @@ pq=[rand(), rand()]
 
 # SymPyのオブジェクト p,q に具体的な値を代入して一致しているかを調べる
 
-map(x->x(p=>pq[1],q=>pq[2]), ∂P∂p(p,q))
+symp, symq = Sym("p"), Sym("q")
+map(x->x(symp=>pq[1],symq=>pq[2]), ∂P∂p(symp,symq))
 
-∂P∂q(p,q)
+∂P∂q(Sym("p"),Sym("q"))
 
 # 以下同様に $q$ についての偏微分でも確かめられる
 
@@ -330,3 +337,186 @@ map(x->x(p=>pq[1],q=>pq[2]), ∂P∂p(p,q))
 map(x->x(p=>pq[1],q=>pq[2]), ∂P∂q(p,q))
 
 # 良さそうである
+
+# # ある方向に対しての接ベクトル
+#
+# - 我々は $p$ 軸に沿った接ベクトルを導入した, これは $p$ に関係ないパラメータを(この文脈では $q$ のこと)固定して $p$ を変化させたときの(曲線座標系が導入された) $(z^1,z^2)$ - 平面での点 $P(p,q)$ の動く方向を表していた．$q$ 軸に沿った接ベクトルも同様である．では, $p$, $q$ が同時に動くとどうなるか？その場合の $P(p,q)$ の振る舞いはどう記述できるのかをみてみよう.
+# - 時刻 $t$ での パラメータ $p$, $q$ の ($p$, $q$) - 平面でみたときの位置が $(p(t),q(t))$ と書けるとしよう. もう少し形式ばると $p$, $q$ は $t$ についての滑らかな関数となってるとする. ここでの滑らかさは必要に応じて要請される回数ぐらいは微分可能であることを満たすいい感じの条件であるとしておく．
+# - 我々の関心はある時刻での $t=t_0$ の微小変化をみたいのでそのある時刻を基準にする, すなわち, $t_0=0$ と仮定して良く. $p(t), q(t)$ の $t$ についての定義域は $t=t_0$ の周りの領域で定義されていれば良い．後々のために $t=0$ での $p(t), q(t)$ の導関数の値 $v_p$, $v_q$を各々次のようにおく:
+#
+# $$
+# \begin{align}
+#     v_p := \dot{p}(t=0) := \left. \frac{d p}{d t}(t) \right|_{t=0} \\
+#     v_q := \dot{q}(t=0) := \left. \frac{d q}{d t}(t) \right|_{t=0} \\
+# \end{align}
+# $$
+
+# +
+p₀, q₀ = 3., 3. # 時刻 t=0 での初期位置
+# v_q のような q の下付きが備わっていないので vp, vq という変数名を採用する
+vp, vq = 3*1.5 ,3*1.25 # 右辺は適当に決めた．読者は好きなようにいじって良い
+
+p(t::Float64) = vp*t + p₀
+q(t::Float64) = vq*t + q₀
+φ¹(t::Float64) = p(t)
+φ²(t::Float64) = q(t)
+φ(t::Float64) = (p(t),q(t))
+# -
+
+# - $t$ を変動させたときの $(p,q)$-平面での $(p(t),q(t))$ の動き，パラメータが定める $(z^1, z^2)$-平面での点 $P:=P(p,q)$ の動きをみておくことにする．
+
+# +
+t_slider = slider(-0.5:0.01:0.5,label="t")
+# value を指定することで t のスライダーを変化させたときに p,qのスライダーが動くようになる．
+# だたしこのアプローチだと，p, q　を動かす操作ができない
+p_slider = slider(0.001:0.01:5.,value=map(a->p(a), observe(t_slider)),label="p")
+q_slider = slider(0.001:0.01:5.,value=map(a->q(a), observe(t_slider)),label="q")
+
+
+
+
+function vis_interactive_pqcurve(p, q)
+    xlim=(0,5)
+    ylim=(0,5)
+    plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
+    plot!(plt1, [p₀-vp,p₀+vp],[q₀-vq, q₀+vq], color=:green, label=L"(v_p,v_q)")
+    scatter!(plt1, [p],[q],label=L"(p,q)")
+    plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
+    vis_pqcurve(p, q)
+    vis_tangent_vector(p, q)
+    plot(plt1, plt2,layout=(1,2))
+end
+
+
+ui = map(
+    t ->begin 
+        vis_interactive_pqcurve(p(t),q(t))
+        
+    end,
+    observe(t_slider)
+)
+
+vbox([
+    hbox(t_slider, p_slider, q_slider),
+    ui
+])
+
+# -
+
+# - 左の緑色の線は左側の空間上に伸びる $(v_p,v_q)$ を傾きに持つ直線である．$t$ が動くと オレンジ色の $(p,q)$ がその直線状を動くことがわる．
+# $P$ もなんとなく$e_p(P)$ または $e_q(P)$ の向く方向へと進んでいる気がする．
+# - さて，今一度座標関数系の定義に戻ると $P=P(p,q)=(p^{-2/3}q^{-1/3}, p^{-1/3}q^{-2/3})$ であった，右辺の各々の成分は $p$, $q$ についての関数であるが，我々が今見ている文脈ではさらに $t$ についての関数だとも見ることができる．その意味で $P$ は $t$ 依存するベクトル値関数とみなせる. その意味で得られる $P(t)$ の微分は（各成分に対して）合成関数の連鎖律を用いると
+#
+# $$
+# \begin{equation}
+# \frac{d P(t)}{dt} = \dot{p}(t)\left.\frac{\partial P(p,q)}{\partial p}\right|_{(p,q)=(p(t),q(t))} +  \dot{q}(t)\left.\frac{\partial P(p,q)}{\partial q}\right|_{(p,q)=(p(t),q(t))}
+# \end{equation}
+# $$
+#
+# となる．これから特に $t=0$ の場合 
+#
+# $$
+# \begin{equation}
+# \left. \frac{d P(t)}{dt}\right|_{t=0} = v_p e_p(P) +  v_q e_q(P) \label{tangent_vec_along_t}
+# \end{equation}
+# $$
+#
+# ということになる．したがって，この値 $\ref{tangent_vec_along_t}$ は $p$,$q$ 軸に沿った接ベクトルのの線形結合でかける．しかも係数は各々の軸に$v_p$,$v_q$が掛かっている．この意味で $\ref{tangent_vec_along_t}$ を $(v_p,v_q)$ 方向の接ベクトルと定義しよう．
+# 特に $(v_p,v_q)=(1,0)$ の場合は $p$ 方向の接ベクトルになるが，これは $p$ 軸に沿った接ベクトル $e_p(P)$ そのものである．
+#
+#
+
+# # 接空間が導入できた
+
+# Remark: 上の実装で確認したように,
+#  $(z^1,z^2)$-平面 では $(v_p, v_q)$ の方向に $P=P(p,q)$ は動いていないが $(p,q)$-平面で見ると $(v_p, v_q)$ 方向に伸びる直線上に伸びている様子がわかる．
+#
+# ところで $e_p(P), e_q(P)$ は $(z^1,z^2)$ の上で $P$ から伸びる一次独立なベクトルの組みになる．これは $P = P(p,q)=(\varphi^1(p,q),\varphi^2(p,q))$ ,ただし,
+#
+# $$
+# \begin{equation}
+# \varphi^1(p,q)=p^{-2/3}q^{-1/3},\quad \varphi^2(p,q)=p^{-1/3}q^{-2/3}
+# \end{equation}
+# $$
+#
+# で与えられる写像のヤコビ行列の行列式がゼロでないことからわかる．実際，ヤコビ行列は $e_p(P), e_q(P)$ を(縦ベクトルと見てそれらを横に)並べて得られるからである．
+#
+# 以上のことから次のことがわかる．
+#
+# - $(z^1,z^2)$-空間上の点 $P$ を曲線座標系 $(p,q)$ の立場から見て解析する際，
+# 通常の（直交座標系が導入されている）空間と同様に$P$での接ベクトルの概念が重要になる.
+# $P$での接ベクトルは互いに独立な $p$ 方向の接ベクトル $e_p(P)$ と $q$ 方向の接ベクトル $e_p(P)$ の線形結合で表されることがわかった.
+# - よって $P$での接ベクトル全体は$e_p(P)$と$e_q(P)$を基底とするベクトル空間をなす.曲線座標系$(p,q)$ が入った空間上の点 $P$ での接空間と呼ぶ. $P$ での接空間を $V_P$ と表記しよう(本当は $T_pM$ のように書いた方がかっこいい)．
+#
+#
+#
+#
+
+# - さて, 接ベクトルの可視化の実装を思い出そう. もう一度同じコードを貼り付けている．
+
+# +
+φ¹(pq)=φ¹(pq...) # almost same as φ¹(pq[1], pq[2])
+φ²(pq)=φ²(pq...)
+∇φ¹=pq->ForwardDiff.gradient(φ¹,pq)
+∇φ²=pq->ForwardDiff.gradient(φ²,pq)
+
+function vis_tangent_vector(p,q)
+    pq=[p,q]
+    ∂P∂p = [∇φ¹(pq)[1],∇φ²(pq)[1]]
+    ∂P∂q = [∇φ¹(pq)[2],∇φ²(pq)[2]]
+    plot!(
+        [φ¹(pq),φ¹(pq)+∂P∂p[1]],
+        [φ²(pq),φ²(pq)+∂P∂p[2]],
+        line=:arrow,
+        label=L"e_p(P)"
+    )
+    plot!(
+        [φ¹(pq),φ¹(pq)+∂P∂q[1]],
+        [φ²(pq),φ²(pq)+∂P∂q[2]],
+        line=:arrow,
+        label=L"e_q(P)"
+    )
+end
+
+
+p_slider = slider(0.001:0.05:3,label="p")
+q_slider = slider(0.001:0.1:3,label="q")
+
+function vis_interactie_pqcurve(p,q)
+    plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
+    scatter!([p],[q],label=L"(p,q)")
+    plt2=plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2",aspect_ratio=:equal)
+    vis_pqcurve(p, q)
+    vis_tangent_vector(p, q)
+    plot(plt1,plt2,layout=(1,2))
+end
+
+cross_pt = map(
+    (p,q) -> begin 
+        vis_interactie_pqcurve(p,q)
+    end,
+    map(observe,[p_slider,q_slider])...,
+)
+
+
+ui=[
+    p_slider,
+    q_slider,
+    cross_pt
+] 
+
+ui .|> display;
+# -
+
+# - ここで重要なのは 曲線座標系が入った $(z^1,z^2)$-空間では基底であった $e_p(P)$, $e_q(P)$ が変化する. これは互いに異なる点 $P_1$ $P_2$ において $e_p(P_1)$ $e_p(P_2)$ が一般に同じでないことを意味している．何を当たり前のことをいってるんだ？と思われるかもしれない読者はある意味で Julia 実装の世界にのめり込んでしまっている（これは良いこと）．通常の直交座標系が入った通常の空間では接ベクトルの基底は点の位置によらない標準基底がとれてしまうのであまり意識してなかったはずである．
+# - Juliaの世界にのめり込んでしまった読者は接空間，接ベクトルという言葉に出会った時「それはどの空間で考えていますか？，どの点での接空間を考えてますか」と質問したくなるだろう. 互いに異なる $P_1$, $P_2$ に対応する接ベクトル $V_{P_1}$, $V_{P_2}$ から一つずつ要素 $v_{P_1}$, $v_{P_2}$ をとってきた時にこれらを直接比較したり足したり，引いたりすることに意味がないとかんじるからである．
+#
+
+# # いやでも，目で見えるじゃん，比較できそうじゃん
+#
+# - $P_1$ と $P_2$ が十分近かったら，近似できそうじゃん？可視化して見えるベクトルを何かしらの方法でズズズーっと平行移動のように引っ張ってきて $P_1$ に持っていってそこで比較すればいいんじゃないの？
+#
+# # せやな！それを正当化するのが接続とか共変微分とかの話やで！
+
+# - 教科書にある接続係数の話を読んで計算頑張りませう！
+# - 糸冬
