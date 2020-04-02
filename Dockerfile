@@ -1,4 +1,4 @@
-FROM julia:1.3.1
+FROM julia:1.4.0
 
 RUN apt-get update && \
     apt-get install -y \
@@ -63,8 +63,16 @@ let\n\
     end\n\
 end\n\
 using OhMyREPL \n\
-using Revise \n\
-' >> ${HOME}/.julia/config/startup.jl
+atreplinit() do repl\n\
+    try\n\
+        @eval using Revise\n\
+        @async Revise.wait_steal_repl_backend()\n\
+    catch e\n\
+        @warn(e.msg)\n\
+    end\n\
+end\n\
+\n\
+' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
