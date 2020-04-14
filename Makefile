@@ -28,10 +28,10 @@ web: docs
 	python3 -m http.server --bind 0.0.0.0 --directory docs/build
 
 clean:
+	docker-compose down
 	rm -f docs/src/weavesample.md
 	rm -f experiments/notebook/*.ipynb
-	rm -r experiments/notebook/*.gif
-	docker-compose down
+	rm -rf experiments/notebook/*.gif
 	rm -f  Manifest.toml
 	rm -rf docs/build
 
