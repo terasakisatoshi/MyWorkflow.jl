@@ -15,7 +15,8 @@ RUN apt-get update && \
     libgtk-3-0 \
     dvipng \
     texlive-latex-recommended  \
-    zip
+    zip \
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
@@ -63,6 +64,7 @@ let\n\
     end\n\
 end\n\
 using OhMyREPL \n\
+enable_autocomplete_brackets(false) \n\
 atreplinit() do repl\n\
     try\n\
         @eval using Revise\n\
@@ -120,3 +122,5 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
+# suppress warning for related to GR backend
+ENV GKSwstype=100
