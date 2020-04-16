@@ -7,13 +7,6 @@
         {
             "type": "julia",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${file}",
-            "stopOnEntry": false
-        },
-        {
-            "type": "julia",
-            "request": "launch",
             "name": "Run active Julia file",
             "program": "${file}",
             "stopOnEntry": false,
