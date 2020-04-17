@@ -28,7 +28,8 @@ RUN apt-get update && \
     libgtk-3-0 \
     dvipng \
     texlive-latex-recommended  \
-    zip
+    zip \
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
 
 
 # Switch default user
@@ -82,27 +83,58 @@ let\n\
     end\n\
 end\n\
 using OhMyREPL \n\
-using Revise \n\
-' >> ${HOME}/.julia/config/startup.jl
+enable_autocomplete_brackets(false) \n\
+atreplinit() do repl\n\
+    try\n\
+        @eval using Revise\n\
+        @async Revise.wait_steal_repl_backend()\n\
+    catch e\n\
+        @warn(e.msg)\n\
+    end\n\
+end\n\
+\n\
+' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
+Pkg.add(["OhMyREPL", "Revise"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
-using Atom, Juno, PackageCompiler; # for precompilation\
+Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+Pkg.add(["IJulia", "Interact", "WebIO"]); \
+Pkg.precompile() \
 '
+
+# suppress warning for related to GR backend
+ENV GKSwstype=100
 
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
 USER root
-RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
-    julia -e 'using PackageCompiler; \
-              PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
-             ' && \
+RUN julia --trace-compile="traced.jl" -e '\
+        using OhMyREPL, Revise, Plots, PyCall, DataFrames; \
+    ' && \
+    julia -e '\
+        using PackageCompiler; \
+        PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
+    ' && \
     rm traced.jl
+
+COPY ./.statements /tmp
+
+RUN mkdir -p /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames, :IJulia], \
+        precompile_statements_file="/tmp/ijuliacompile.jl", \
+        precompile_execution_file="/tmp/execution.jl", \
+        sysimage_path="/sysimages/ijulia.so", \
+    ) \
+    '
+
 # Make NB_USER Occupy julia binary
-RUN chown -R ${NB_UID} /usr/local/julia
+RUN chown -R ${NB_UID} /usr/local/julia /sysimages
 # Swich user again to NB_USER
 USER ${NB_USER}
 
@@ -111,11 +143,11 @@ USER ${NB_USER}
 # Install kernel so that `JULIA_PROJECT` should be ${HOME}
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
-    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
-              using WebIO; WebIO.install_jupyter_nbextension(); \
-              using IJulia, Interact; \
+    julia -e '\
+              using IJulia, WebIO ; \
+              WebIO.install_jupyter_nbextension(); \
               envhome=ENV["HOME"]; \
-              installkernel("Julia", "--project=$envhome");\
+              installkernel("Julia compiled", "--project=$envhome", "-J/sysimages/ijulia.so");\
               ' && \
     echo "Done"
 
@@ -129,8 +161,8 @@ USER ${NB_USER}
 RUN pip install -r requirements.txt
 ENV JULIA_PROJECT=${HOME}
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=${HOME} -e 'using Pkg;\
-Pkg.instantiate();\
+RUN julia --project=${HOME} -e 'using Pkg; \
+Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'

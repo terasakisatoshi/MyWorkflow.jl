@@ -79,33 +79,56 @@ end\n\
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
-Pkg.add(["OhMyREPL","Revise"]); \
+Pkg.add(["OhMyREPL", "Revise"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
-Pkg.add(["Documenter", "Weave", "Franklin", "NodeJS"]); \
-Pkg.add(["Plotly", "PlotlyJS", "ORCA"]);\
+Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
 Pkg.precompile() \
 '
 
+# suppress warning for related to GR backend
+ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
-RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
+RUN julia --trace-compile="traced.jl" -e '\
+    using OhMyREPL, Revise, Plots, PyCall, DataFrames; \
+    plot(sin); plot(rand(10),rand(10)) |> display; \
+    ' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
 
+COPY ./.statements /tmp
+
+RUN mkdir -p /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :Juno, :Atom], \
+        precompile_statements_file="/tmp/atomcompile.jl", \
+        sysimage_path="/sysimages/atom.so", \
+    ) \
+    '
+
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
-    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
-              using WebIO; WebIO.install_jupyter_nbextension(); \
-              using IJulia, Interact; \
+    julia -e '\
+              using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
+              using IJulia, WebIO; \
+              WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
-              installkernel("Julia", "--project=$envhome");\
+              installkernel("Julia", "--project=$envhome", "-J/sysimages/ijulia.so");\
               ' && \
     echo "Done"
 
+RUN mkdir -p /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :IJulia], \
+        precompile_statements_file="/tmp/ijuliacompile.jl", \
+        sysimage_path="/sysimages/ijulia.so", \
+    ) \
+    '
 
 WORKDIR /work
 ENV JULIA_PROJECT=/work
@@ -115,8 +138,8 @@ RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
 
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=/work -e 'using Pkg;\
-Pkg.instantiate();\
+RUN julia --project=/work -e 'using Pkg; \
+Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
@@ -125,5 +148,4 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
-# suppress warning for related to GR backend
-ENV GKSwstype=100
+

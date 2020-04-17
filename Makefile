@@ -12,10 +12,10 @@ build:
 
 atom:
 ifeq ($(OS), Linux)
-	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia --project=@. -L .atom/init_linux.jl
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -J/sysimages/atom.so --project=@. -L .atom/init_linux.jl
 endif
 ifeq ($(OS), Darwin) # i.e. macOS
-	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia --project=@. -L .atom/init_mac.jl
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -J/sysimages/atom.so --project=@. -L .atom/init_mac.jl
 endif
 # Excecute in docker container
 web: docs
