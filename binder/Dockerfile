@@ -126,7 +126,7 @@ COPY ./.statements /tmp
 
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames, :IJulia, :Interact, :WebIO], \
+        [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames, :IJulia], \
         precompile_statements_file="/tmp/ijuliacompile.jl", \
         precompile_execution_file="/tmp/execution.jl", \
         sysimage_path="/sysimages/ijulia.so", \
@@ -147,7 +147,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using IJulia, WebIO ; \
               WebIO.install_jupyter_nbextension(); \
               envhome=ENV["HOME"]; \
-              installkernel("Julia", "--project=$envhome", "-J/sysimages/ijulia.so");\
+              installkernel("Julia compiled", "--project=$envhome", "-J/sysimages/ijulia.so");\
               ' && \
     echo "Done"
 
