@@ -103,15 +103,7 @@ RUN julia --trace-compile="traced.jl" -e '\
 
 COPY ./.statements /tmp
 
-RUN mkdir /sysimages && julia -e '\
-    using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :IJulia], \
-        precompile_statements_file="/tmp/ijuliacompile.jl", \
-        sysimage_path="/sysimages/ijulia.so", \
-    ) \
-    '
-
-RUN mkdir /sysimages && julia -e '\
+RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
         [:Plots, :Juno, :Atom], \
         precompile_statements_file="/tmp/atomcompile.jl", \
@@ -119,13 +111,22 @@ RUN mkdir /sysimages && julia -e '\
     ) \
     '
 
+RUN mkdir -p /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :IJulia], \
+        precompile_statements_file="/tmp/ijuliacompile.jl", \
+        sysimage_path="/sysimages/ijulia.so", \
+    ) \
+    '
+
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
-              using WebIO; WebIO.install_jupyter_nbextension(); \
+              using IJulia, WebIO; \
+              WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
-              installkernel("Julia", "-J/sysimages/ijulia.so --project=$envhome");\
+              installkernel("Julia", "--project=$envhome", "-J/sysimages/ijulia.so");\
               ' && \
     echo "Done"
 
