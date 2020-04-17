@@ -84,7 +84,6 @@ Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
-Pkg.add(["IJulia", "Interact", "WebIO"]); \
 Pkg.precompile() \
 '
 
@@ -111,18 +110,11 @@ RUN mkdir -p /sysimages && julia -e '\
     ) \
     '
 
-RUN mkdir -p /sysimages && julia -e '\
-    using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :IJulia], \
-        precompile_statements_file="/tmp/ijuliacompile.jl", \
-        sysimage_path="/sysimages/ijulia.so", \
-    ) \
-    '
-
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
+              using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
@@ -130,6 +122,13 @@ RUN jupyter nbextension uninstall --user webio/main && \
               ' && \
     echo "Done"
 
+RUN mkdir -p /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :IJulia], \
+        precompile_statements_file="/tmp/ijuliacompile.jl", \
+        sysimage_path="/sysimages/ijulia.so", \
+    ) \
+    '
 
 WORKDIR /work
 ENV JULIA_PROJECT=/work
