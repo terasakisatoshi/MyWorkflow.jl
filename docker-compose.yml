@@ -9,6 +9,17 @@ services:
     ports:
       - "8888:8888"
     command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
+  binder:
+    build:
+      context: .
+      dockerfile: ./binder/Dockerfile
+    container_name: mybinder
+    volumes:
+      - ./:/work
+    working_dir: /work
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
   julia:
     build: ./
     container_name: myjulia
