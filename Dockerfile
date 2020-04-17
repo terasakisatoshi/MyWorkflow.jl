@@ -88,22 +88,44 @@ Pkg.add(["IJulia", "Interact", "WebIO"]); \
 Pkg.precompile() \
 '
 
+# suppress warning for related to GR backend
+ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
-RUN julia --trace-compile="traced.jl" -e 'using OhMyREPL, Revise, Plots, PyCall, DataFrames' && \
+RUN julia --trace-compile="traced.jl" -e '\
+    using OhMyREPL, Revise, Plots, PyCall, DataFrames; \
+    plot(sin); plot(rand(10),rand(10)) |> display; \
+    ' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
              ' && \
     rm traced.jl
 
+COPY ./statements /tmp
+
+RUN mkdir /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :IJulia], \
+        precompile_statements_file="/tmp/ijuliacompile.jl", \
+        sysimage_path="/sysimages/ijulia.so", \
+    ) \
+    '
+
+RUN mkdir /sysimages && julia -e '\
+    using PackageCompiler; PackageCompiler.create_sysimage(\
+        [:Plots, :Juno, :Atom], \
+        precompile_statements_file="/tmp/atomcompile.jl", \
+        sysimage_path="/sysimages/atom.so", \
+    ) \
+    '
+
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
-    julia -e 'using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
+    julia -e '\
               using WebIO; WebIO.install_jupyter_nbextension(); \
-              using IJulia, Interact; \
               envhome="/work"; \
-              installkernel("Julia", "--project=$envhome");\
+              installkernel("Julia", "-J/sysimages/ijulia.so --project=$envhome");\
               ' && \
     echo "Done"
 
@@ -126,5 +148,4 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
-# suppress warning for related to GR backend
-ENV GKSwstype=100
+
