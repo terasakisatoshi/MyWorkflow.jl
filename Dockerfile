@@ -79,11 +79,12 @@ end\n\
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
-Pkg.add(["OhMyREPL","Revise"]); \
+Pkg.add(["OhMyREPL", "Revise"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
-Pkg.add(["Documenter", "Weave", "Franklin", "NodeJS"]); \
-Pkg.add(["Plotly", "PlotlyJS", "ORCA"]);\
+Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+Pkg.add(["IJulia", "Interact", "WebIO"]); \
 Pkg.precompile() \
 '
 
