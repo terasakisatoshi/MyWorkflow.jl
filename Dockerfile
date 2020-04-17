@@ -101,7 +101,7 @@ RUN julia --trace-compile="traced.jl" -e '\
              ' && \
     rm traced.jl
 
-COPY ./statements /tmp
+COPY ./.statements /tmp
 
 RUN mkdir /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
