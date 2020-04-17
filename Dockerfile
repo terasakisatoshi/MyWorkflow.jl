@@ -139,8 +139,8 @@ RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
 
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=/work -e 'using Pkg;\
-Pkg.instantiate();\
+RUN julia --project=/work -e 'using Pkg; \
+Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
