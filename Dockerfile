@@ -79,9 +79,12 @@ end\n\
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
+Pkg.add(["OhMyREPL","Revise"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
-using Atom, Juno, PackageCompiler; # for precompilation\
+Pkg.add(["Documenter", "Weave", "Franklin", "NodeJS"]); \
+Pkg.add(["Plotly", "PlotlyJS", "ORCA"]);\
+Pkg.precompile() \
 '
 
 # Do Ahead of Time Compilation using PackageCompiler
