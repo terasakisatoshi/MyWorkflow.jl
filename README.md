@@ -21,7 +21,6 @@
 
 # Directory Structure
 
-```
 ```console
 $ tree
 .
@@ -105,13 +104,14 @@ $ make build
 #### Initialize Julia via REPL.
 
 ```console
-$ docker run --rm -it myjulia julia --project=.
+$ docker run --rm -it jlatom julia
+               _
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.3.0 (2019-11-26)
+  | | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
@@ -124,7 +124,7 @@ julia> hello("World")
 #### Initialize Julia via Jupyter Notebook
 
 ```console
-$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myjupyter myjulia jupyter notebook --ip=0.0.0.0 --allow-root
+$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name jlatom jlatom jupyter notebook --ip=0.0.0.0 --allow-root
 ... some stuff happens
 ```
 
@@ -136,13 +136,13 @@ Open your web browser and access http://localhost:8000/
 
 ```console
 $ docker-compose run --rm julia
-               _
-   _       _ _(_)_     |  Documentation: https://docs.julialang.org
-  (_)     | (_) (_)    |
-   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
-  | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.3.0 (2019-11-26)
- _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+_
+_       _ _(_)_     |  Documentation: https://docs.julialang.org
+(_)     | (_) (_)    |
+_ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+| | | | | | |/ _` |  |
+| | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
+_/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
 julia> using Example
