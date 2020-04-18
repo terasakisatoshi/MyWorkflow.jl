@@ -6,7 +6,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.8.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.8.0)
+- stable (v0.9.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.9.0)
 
 - An example of workflow using Docker and GitHub Actions
 
@@ -21,7 +21,7 @@
 
 # Directory Structure
 
-```
+```console
 $ tree
 .
 ├── Dockerfile
@@ -29,6 +29,8 @@ $ tree
 ├── Makefile
 ├── Project.toml
 ├── README.md
+├── binder
+│   └── Dockerfile
 ├── docker-compose.yml
 ├── docs
 │   ├── Manifest.toml
@@ -44,19 +46,21 @@ $ tree
 │       └── weavesample.jmd
 ├── experiments
 │   └── notebook
+│       ├── box_and_ball_system.jl
 │       ├── coordinate_system.jl
-│       ├── curved_surface.jl
+│       ├── curve.jl
 │       ├── example.jl.jl
 │       ├── interact_sample.jl
+│       ├── n-Soliton.jl
 │       ├── plotly_surface.jl
 │       ├── plots_sample.jl
-│       └── tangent_space.jl
+│       ├── tangent_space.jl
+│       └── tangent_vector.jl
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
-
 7 directories, 25 files
 ```
 
@@ -76,7 +80,7 @@ $ tree
 ### Case 1: Use Docker
 
 ```console
-$ docker build -t myjulia .
+$ docker build -t jlatom .
 ```
 
 ### Case 2: Use Docker Compose
@@ -100,13 +104,14 @@ $ make build
 #### Initialize Julia via REPL.
 
 ```console
-$ docker run --rm -it myjulia julia --project=.
+$ docker run --rm -it jlatom julia
+               _
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.3.0 (2019-11-26)
+  | | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
@@ -119,7 +124,7 @@ julia> hello("World")
 #### Initialize Julia via Jupyter Notebook
 
 ```console
-$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myjupyter myjulia jupyter notebook --ip=0.0.0.0 --allow-root
+$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name jlatom jlatom jupyter notebook --ip=0.0.0.0 --allow-root
 ... some stuff happens
 ```
 
@@ -131,13 +136,13 @@ Open your web browser and access http://localhost:8000/
 
 ```console
 $ docker-compose run --rm julia
-               _
-   _       _ _(_)_     |  Documentation: https://docs.julialang.org
-  (_)     | (_) (_)    |
-   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
-  | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.3.0 (2019-11-26)
- _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+_
+_       _ _(_)_     |  Documentation: https://docs.julialang.org
+(_)     | (_) (_)    |
+_ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+| | | | | | |/ _` |  |
+| | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
+_/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
 julia> using Example
