@@ -22,6 +22,7 @@
 # Directory Structure
 
 ```
+```console
 $ tree
 .
 ├── Dockerfile
@@ -29,6 +30,8 @@ $ tree
 ├── Makefile
 ├── Project.toml
 ├── README.md
+├── binder
+│   └── Dockerfile
 ├── docker-compose.yml
 ├── docs
 │   ├── Manifest.toml
@@ -44,19 +47,21 @@ $ tree
 │       └── weavesample.jmd
 ├── experiments
 │   └── notebook
+│       ├── box_and_ball_system.jl
 │       ├── coordinate_system.jl
-│       ├── curved_surface.jl
+│       ├── curve.jl
 │       ├── example.jl.jl
 │       ├── interact_sample.jl
+│       ├── n-Soliton.jl
 │       ├── plotly_surface.jl
 │       ├── plots_sample.jl
-│       └── tangent_space.jl
+│       ├── tangent_space.jl
+│       └── tangent_vector.jl
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
-
 7 directories, 25 files
 ```
 
@@ -76,7 +81,7 @@ $ tree
 ### Case 1: Use Docker
 
 ```console
-$ docker build -t myjulia .
+$ docker build -t jlatom .
 ```
 
 ### Case 2: Use Docker Compose
