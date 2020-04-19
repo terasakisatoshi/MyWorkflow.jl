@@ -147,7 +147,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using IJulia, WebIO ; \
               WebIO.install_jupyter_nbextension(); \
               envhome=ENV["HOME"]; \
-              installkernel("Julia compiled", "--project=$envhome", "-J/sysimages/ijulia.so");\
+              installkernel("Julia", "--project=$envhome", "-J/sysimages/ijulia.so");\
               ' && \
     echo "Done"
 
