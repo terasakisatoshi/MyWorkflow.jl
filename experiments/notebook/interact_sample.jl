@@ -5,11 +5,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.3.3
+#       jupytext_version: 1.4.2
 #   kernelspec:
-#     display_name: Julia 1.3.1
+#     display_name: Julia 1.4.0
 #     language: julia
-#     name: julia-1.3
+#     name: julia-1.4
 # ---
 
 print("Interact Sample")
@@ -19,16 +19,14 @@ using Plots
 using Rotations
 
 # +
-using Plots
 function f(a)
     xs = -pi:0.01:pi
-    ys = sin.(xs .- a)
+    ys = @. sin(xs - a)
     plot(xs, ys)
 end
 
-using Interact
 a_slider=slider(-3:0.1:3,value=0.2, label="a_slider")
-p=map(a->f(a), observe(a_slider))
+p=map(f, observe(a_slider))
 map(display,[a_slider, p])
 # +
 p=ones(3)/sqrt(3)
