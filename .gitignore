@@ -36,3 +36,4 @@ __pycache__/
 
 # ---END: Ignore file/directory related to Python.---
 
+*.gif

@@ -6,17 +6,12 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.3.3
+#       jupytext_version: 1.4.2
 #   kernelspec:
-#     display_name: Julia 1.3.1
+#     display_name: Julia 1.4.0
 #     language: julia
-#     name: julia-1.3
+#     name: julia-1.4
 # ---
-
-# + [markdown] toc=true
-# <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#情報幾何学のお勉強のぉと" data-toc-modified-id="情報幾何学のお勉強のぉと-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>情報幾何学のお勉強のぉと</a></span><ul class="toc-item"><li><span><a href="#導入" data-toc-modified-id="導入-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>導入</a></span></li><li><span><a href="#試しに描画" data-toc-modified-id="試しに描画-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>試しに描画</a></span></li><li><span><a href="#Interact.jl-で-$p$-と-$q$-を変動させた様子を描画" data-toc-modified-id="Interact.jl-で-$p$-と-$q$-を変動させた様子を描画-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Interact.jl で $p$ と $q$ を変動させた様子を描画</a></span></li><li><span><a href="#$q$-を固定して-$p$-だけ動かす" data-toc-modified-id="$q$-を固定して-$p$-だけ動かす-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>$q$ を固定して $p$ だけ動かす</a></span></li></ul></li></ul></div>
-# -
 
 # # 情報幾何学のお勉強のぉと
 
@@ -25,6 +20,7 @@
 # $p$,$q$ を正の実数とする. $y=px^2$, $x=qy^2$ という $xy$ - 平面上の曲線を考える．この二つの曲線は原点ともう一つの点 $P=(x_0,y_0)$ と交わる．簡単な計算によってそれは $p$, $q$ を用いると $P = (x_0,y_0) = (p^{-2/3}q^{-1/3}, p^{-1/3}q^{-2/3})$ で与えられることがわかる．これをプログラミング言語 Julia を用いて確認する．
 
 using Plots
+
 using Interact
 
 function vis_crosspoint(p::Float64,q::Float64)
@@ -64,4 +60,3 @@ anim = @animate for p in range(0.1,1,length=10)
 end
 
 gif(anim, "/tmp/anim_fps15.gif", fps = 3)
-
