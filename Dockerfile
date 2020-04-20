@@ -1,4 +1,4 @@
-FROM julia:1.4.0
+FROM julia:1.4.1
 
 RUN apt-get update && \
     apt-get install -y \
@@ -43,7 +43,6 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable varInspector/main && \
     jupyter nbextension enable toc2/main && \
     jupyter nbextension enable equation-numbering/main && \
-    jupyter nbextension enable livemdpreview/livemdpreview && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
 
