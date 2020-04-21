@@ -1,4 +1,4 @@
-FROM julia:1.4
+FROM julia:1.4.1
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -29,6 +29,7 @@ RUN apt-get update && \
     dvipng \
     texlive-latex-recommended  \
     zip \
+    htop \
     libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
 
 
