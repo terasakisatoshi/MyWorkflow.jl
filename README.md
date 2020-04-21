@@ -22,7 +22,7 @@
 # Directory Structure
 
 ```console
-$ tree
+$ tree .
 .
 ├── Dockerfile
 ├── LICENSE
@@ -49,7 +49,8 @@ $ tree
 │       ├── box_and_ball_system.jl
 │       ├── coordinate_system.jl
 │       ├── curve.jl
-│       ├── example.jl.jl
+│       ├── example.jl
+│       ├── fitting.jl
 │       ├── interact_sample.jl
 │       ├── n-Soliton.jl
 │       ├── plotly_surface.jl
@@ -61,7 +62,6 @@ $ tree
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
-7 directories, 25 files
 ```
 
 # How to use
@@ -104,14 +104,13 @@ $ make build
 #### Initialize Julia via REPL.
 
 ```console
-$ docker run --rm -it jlatom julia
-               _
+$ docker run --rm -it jlatom
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
+  | | |_| | | | (_| |  |  Version 1.4.1 (2020-04-14)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
@@ -136,12 +135,11 @@ Open your web browser and access http://localhost:8000/
 
 ```console
 $ docker-compose run --rm julia
-_
 _       _ _(_)_     |  Documentation: https://docs.julialang.org
 (_)     | (_) (_)    |
 _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
 | | | | | | |/ _` |  |
-| | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
+| | |_| | | | (_| |  |  Version 1.4.1 (2020-04-14)
 _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
