@@ -8,7 +8,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.4.2
 #   kernelspec:
-#     display_name: Julia 1.4.0
+#     display_name: Julia 1.4.1
 #     language: julia
 #     name: julia-1.4
 # ---
@@ -71,3 +71,29 @@ end
 # -
 
 gif(anim)
+
+# # Torus
+
+# +
+plotly()
+a=3.
+
+p = plot3d()
+N = 45
+u = range(0,2π,length=N)
+for t in range(0,2π,length=N)
+    x = @. cos(t) * (a + cos(u))
+    y = @. sin(t) * (a + cos(u))
+    z = @. sin(u)
+    plot3d!(p, x, y, z, color=:blue, legend=false)
+end
+
+t=range(0,2π,length=N)
+for u in range(0,2π,length=N)
+    x = @. cos(t) * (a + cos(u))
+    y = @. sin(t) * (a + cos(u))
+    z = sin(u) * ones(length(x))
+    plot3d!(p, x, y, z, color=:blue, legend=false)
+end
+
+p
