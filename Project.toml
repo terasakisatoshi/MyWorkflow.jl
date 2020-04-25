@@ -43,6 +43,7 @@ Rotations = "0.13"
 StaticArrays = "0.12"
 SymEngine = "0.8"
 SymPy = "1.0"
+Zygote = "0.4"
 julia = "1.4"
 
 [extras]
