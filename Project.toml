@@ -28,6 +28,7 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 [compat]
 Colors = "0.12"
 Combinatorics = "1.0"
+DifferentialEquations = "6.13"
 Distributions = "0.22, 0.23"
 Example = "= 0.5.1, 0.5"
 ForwardDiff = "0.10"
