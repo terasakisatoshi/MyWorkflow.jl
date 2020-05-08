@@ -14,7 +14,6 @@ RUN apt-get update && \
     xvfb \
     libgtk-3-0 \
     dvipng \
-    texlive-latex-recommended  \
     zip \
     libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
 
