@@ -30,8 +30,8 @@ RUN apt-get update && \
     texlive-latex-recommended  \
     zip \
     htop \
-    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
-
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
 
 # Switch default user
 USER ${NB_USER}
@@ -98,11 +98,11 @@ end\n\
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
-Pkg.add(["Atom", "Juno"]); \
+# Pkg.add(["Atom", "Juno"]); \
 Pkg.add(["OhMyREPL", "Revise"]); \
 Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
 Pkg.add("PackageCompiler"); \
-Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+# Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
 Pkg.add(["IJulia", "Interact", "WebIO"]); \
 Pkg.precompile() \
