@@ -9,6 +9,15 @@ services:
     ports:
       - "8888:8888"
     command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
+  lab:
+    build: ./
+    container_name: mylab
+    volumes:
+      - ./:/work
+    working_dir: /work
+    ports:
+      - "8888:8888"
+    command: jupyter lab --notebook-dir /work --ip=0.0.0.0 --allow-root
   julia:
     build: ./
     container_name: myjulia
