@@ -16,11 +16,18 @@ RUN apt-get update && \
     dvipng \
     texlive-latex-recommended  \
     zip \
-    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
+
+RUN apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up  
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
@@ -44,6 +51,11 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable toc2/main && \
     jupyter nbextension enable equation-numbering/main && \
     jupyter nbextension enable execute_time/ExecuteTime && \
+    echo Done
+
+RUN jupyter labextension install @lckr/jupyterlab_variableinspector && \
+    jupyter labextension install @jupyterlab/toc && \
+    jupyter labextension install @z-m-k/jupyterlab_sublime && \
     echo Done
 
 
@@ -95,7 +107,10 @@ RUN julia --trace-compile="traced.jl" -e '\
     plot(sin); plot(rand(10),rand(10)) |> display; \
     ' && \
     julia -e 'using PackageCompiler; \
-              PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
+              PackageCompiler.create_sysimage(\
+                  [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames], \
+                  precompile_statements_file="traced.jl", \
+                  replace_default=true); \
              ' && \
     rm traced.jl
 
