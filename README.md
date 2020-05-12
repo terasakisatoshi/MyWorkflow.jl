@@ -47,13 +47,16 @@ $ tree .
 ├── experiments
 │   └── notebook
 │       ├── Chisq.jl
+│       ├── Harris.jl
 │       ├── Rotation3D.jl
+│       ├── apply_PCA_to_MNIST.jl
 │       ├── box_and_ball_system.jl
 │       ├── coordinate_system.jl
 │       ├── curve.jl
 │       ├── example.jl
 │       ├── fitting.jl
 │       ├── histogram_eq.jl
+│       ├── image_filtering.jl
 │       ├── interact_sample.jl
 │       ├── n-Soliton.jl
 │       ├── ode.jl
@@ -66,8 +69,6 @@ $ tree .
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
-
-8 directories, 34 files
 ```
 
 # How to use
