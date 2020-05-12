@@ -6,7 +6,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.9.1)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.9.1)
+- stable (v0.9.2)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.9.2)
 
 - An example of workflow using Docker and GitHub Actions
 
@@ -46,13 +46,17 @@ $ tree .
 │       └── weavesample.jmd
 ├── experiments
 │   └── notebook
+│       ├── Chisq.jl
+│       ├── Rotation3D.jl
 │       ├── box_and_ball_system.jl
 │       ├── coordinate_system.jl
 │       ├── curve.jl
 │       ├── example.jl
 │       ├── fitting.jl
+│       ├── histogram_eq.jl
 │       ├── interact_sample.jl
 │       ├── n-Soliton.jl
+│       ├── ode.jl
 │       ├── plotly_surface.jl
 │       ├── plots_sample.jl
 │       ├── tangent_space.jl
@@ -62,6 +66,8 @@ $ tree .
 │   └── MyWorkflow.jl
 └── test
     └── runtests.jl
+
+8 directories, 34 files
 ```
 
 # How to use

@@ -14,16 +14,25 @@ RUN apt-get update && \
     xvfb \
     libgtk-3-0 \
     dvipng \
+    texlive-latex-recommended  \
     zip \
-    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
+
+RUN apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up  
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
-    jupyter-nbextensions-configurator
+    jupyter-nbextensions-configurator \
+    jupyterlab_code_formatter autopep8 black
 
 RUN jupyter notebook --generate-config && \
     echo "\
@@ -45,6 +54,36 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
 
+# Install/enable extension for JupyterLab users
+RUN jupyter labextension install @lckr/jupyterlab_variableinspector && \
+    jupyter labextension install @jupyterlab/toc && \
+    jupyter nbextension enable --py widgetsnbextension && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install @z-m-k/jupyterlab_sublime && \
+    jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+    jupyter serverextension enable --py jupyterlab_code_formatter && \
+    jupyter labextension install @hokyjack/jupyterlab-monokai-plus && \
+    echo Done
+
+# Setup default formatter (For Python Users only)
+RUN mkdir -p /root/.jupyter/lab/user-settings/@ryantam626/jupyterlab_code_formatter && echo '\
+{\n\
+    "preferences": {\n\
+        "default_formatter": {\n\
+            "python": "black",\n\
+        }\n\
+    }\n\
+}\n\
+\
+'>> /root/.jupyter/lab/user-settings/@ryantam626/jupyterlab_code_formatter/settings.jupyterlab-settings
+
+# Set color theme Monokai++ by default (The selection is due to my hobby)
+RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension && echo '\
+{\n\
+    "theme": "Monokai++"\n\
+}\n\
+\
+' >> /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
@@ -94,7 +133,10 @@ RUN julia --trace-compile="traced.jl" -e '\
     plot(sin); plot(rand(10),rand(10)) |> display; \
     ' && \
     julia -e 'using PackageCompiler; \
-              PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
+              PackageCompiler.create_sysimage(\
+                  [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames], \
+                  precompile_statements_file="traced.jl", \
+                  replace_default=true); \
              ' && \
     rm traced.jl
 
