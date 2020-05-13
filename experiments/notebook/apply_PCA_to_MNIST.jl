@@ -27,10 +27,16 @@ using Plots
 
 # ## Download MNIST dataset
 
+MNIST.download(;i_accept_the_terms_of_use=true)
+
 train_x, train_y = MNIST.traindata()
 test_x, test_y = MNIST.testdata()
 
 # ## Study data
+
+?MNIST.convert2image
+
+MNIST.traintensor(1)|>MNIST.convert2image
 
 train_x |> size # W, H, Num_data
 
