@@ -1,4 +1,4 @@
-# MyWorkflow
+0;95;0c# MyWorkflow
 
 
 [![Build Status](https://github.com/terasakisatoshi/MyWorkflow.jl/workflows/CI/badge.svg)](https://github.com/terasakisatoshi/MyWorkflow.jl/actions)
@@ -6,7 +6,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.10.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.10.0)
+- stable (v0.10.1)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.10.1)
 
 - An example of workflow using Docker and GitHub Actions
 
@@ -63,7 +63,8 @@ $ tree .
 │       ├── plotly_surface.jl
 │       ├── plots_sample.jl
 │       ├── tangent_space.jl
-│       └── tangent_vector.jl
+│       ├── tangent_vector.jl
+│       └── turing_getting_started.jl
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
