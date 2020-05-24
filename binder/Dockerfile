@@ -43,7 +43,8 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
-    jupyter-nbextensions-configurator
+    jupyter-nbextensions-configurator \
+    numpy sympy pandas matplotlib numba
 
 
 RUN jupyter notebook --generate-config && \
@@ -98,13 +99,21 @@ end\n\
 
 # Install Julia Package
 RUN julia -E 'using Pkg; \
-# Pkg.add(["Atom", "Juno"]); \
-Pkg.add(["OhMyREPL", "Revise"]); \
-Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
+Pkg.add(["Atom", "Juno"]); \
+Pkg.add([\
+    PackageSpec(name="OhMyREPL", version="0.5.5"), \
+    PackageSpec(name="Revise", version="2.6"), \
+    PackageSpec(name="Plots", version="1.3"), \
+    PackageSpec(name="GR", version="0.49"), \
+    PackageSpec(name="SymPy",version="1.0"), \
+    PackageSpec(name="Turing", version="0.13.0"), \
+    PackageSpec(name="StatsPlots", version="0.14.6"), \
+    PackageSpec(name="DifferentialEquations", version="6.13"), \
+]); \
 Pkg.add("PackageCompiler"); \
-# Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
-Pkg.add(["IJulia", "Interact", "WebIO"]); \
+Pkg.add(["IJulia", "WebIO"]); \
 Pkg.precompile() \
 '
 
@@ -114,20 +123,15 @@ ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
 USER root
-RUN julia --trace-compile="traced.jl" -e '\
-        using OhMyREPL, Revise, Plots, PyCall, DataFrames; \
-    ' && \
-    julia -e '\
-        using PackageCompiler; \
-        PackageCompiler.create_sysimage([:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames]; precompile_statements_file="traced.jl", replace_default=true) \
-    ' && \
-    rm traced.jl
 
 COPY ./.statements /tmp
 
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames, :IJulia], \
+        [\
+            :OhMyREPL, :Revise, :Plots, :GR, :SymPy, \
+            :Turing, :StatsPlots,:DifferentialEquations, \
+        ], \
         precompile_statements_file="/tmp/ijuliacompile.jl", \
         precompile_execution_file="/tmp/execution.jl", \
         sysimage_path="/sysimages/ijulia.so", \

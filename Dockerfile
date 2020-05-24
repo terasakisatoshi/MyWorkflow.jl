@@ -32,7 +32,8 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
-    jupyterlab_code_formatter autopep8 black
+    jupyterlab_code_formatter autopep8 black \
+    numpy sympy pandas matplotlib numba
 
 RUN jupyter notebook --generate-config && \
     echo "\
@@ -116,8 +117,16 @@ end\n\
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
-Pkg.add(["OhMyREPL", "Revise"]); \
-Pkg.add(["Plots", "GR", "PyCall", "DataFrames"]); \
+Pkg.add([\
+    PackageSpec(name="OhMyREPL", version="0.5.5"), \
+    PackageSpec(name="Revise", version="2.6"), \
+    PackageSpec(name="Plots", version="1.3"), \
+    PackageSpec(name="GR", version="0.49"), \
+    PackageSpec(name="SymPy",version="1.0"), \
+    PackageSpec(name="Turing", version="0.13.0"), \
+    PackageSpec(name="StatsPlots", version="0.14.6"), \
+    PackageSpec(name="DifferentialEquations", version="6.13"), \
+]); \
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
@@ -129,12 +138,15 @@ ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
 RUN julia --trace-compile="traced.jl" -e '\
-    using OhMyREPL, Revise, Plots, PyCall, DataFrames; \
+    using Plots; \
     plot(sin); plot(rand(10),rand(10)) |> display; \
     ' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage(\
-                  [:OhMyREPL, :Revise, :Plots, :GR, :PyCall, :DataFrames], \
+                  [\
+                    :OhMyREPL, :Revise, :Plots, :GR, :SymPy, \
+                    :Turing, :StatsPlots,:DifferentialEquations, \
+                  ], \
                   precompile_statements_file="traced.jl", \
                   replace_default=true); \
              ' && \
