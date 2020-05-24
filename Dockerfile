@@ -130,7 +130,6 @@ Pkg.add([\
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
-Pkg.precompile() \
 '
 
 # suppress warning for related to GR backend
