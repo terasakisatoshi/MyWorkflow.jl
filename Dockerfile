@@ -123,7 +123,7 @@ Pkg.add([\
     PackageSpec(name="Plots", version="1.3"), \
     PackageSpec(name="GR", version="0.49"), \
     PackageSpec(name="SymPy",version="1.0"), \
-    PackageSpec(name="Turing", version="0.12.0"), \
+    PackageSpec(name="Turing", version="0.13.0"), \
     PackageSpec(name="StatsPlots", version="0.14.6"), \
     PackageSpec(name="DifferentialEquations", version="6.13"), \
 ]); \
