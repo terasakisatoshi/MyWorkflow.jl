@@ -1,4 +1,4 @@
-0;95;0c# MyWorkflow
+# MyWorkflow
 
 
 [![Build Status](https://github.com/terasakisatoshi/MyWorkflow.jl/workflows/CI/badge.svg)](https://github.com/terasakisatoshi/MyWorkflow.jl/actions)
