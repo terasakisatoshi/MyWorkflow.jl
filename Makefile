@@ -1,4 +1,4 @@
-.phony : all, build, web, clean
+.phony : all, pull, build, atom, web, clean
 
 OS:=$(shell uname -s)
 TAG=latest
