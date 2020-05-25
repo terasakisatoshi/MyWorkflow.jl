@@ -40,11 +40,17 @@ ENV PATH=${HOME}/.local/bin:$PATH
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
-    numpy sympy pandas matplotlib numba
+    jupyterlab_code_formatter autopep8 black \
+    numpy \
+    sympy==1.5.* \
+    pandas \
+    matplotlib \
+    numba
 
 
 RUN jupyter notebook --generate-config && \
