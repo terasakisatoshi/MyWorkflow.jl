@@ -1,7 +1,7 @@
 version: '3'
 services:
   jupyter:
-    build: ./
+    image: myworkflowjl
     container_name: myjupyter
     volumes:
       - ./:/work
@@ -10,7 +10,7 @@ services:
       - "8888:8888"
     command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
   lab:
-    build: ./
+    image: myworkflowjl
     container_name: mylab
     volumes:
       - ./:/work
@@ -19,14 +19,14 @@ services:
       - "8888:8888"
     command: jupyter lab --notebook-dir /work --ip=0.0.0.0 --allow-root
   julia:
-    build: ./
+    image: myworkflowjl
     container_name: myjulia
     volumes:
       - ./:/work
     working_dir: /work
     command: julia --project=/work
   web:
-    build: ./
+    image: myworkflowjl
     container_name: mypackagedocs
     volumes:
       - ./:/work

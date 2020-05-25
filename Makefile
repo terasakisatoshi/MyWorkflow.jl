@@ -1,21 +1,28 @@
-.phony : all, build, web, clean
+.phony : all, pull, build, atom, web, clean
 
 OS:=$(shell uname -s)
+TAG=latest
+DOCKERIMAGE=myworkflowjl
+REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 
-all: build
+all: pull
+
+pull:
+	docker pull ${REMOTE_DOCKER_REPOSITORY}
+	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
 
 build:
 	rm -f Manifest.toml
-	docker build -t jlatom .
+	docker build -t ${DOCKERIMAGE} .
 	docker-compose build
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 atom:
 ifeq ($(OS), Linux)
-	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -J/sysimages/atom.so --project=@. -L .atom/init_linux.jl
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work ${DOCKERIMAGE} julia -J/sysimages/atom.so --project=@. -L .atom/init_linux.jl
 endif
 ifeq ($(OS), Darwin) # i.e. macOS
-	docker run --rm -it --network=host -v ${PWD}:/work -w /work jlatom julia -J/sysimages/atom.so --project=@. -L .atom/init_mac.jl
+	docker run --rm -it --network=host -v ${PWD}:/work -w /work ${DOCKERIMAGE} julia -J/sysimages/atom.so --project=@. -L .atom/init_mac.jl
 endif
 # Excecute in docker container
 web: docs
