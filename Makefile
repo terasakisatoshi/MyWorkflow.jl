@@ -1,12 +1,19 @@
 .phony : all, build, web, clean
 
 OS:=$(shell uname -s)
+TAG=latest
+DOCKERIMAGE=myworkflowjl
+REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 
-all: build
+all: pull
+
+pull:
+	docker pull ${REMOTE_DOCKER_REPOSITORY}
+	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
 
 build:
 	rm -f Manifest.toml
-	docker build -t jlatom .
+	docker build -t ${DOCKERIMAGE} .
 	docker-compose build
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
