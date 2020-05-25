@@ -1,0 +1,11 @@
+name: Build-Push
+on:
+  schedule:
+    - cron: 0 3 * * *
+jobs:
+  build-container:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: docker build -t jl .
