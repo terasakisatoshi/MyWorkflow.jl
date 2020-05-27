@@ -171,7 +171,7 @@ USER ${NB_USER}
 RUN pip install -r requirements.txt
 
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=${HOME} -e 'using Pkg; \
+RUN rm -f Manifest.toml && julia --project=${HOME} -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
