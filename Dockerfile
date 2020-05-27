@@ -210,7 +210,7 @@ ENV JULIA_PROJECT=/work
 # Initialize Julia package using /work/Project.toml
 RUN rm -f Manifest.toml && julia --project=/work -e 'using Pkg; \
 Pkg.instantiate(); \
-#Pkg.precompile(); \
+Pkg.precompile(); \
 ' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
