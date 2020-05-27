@@ -170,7 +170,9 @@ RUN mkdir -p /sysimages && julia -e '\
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
-              using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
+              using Pkg; \
+    		  Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
+              Pkg.add(["Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
