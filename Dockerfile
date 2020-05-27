@@ -139,7 +139,7 @@ Pkg.add([\
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
-using NodeJS; run(\`\$(npm_cmd()) install highlight.js\`); using Franklin; \
+using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 '
 
 # suppress warning for related to GR backend
