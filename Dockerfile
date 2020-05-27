@@ -118,17 +118,15 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
-
 WORKDIR /work
-ENV JULIA_PROJECT=/work
-
+# create Project file at /work
 RUN echo '\
 name = "MyWorkflow"\n\
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
 ' >> /work/Project.toml && cat /work/Project.toml
 
-# Install Julia Package
-RUN julia -E 'using Pkg; \
+# Install Julia Packages with --project=/work
+RUN julia --project=/work -e 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
 Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
@@ -141,24 +139,30 @@ Pkg.add([\
     PackageSpec(name="DifferentialEquations", version="6.14.0"), \
 ]); \
 Pkg.pin(["OhMyREPL","Revise","Plots","GR","SymPy","Turing","StatsPlots","DifferentialEquations"]); \
+Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+'
+
+# Install default environment
+RUN julia -e 'using Pkg; \
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
-Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
 '
 
 # suppress warning for related to GR backend
 ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
-RUN julia --trace-compile="traced.jl" -e '\
+
+RUN julia --project=/work --trace-compile="traced.jl" -e '\
     using Plots; \
     plot(sin); plot(rand(10),rand(10)) |> display; \
     ' && \
-    julia -e 'using PackageCompiler; \
+    julia --project=/work -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage(\
                   [\
-                    :OhMyREPL, :Revise, :Plots, :GR, :SymPy, \
-                    :Turing, :StatsPlots,:DifferentialEquations, \
+                    :OhMyREPL, :Revise, :Plots, \
+                    :GR, :SymPy, \
+                    :Turing, :StatsPlots, :DifferentialEquations, \
                   ], \
                   precompile_statements_file="traced.jl", \
                   replace_default=true); \
@@ -167,13 +171,13 @@ RUN julia --trace-compile="traced.jl" -e '\
 
 COPY ./.statements /tmp
 
-RUN mkdir -p /sysimages && julia -e '\
-    using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :Juno, :Atom], \
-        precompile_statements_file="/tmp/atomcompile.jl", \
-        sysimage_path="/sysimages/atom.so", \
-    ) \
-    '
+#RUN mkdir -p /sysimages && julia -e '\
+#    using PackageCompiler; PackageCompiler.create_sysimage(\
+#        [:Plots, :Juno, :Atom], \
+#        precompile_statements_file="/tmp/atomcompile.jl", \
+#        sysimage_path="/sysimages/atom.so", \
+#    ) \
+#    '
 
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
@@ -181,7 +185,9 @@ RUN jupyter nbextension uninstall --user webio/main && \
     julia -e '\
               using Pkg; \
     		  Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
-              Pkg.add(["Interact", "WebIO"]); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+              Pkg.pin(["IJulia", "WebIO","Interact"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
@@ -191,7 +197,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
 
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :IJulia], \
+        [:IJulia], \
         precompile_statements_file="/tmp/ijuliacompile.jl", \
         sysimage_path="/sysimages/ijulia.so", \
     ) \
@@ -200,11 +206,12 @@ RUN mkdir -p /sysimages && julia -e '\
 COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
-
+ENV JULIA_PROJECT=/work
 # Initialize Julia package using /work/Project.toml
-RUN rm Manifest.toml && julia --project=/work -e 'using Pkg; \
+RUN rm -f Manifest.toml && julia --project=/work -e 'using Pkg; \
 Pkg.instantiate(); \
-Pkg.precompile()' && \
+#Pkg.precompile(); \
+' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
@@ -213,3 +220,4 @@ EXPOSE 8888
 # For Http Server
 EXPOSE 8000
 
+CMD ["julia"]
