@@ -118,38 +118,35 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
-
 WORKDIR /work
 ENV JULIA_PROJECT=/work
-
+# create Project file at /work
 RUN echo '\
 name = "MyWorkflow"\n\
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
 ' >> /work/Project.toml && cat /work/Project.toml
 
-# Install Julia Package
-RUN julia -E 'using Pkg; \
-Pkg.add(["Atom", "Juno"]); \
+# Install Julia Packages with --project=/work
+RUN julia -e 'using Pkg; \
 Pkg.add([\
+    PackageSpec(name="PackageCompiler", version="1.1.1"), \
+    PackageSpec(name="Atom", version="0.12.11"), \
+    PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
     PackageSpec(name="Revise", version="2.7.0"), \
     PackageSpec(name="Plots", version="1.3.3"), \
-    PackageSpec(name="GR", version="0.49.1"), \
-    PackageSpec(name="SymPy",version="1.0.20"), \
-    PackageSpec(name="Turing", version="0.13.0"), \
-    PackageSpec(name="StatsPlots", version="0.14.6"), \
-    PackageSpec(name="DifferentialEquations", version="6.14.0"), \
 ]); \
-Pkg.pin(["OhMyREPL","Revise","Plots","GR","SymPy","Turing","StatsPlots","DifferentialEquations"]); \
-Pkg.add("PackageCompiler"); \
-Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 '
 
 # suppress warning for related to GR backend
 ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
+
 RUN julia --trace-compile="traced.jl" -e '\
     using Plots; \
     plot(sin); plot(rand(10),rand(10)) |> display; \
@@ -157,8 +154,7 @@ RUN julia --trace-compile="traced.jl" -e '\
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage(\
                   [\
-                    :OhMyREPL, :Revise, :Plots, :GR, :SymPy, \
-                    :Turing, :StatsPlots,:DifferentialEquations, \
+                    :OhMyREPL, :Revise, :Plots, \
                   ], \
                   precompile_statements_file="traced.jl", \
                   replace_default=true); \
@@ -181,7 +177,9 @@ RUN jupyter nbextension uninstall --user webio/main && \
     julia -e '\
               using Pkg; \
     		  Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
-              Pkg.add(["Interact", "WebIO"]); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+              Pkg.pin(["IJulia", "WebIO","Interact"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
@@ -191,7 +189,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
 
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :IJulia], \
+        [:IJulia], \
         precompile_statements_file="/tmp/ijuliacompile.jl", \
         sysimage_path="/sysimages/ijulia.so", \
     ) \
@@ -202,9 +200,10 @@ RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
 
 # Initialize Julia package using /work/Project.toml
-RUN rm Manifest.toml && julia --project=/work -e 'using Pkg; \
+RUN rm -f Manifest.toml && julia -e 'using Pkg; \
 Pkg.instantiate(); \
-Pkg.precompile()' && \
+Pkg.precompile(); \
+' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
@@ -213,3 +212,4 @@ EXPOSE 8888
 # For Http Server
 EXPOSE 8000
 
+CMD ["julia"]
