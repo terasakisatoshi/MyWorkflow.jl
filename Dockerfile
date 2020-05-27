@@ -131,6 +131,7 @@ Pkg.add([\
     PackageSpec(name="StatsPlots", version="0.14.6"), \
     PackageSpec(name="DifferentialEquations", version="6.13"), \
 ]); \
+Pkg.pin(["OhMyREPL","Revise","Plots","GR","SymPy","Turing","StatsPlots","DifferentialEquations"]); \
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
