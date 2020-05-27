@@ -118,19 +118,29 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
+
+WORKDIR /work
+ENV JULIA_PROJECT=/work
+
+RUN echo '\
+name = "MyWorkflow"\n\
+uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
+' >> /work/Project.toml && cat /work/Project.toml
+
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
 Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.6"), \
-    PackageSpec(name="Plots", version="1.3"), \
-    PackageSpec(name="GR", version="0.49"), \
-    PackageSpec(name="SymPy",version="1.0"), \
+    PackageSpec(name="Revise", version="2.7.0"), \
+    PackageSpec(name="Plots", version="1.3.3"), \
+    PackageSpec(name="GR", version="0.49.1"), \
+    PackageSpec(name="SymPy",version="1.0.20"), \
     PackageSpec(name="Turing", version="0.13.0"), \
     PackageSpec(name="StatsPlots", version="0.14.6"), \
-    PackageSpec(name="DifferentialEquations", version="6.13"), \
+    PackageSpec(name="DifferentialEquations", version="6.14.0"), \
 ]); \
+Pkg.pin(["OhMyREPL","Revise","Plots","GR","SymPy","Turing","StatsPlots","DifferentialEquations"]); \
 Pkg.add("PackageCompiler"); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
@@ -169,7 +179,9 @@ RUN mkdir -p /sysimages && julia -e '\
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
-              using Pkg; Pkg.add(["IJulia", "Interact", "WebIO"]); \
+              using Pkg; \
+    		  Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
+              Pkg.add(["Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
@@ -185,15 +197,12 @@ RUN mkdir -p /sysimages && julia -e '\
     ) \
     '
 
-WORKDIR /work
-ENV JULIA_PROJECT=/work
-
 COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
 
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=/work -e 'using Pkg; \
+RUN rm Manifest.toml && julia --project=/work -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
