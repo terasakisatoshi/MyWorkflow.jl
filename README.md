@@ -6,7 +6,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.10.1)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.10.1)
+- stable (v0.11.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.11.0)
 
 - An example of workflow using Docker and GitHub Actions
 
@@ -88,7 +88,7 @@ $ tree .
 ### Case 1: Use Docker
 
 ```console
-$ docker build -t jlatom .
+$ docker build -t myworkflowjl .
 ```
 
 ### Case 2: Use Docker Compose
@@ -103,6 +103,12 @@ $ docker-compose build --parallel
 $ make build
 ```
 
+### Case 4: Use pre-built image
+
+```
+$ make pull
+```
+
 ## Run Docker Container
 
 - There are also two ways to run
@@ -112,7 +118,7 @@ $ make build
 #### Initialize Julia via REPL.
 
 ```console
-$ docker run --rm -it jlatom
+$ docker run --rm -it myworkflowjl
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
@@ -131,7 +137,7 @@ julia> hello("World")
 #### Initialize Julia via Jupyter Notebook
 
 ```console
-$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name jlatom jlatom jupyter notebook --ip=0.0.0.0 --allow-root
+$ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myworkflowjl myworkflowjl jupyter notebook --ip=0.0.0.0 --allow-root
 ... some stuff happens
 ```
 
