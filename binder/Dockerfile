@@ -1,4 +1,4 @@
-FROM julia:1.4.1
+FROM julia:1.4.2
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -103,23 +103,24 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
-# Install Julia Package
-RUN julia -E 'using Pkg; \
-Pkg.add(["Atom", "Juno"]); \
+ENV JULIA_PROJECT=${HOME}
+
+# Install Julia Packages
+RUN julia -e 'using Pkg; \
 Pkg.add([\
+    PackageSpec(name="PackageCompiler", version="1.1.1"), \
+    PackageSpec(name="Atom", version="0.12.11"), \
+    PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.6"), \
-    PackageSpec(name="Plots", version="1.3"), \
-    PackageSpec(name="GR", version="0.49"), \
-    PackageSpec(name="SymPy",version="1.0"), \
-    PackageSpec(name="Turing", version="0.13.0"), \
-    PackageSpec(name="StatsPlots", version="0.14.6"), \
-    PackageSpec(name="DifferentialEquations", version="6.13"), \
+    PackageSpec(name="Revise", version="2.7.0"), \
+    PackageSpec(name="Plots", version="1.3.3"), \
 ]); \
-Pkg.add("PackageCompiler"); \
-Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
 Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
-Pkg.add(["IJulia", "WebIO"]); \
+Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
+Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+Pkg.pin(["IJulia", "WebIO","Interact"]); \
 '
 
 # suppress warning for related to GR backend
@@ -134,8 +135,7 @@ COPY ./.statements /tmp
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
         [\
-            :OhMyREPL, :Revise, :Plots, :GR, :SymPy, \
-            :Turing, :StatsPlots,:DifferentialEquations, \
+            :IJulia, :OhMyREPL, :Revise, :Plots, \
         ], \
         precompile_statements_file="/tmp/ijuliacompile.jl", \
         precompile_execution_file="/tmp/execution.jl", \
@@ -169,7 +169,7 @@ RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
 RUN pip install -r requirements.txt
-ENV JULIA_PROJECT=${HOME}
+
 # Initialize Julia package using /work/Project.toml
 RUN julia --project=${HOME} -e 'using Pkg; \
 Pkg.instantiate(); \
