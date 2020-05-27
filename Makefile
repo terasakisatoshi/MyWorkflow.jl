@@ -8,8 +8,10 @@ REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 all: pull
 
 pull:
+	rm -f Manifest.toml
 	docker pull ${REMOTE_DOCKER_REPOSITORY}
 	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
+	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 build:
 	rm -f Manifest.toml
