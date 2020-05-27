@@ -123,13 +123,13 @@ RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
 Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.6"), \
-    PackageSpec(name="Plots", version="1.3"), \
-    PackageSpec(name="GR", version="0.49"), \
-    PackageSpec(name="SymPy",version="1.0"), \
+    PackageSpec(name="Revise", version="2.7.0"), \
+    PackageSpec(name="Plots", version="1.3.3"), \
+    PackageSpec(name="GR", version="0.49.1"), \
+    PackageSpec(name="SymPy",version="1.0.20"), \
     PackageSpec(name="Turing", version="0.13.0"), \
     PackageSpec(name="StatsPlots", version="0.14.6"), \
-    PackageSpec(name="DifferentialEquations", version="6.13"), \
+    PackageSpec(name="DifferentialEquations", version="6.14.0"), \
 ]); \
 Pkg.pin(["OhMyREPL","Revise","Plots","GR","SymPy","Turing","StatsPlots","DifferentialEquations"]); \
 Pkg.add("PackageCompiler"); \
