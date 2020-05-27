@@ -118,6 +118,15 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
+
+WORKDIR /work
+ENV JULIA_PROJECT=/work
+
+RUN echo '\
+name = "MyWorkflow"\n\
+uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
+' >> /work/Project.toml && cat /work/Project.toml
+
 # Install Julia Package
 RUN julia -E 'using Pkg; \
 Pkg.add(["Atom", "Juno"]); \
@@ -188,15 +197,12 @@ RUN mkdir -p /sysimages && julia -e '\
     ) \
     '
 
-WORKDIR /work
-ENV JULIA_PROJECT=/work
-
 COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
 
 # Initialize Julia package using /work/Project.toml
-RUN julia --project=/work -e 'using Pkg; \
+RUN rm Manifest.toml && julia --project=/work -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile()' && \
 # Check Julia version \
