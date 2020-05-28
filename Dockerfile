@@ -118,6 +118,8 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
+RUN julia -e 'using InteractiveUtils; versioninfo()'
+
 WORKDIR /work
 ENV JULIA_PROJECT=/work
 # create Project file at /work
