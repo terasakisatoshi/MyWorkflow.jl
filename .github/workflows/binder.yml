@@ -1,9 +1,7 @@
 name: Build Binder container
 
 on:
-  - push:
-      branches:
-        - master
+  - push
   - pull_request
 
 jobs:
