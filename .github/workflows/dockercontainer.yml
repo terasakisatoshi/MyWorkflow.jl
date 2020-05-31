@@ -1,7 +1,6 @@
 name: Build container
 
 on:
-  - push
   - pull_request
 
 jobs:
@@ -10,4 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: docker build -t jl .
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          username: terasakisatoshi
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          image_name: terasakisatoshi/myworkflowjl
+          push_image_and_stages: false
+      - name: Build Docker Image
+        run: docker build --cache-from terasakisatoshi/myworkflowjl -t myworkflowjl .
+      - name: Runtime Test   
+        run: docker run myworkflowjl julia -e 'using InteractiveUtils; versioninfo()'

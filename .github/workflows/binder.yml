@@ -11,3 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: cp binder/Dockerfile . && docker build -t jl .
+      - run: docker run jl julia -e 'using InteractiveUtils; versioninfo()'

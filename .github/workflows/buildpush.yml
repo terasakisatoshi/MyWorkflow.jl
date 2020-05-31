@@ -1,4 +1,4 @@
-name: Build-Push
+name: Cron
 on:
   schedule:
     - cron: 0 3 * * *
@@ -12,10 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+      - uses: whoan/docker-build-with-cache-action@v5
         with:
-          name: terasakisatoshi/myworkflowjl
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: terasakisatoshi
           password: ${{ secrets.DOCKER_PASSWORD }}
-          dockerfile: Dockerfile
+          image_name: terasakisatoshi/myworkflowjl
