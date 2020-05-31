@@ -15,5 +15,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           image_name: ${{ secrets.DOCKER_USERNAME }}/myworkflowjl
           push_image_and_stages: false
-      - run: docker build --cache-from ${{ secrets.DOCKER_USERNAME }}/myworkflowjl -t myworkflowjl .
-      - run: docker run myworkflowjl julia -e 'using InteractiveUtils; versioninfo()'
+      - name: Build Docker Image
+        run: docker build --cache-from ${{ secrets.DOCKER_USERNAME }}/myworkflowjl -t myworkflowjl .
+      - name: Runtime Test   
+        run: docker run myworkflowjl julia -e 'using InteractiveUtils; versioninfo()'
