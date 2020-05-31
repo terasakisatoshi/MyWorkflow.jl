@@ -1,4 +1,4 @@
-name: Build-Push
+name: Cron
 on:
   schedule:
     - cron: 0 3 * * *
