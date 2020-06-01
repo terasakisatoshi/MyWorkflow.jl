@@ -1,9 +1,16 @@
 .phony : all, pull, build, atom, web, clean
 
 OS:=$(shell uname -s)
-TAG=latest
 DOCKERIMAGE=myworkflowjl
+
+ifeq ($(OS), Linux)
+TAG=latest
 REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
+endif
+ifeq ($(OS), Darwin)
+TAG=mac
+REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
+endif
 
 all: pull
 
