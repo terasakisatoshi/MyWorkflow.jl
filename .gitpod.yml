@@ -1,1 +1,3 @@
 image: terasakisatoshi/myworkflowjl
+ports:
+  - port: 8888
