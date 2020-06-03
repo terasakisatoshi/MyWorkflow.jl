@@ -90,6 +90,16 @@ RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension && 
 \
 ' >> /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
+# Show line numbers by default
+RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension && echo '\
+{\n\
+    "codeCellConfig": {\n\
+        "lineNumbers": true,\n\
+    },\n\
+}\n\
+\
+' >> /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings
+
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
 # set environment variables\n\
