@@ -5,4 +5,4 @@ ports:
 # Command to start on workspace startup (optional)
 tasks:
   - init: instantiate
-    command: rm /workspace/MyWorkflow.jl/Manifest.toml && julia -e 'using Pkg; Pkg.instantiate()'
+    command: julia -e 'using Pkg; Pkg.instantiate()'
