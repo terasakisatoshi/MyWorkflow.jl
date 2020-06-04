@@ -150,6 +150,8 @@ Pkg.precompile(); \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
+RUN echo export PATH='${HOME}/.pyenv/shims:${PATH}' >> ~/.bashrc
+
 # For Jupyter Notebook
 EXPOSE 8888
 # For Http Server
