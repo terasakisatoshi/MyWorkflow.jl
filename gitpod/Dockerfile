@@ -151,7 +151,7 @@ Pkg.precompile(); \
 julia -e 'using InteractiveUtils; versioninfo()'
 
 # Enable to use python/python3 and jupyter
-ENV PATH /home/gitpod/.pyenv/shims:$PATH
+ENV PATH=/home/gitpod/.pyenv/shims:$PATH
 # For Jupyter Notebook
 EXPOSE 8888
 # For Http Server
