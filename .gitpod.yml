@@ -5,5 +5,4 @@ ports:
 # Command to start on workspace startup (optional)
 tasks:
   - init: julia -e 'using Pkg; Pkg.instantiate()'
-  - command: export PATH=/home/gitpod/.pyenv/shims:$PATH
   
