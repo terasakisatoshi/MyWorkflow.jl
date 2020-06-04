@@ -18,10 +18,38 @@ RUN sudo apt-get update && \
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
-    matplotlib \
+    jupyter \
+    jupyterlab \
+    jupytext \
+    ipywidgets \
+    jupyter-contrib-nbextensions \
+    jupyter-nbextensions-configurator \
+    jupyterlab_code_formatter autopep8 black \
     numpy \
     sympy==1.5.* \
+    pandas \
+    matplotlib \
     numba
+
+RUN jupyter notebook --generate-config && \
+    echo "\
+c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
+c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
+c.NotebookApp.open_browser = False\n\
+" >> ${HOME}/.jupyter/jupyter_notebook_config.py
+
+# prepare to install extension
+RUN jupyter contrib nbextension install --user && \
+    jupyter nbextensions_configurator enable --user && \
+    # enable extensions what you want
+    jupyter nbextension enable select_keymap/main && \
+    jupyter nbextension enable highlight_selected_word/main && \
+    jupyter nbextension enable toggle_all_line_numbers/main && \
+    jupyter nbextension enable varInspector/main && \
+    jupyter nbextension enable toc2/main && \
+    jupyter nbextension enable equation-numbering/main && \
+    jupyter nbextension enable execute_time/ExecuteTime && \
+    echo Done
 
 RUN echo ${HOME}
 RUN curl -kL https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz --output ${HOME}/julia-1.4.2.tar.gz && \
@@ -55,9 +83,8 @@ atreplinit() do repl\n\
     end\n\
 end\n\
 \n\
-' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
-
-RUN julia -e 'using InteractiveUtils; versioninfo()'
+' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl && \
+julia -e 'using InteractiveUtils; versioninfo()'
 
 ARG WDIR=${HOME}
 WORKDIR ${WDIR}
@@ -95,6 +122,19 @@ RUN julia --trace-compile="traced.jl" -e '\
                   replace_default=true); \
              ' && \
     rm traced.jl
+
+# Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
+RUN jupyter nbextension uninstall --user webio/main && \
+    jupyter nbextension uninstall --user webio-jupyter-notebook && \
+    julia -e '\
+              using Pkg; \
+              Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+              Pkg.pin(["IJulia", "WebIO","Interact"]); \
+              using IJulia, WebIO; \
+              WebIO.install_jupyter_nbextension()' && \
+    echo "Done"
 
 ARG WDIR=/workspace/MyWorkflow.jl
 WORKDIR ${WDIR}
