@@ -101,6 +101,7 @@ WORKDIR ${WDIR}
 ENV JULIA_PROJECT=${WDIR}
 RUN sudo mkdir -p ${WDIR} && sudo chown gitpod:gitpod -R ${WDIR}
 COPY ./Project.toml ${WDIR}/Project.toml
+RUN sudo chown gitpod:gitpod -R ${WDIR}
 # Initialize Julia package using ${WDIR}/Project.toml
 RUN julia -e 'using Pkg; \
 Pkg.instantiate(); \
