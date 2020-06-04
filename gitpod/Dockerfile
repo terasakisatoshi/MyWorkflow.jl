@@ -153,7 +153,7 @@ Pkg.precompile(); \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
-RUN echo Hello
+RUN julia -e 'using PyCall; using InteractiveUtils; versioninfo()'
 RUN echo export PATH='${HOME}/.pyenv/shims:${PATH}' >> ~/.bashrc
 
 # For Jupyter Notebook
