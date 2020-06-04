@@ -2,3 +2,7 @@ image:
   file: gitpod/Dockerfile
 ports:
   - port: 8888
+# Command to start on workspace startup (optional)
+tasks:
+  - init: instantiate
+    command: rm /workspace/MyWorkflow.jl/Manifest.toml && julia -e 'using Pkg; Pkg.instantiate()'
