@@ -96,9 +96,10 @@ RUN julia --trace-compile="traced.jl" -e '\
              ' && \
     rm traced.jl
 
-
-# Initialize Julia package using /work/Project.toml
-RUN rm -f Manifest.toml && julia -e 'using Pkg; \
+RUN sudo mkdir -p /workspace/MyWorkflow.jl && sudo chown gitpod:gitpod -R /workspace
+COPY ./Project.toml /workspace/MyWorkflow.jl/Project.toml
+# Initialize Julia package using /workspace/MyWorkflow.jl/Project.toml
+RUN julia -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile(); \
 ' && \
