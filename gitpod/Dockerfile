@@ -23,7 +23,7 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     sympy==1.5.* \
     numba
 
-
+RUN echo ${HOME}
 RUN curl https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz --output ${HOME}/julia-1.4.2.tar.gz && \
     tar -xvzf ${HOME}/julia-1.4.2.tar.gz
 
