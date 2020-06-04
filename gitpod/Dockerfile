@@ -62,7 +62,6 @@ RUN julia -e 'using InteractiveUtils; versioninfo()'
 ARG WDIR=${HOME}
 WORKDIR ${WDIR}
 
-# Install Julia Packages with --project=/work
 RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="PackageCompiler", version="1.1.1"), \
