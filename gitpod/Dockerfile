@@ -96,9 +96,11 @@ RUN julia --trace-compile="traced.jl" -e '\
              ' && \
     rm traced.jl
 
-RUN sudo mkdir -p /workspace/MyWorkflow.jl && sudo chown gitpod:gitpod -R /workspace
-COPY ./Project.toml /workspace/MyWorkflow.jl/Project.toml
-# Initialize Julia package using /workspace/MyWorkflow.jl/Project.toml
+ARG WDIR=/workspace/MyWorkflow.jl
+ENV JULIA_PROJECT_HOME=${WDIR}
+RUN sudo mkdir -p ${WDIR} && sudo chown gitpod:gitpod -R /workspace
+COPY ./Project.toml ${WDIR}/Project.toml
+# Initialize Julia package using ${WDIR}/Project.toml
 RUN julia -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile(); \
