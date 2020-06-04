@@ -59,14 +59,8 @@ end\n\
 
 RUN julia -e 'using InteractiveUtils; versioninfo()'
 
-ARG WDIR=${HOME}/workspace/MyWorkflow.jl
-WORKDIR WDIR
-ENV JULIA_PROJECT=${WDIR}
-# create Project file at ${HOME}/workspace
-RUN echo '\
-name = "MyWorkflow"\n\
-uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
-' >> ${WDIR}/Project.toml && cat ${WDIR}/Project.toml
+ARG WDIR=${HOME}
+WORKDIR ${WDIR}
 
 # Install Julia Packages with --project=/work
 RUN julia -e 'using Pkg; \
