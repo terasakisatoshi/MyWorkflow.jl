@@ -24,7 +24,7 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     numba
 
 RUN echo ${HOME}
-RUN curl https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz --output ${HOME}/julia-1.4.2.tar.gz && \
+RUN curl -kL https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz --output ${HOME}/julia-1.4.2.tar.gz && \
     tar -xvzf ${HOME}/julia-1.4.2.tar.gz
 
 ENV PATH=${HOME}/julia-1.4.2/bin:${PATH}
