@@ -2,6 +2,7 @@ image:
   file: gitpod/Dockerfile
 ports:
   - port: 8888
+    onOpen: open-browser
 # Command to start on workspace startup (optional)
 tasks:
   - init: julia -e 'using Pkg; Pkg.instantiate()'
