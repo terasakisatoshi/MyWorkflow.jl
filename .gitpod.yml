@@ -1,3 +1,7 @@
-image: terasakisatoshi/myworkflowjl
+image:
+  file: gitpod/Dockerfile
 ports:
   - port: 8888
+# Command to start on workspace startup (optional)
+tasks:
+  - init: julia -e 'using Pkg; Pkg.instantiate()'
