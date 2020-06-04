@@ -112,19 +112,19 @@ ENV GKSwstype=100
 # Do Ahead of Time Compilation using PackageCompiler
 # For some technical reason, we switch default user to root then we switch back again
 
-RUN julia --trace-compile="traced.jl" -e '\
-    using Plots; \
-    plot(sin); plot(rand(10),rand(10)) |> display; \
-    ' && \
-    julia -e 'using PackageCompiler; \
-              PackageCompiler.create_sysimage(\
-                  [\
-                    :OhMyREPL, :Revise, :Plots, \
-                  ], \
-                  precompile_statements_file="traced.jl", \
-                  replace_default=true); \
-             ' && \
-    rm traced.jl
+#RUN julia --trace-compile="traced.jl" -e '\
+#    using Plots; \
+#    plot(sin); plot(rand(10),rand(10)) |> display; \
+#    ' && \
+#    julia -e 'using PackageCompiler; \
+#              PackageCompiler.create_sysimage(\
+#                  [\
+#                    :OhMyREPL, :Revise, :Plots, \
+#                  ], \
+#                  precompile_statements_file="traced.jl", \
+#                  replace_default=true); \
+#             ' && \
+#    rm traced.jl
 
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
