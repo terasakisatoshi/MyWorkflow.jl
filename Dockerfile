@@ -147,9 +147,10 @@ Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
     PackageSpec(name="Revise", version="2.7.0"), \
     PackageSpec(name="Plots", version="1.3.3"), \
+    PackageSpec(name="ORCA", version="0.3.1"), \
 ]); \
-Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
-Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
+Pkg.add(["Plotly", "PlotlyJS"]); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 '
