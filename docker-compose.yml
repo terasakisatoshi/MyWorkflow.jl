@@ -34,3 +34,12 @@ services:
     ports:
       - "8000:8000"
     command: make web
+  pluto:
+    image: myworkflowjl
+    container_name: mypluto
+    volumes:
+      - ./:/work
+    working_dir: /work
+    ports:
+      - "9999:9999"
+    command: julia -e 'import Pluto; Pluto.run("0.0.0.0", 9999)'
