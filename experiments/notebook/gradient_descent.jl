@@ -32,7 +32,7 @@
 # と書ける. 初期位置を $v_0\in\mathbb{R}^2$, 学習率を $\eta$ とすれば $i$ 番目のステップで得られる点は次のようになる.
 #
 # $$
-# v_{i} = v_{i-1} - \eta \nabla f|_{(x,y)=v_i} \quad (i=1,2,\dots)
+# v_{i} = v_{i-1} - \eta \nabla f|_{(x,y)=v_{i-1}} \quad (i=1,2,\dots)
 # $$
 
 using Colors
