@@ -55,9 +55,12 @@ $ tree .
 │       ├── curve.jl
 │       ├── example.jl
 │       ├── fitting.jl
+│       ├── gradient_descent.jl
 │       ├── histogram_eq.jl
 │       ├── image_filtering.jl
 │       ├── interact_sample.jl
+│       ├── iris.jl
+│       ├── linear_regression.jl
 │       ├── n-Soliton.jl
 │       ├── ode.jl
 │       ├── plotly_surface.jl
@@ -65,6 +68,8 @@ $ tree .
 │       ├── tangent_space.jl
 │       ├── tangent_vector.jl
 │       └── turing_getting_started.jl
+├── gitpod
+│   └── Dockerfile
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
@@ -85,25 +90,25 @@ $ tree .
 
 - There are several ways to build
 
-### Case 1: Use Docker
+### Case 1: Using Docker
 
 ```console
 $ docker build -t myworkflowjl .
 ```
 
-### Case 2: Use Docker Compose
+### Case 2: Using Docker Compose
 
 ```console
 $ docker-compose build --parallel
 ```
 
-### Case 3: Use Makefile
+### Case 3: Using Makefile
 
 ```
 $ make build
 ```
 
-### Case 4: Use pre-built image
+### Case 4: Using pre-built image
 
 ```
 $ make pull
@@ -113,7 +118,7 @@ $ make pull
 
 - There are also two ways to run
 
-### Case 1: Use Docker Container
+### Case 1: Using Docker Container
 
 #### Initialize Julia via REPL.
 
@@ -143,7 +148,7 @@ $ docker run --rm -v $PWD:/work -w /work -p 8888:8888 --name myworkflowjl mywork
 
 Open your web browser and access http://localhost:8000/
 
-### Case 2: Use Docker Compose
+### Case 2: Using Docker Compose
 
 #### Initialize Julia via REPL
 
@@ -188,7 +193,7 @@ $ make clean
 $ make web
 ```
 
-### Use Docker Compose
+### Using Docker Compose
 
 
 ```console
