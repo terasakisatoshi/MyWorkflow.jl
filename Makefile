@@ -12,7 +12,7 @@ TAG=mac
 REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 endif
 
-all: pull
+all: build
 
 pull:
 	rm -f Manifest.toml
