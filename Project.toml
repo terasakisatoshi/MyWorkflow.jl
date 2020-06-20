@@ -92,7 +92,7 @@ SymPy = "1.0"
 TestImages = "1.0"
 Turing = "=0.12"
 WebIO = "0.8"
-Zygote = "0.4"
+Zygote = "0.4, 0.5"
 julia = "1.4"
 
 [extras]
