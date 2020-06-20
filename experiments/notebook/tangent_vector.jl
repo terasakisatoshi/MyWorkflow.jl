@@ -6,17 +6,12 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.3.4
+#       jupytext_version: 1.5.0
 #   kernelspec:
-#     display_name: Julia 1.3.1
+#     display_name: Julia 1.4.2
 #     language: julia
-#     name: julia-1.3
+#     name: julia-1.4
 # ---
-
-# + [markdown] toc=true
-# <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#曲線座標系での接ベクトルのお話" data-toc-modified-id="曲線座標系での接ベクトルのお話-0"><span class="toc-item-num">0&nbsp;&nbsp;</span>曲線座標系での接ベクトルのお話</a></span><ul class="toc-item"><li><span><a href="#概要" data-toc-modified-id="概要-0.1"><span class="toc-item-num">0.1&nbsp;&nbsp;</span>概要</a></span></li><li><span><a href="#必要な-Julia-のライブラリを導入" data-toc-modified-id="必要な-Julia-のライブラリを導入-0.2"><span class="toc-item-num">0.2&nbsp;&nbsp;</span>必要な Julia のライブラリを導入</a></span></li></ul></li><li><span><a href="#曲線座標系の導入" data-toc-modified-id="曲線座標系の導入-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>曲線座標系の導入</a></span><ul class="toc-item"><li><span><a href="#試しに描画してみる" data-toc-modified-id="試しに描画してみる-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>試しに描画してみる</a></span><ul class="toc-item"><li><span><a href="#対話的操作で確認" data-toc-modified-id="対話的操作で確認-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>対話的操作で確認</a></span></li></ul></li><li><span><a href="#曲線による平面の点の特徴付け" data-toc-modified-id="曲線による平面の点の特徴付け-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>曲線による平面の点の特徴付け</a></span><ul class="toc-item"><li><span><a href="#確認のため描画" data-toc-modified-id="確認のため描画-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>確認のため描画</a></span></li></ul></li></ul></li><li><span><a href="#曲線座標系での接ベクトル" data-toc-modified-id="曲線座標系での接ベクトル-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>曲線座標系での接ベクトル</a></span><ul class="toc-item"><li><span><a href="#一つのパラメータを動かしてみる" data-toc-modified-id="一つのパラメータを動かしてみる-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>一つのパラメータを動かしてみる</a></span></li><li><span><a href="#接ベクトルの可視化" data-toc-modified-id="接ベクトルの可視化-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>接ベクトルの可視化</a></span></li><li><span><a href="#念のため検算" data-toc-modified-id="念のため検算-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>念のため検算</a></span><ul class="toc-item"><li><span><a href="#偏微分を計算できるようにする" data-toc-modified-id="偏微分を計算できるようにする-2.3.1"><span class="toc-item-num">2.3.1&nbsp;&nbsp;</span>偏微分を計算できるようにする</a></span></li><li><span><a href="#p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる" data-toc-modified-id="p,-q-の型が実数などの数値を取れば-ForwardDiffのロジックを使って微分計算をすることになる-2.3.2"><span class="toc-item-num">2.3.2&nbsp;&nbsp;</span><code>p</code>, <code>q</code> の型が実数などの数値を取れば ForwardDiffのロジックを使って微分計算をすることになる</a></span></li><li><span><a href="#SymPy-で計算" data-toc-modified-id="SymPy-で計算-2.3.3"><span class="toc-item-num">2.3.3&nbsp;&nbsp;</span>SymPy で計算</a></span></li></ul></li></ul></li><li><span><a href="#ある方向に対しての接ベクトル" data-toc-modified-id="ある方向に対しての接ベクトル-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>ある方向に対しての接ベクトル</a></span></li><li><span><a href="#接空間が導入できた" data-toc-modified-id="接空間が導入できた-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>接空間が導入できた</a></span></li><li><span><a href="#いやでも，目で見えるじゃん，比較できそうじゃん" data-toc-modified-id="いやでも，目で見えるじゃん，比較できそうじゃん-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>いやでも，目で見えるじゃん，比較できそうじゃん</a></span></li><li><span><a href="#せやな！それを正当化するのが接続とか共変微分とかの話やで！" data-toc-modified-id="せやな！それを正当化するのが接続とか共変微分とかの話やで！-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>せやな！それを正当化するのが接続とか共変微分とかの話やで！</a></span></li></ul></div>
-# -
 
 # # 曲線座標系での接ベクトルのお話
 # ## 概要
