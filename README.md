@@ -108,7 +108,7 @@ $ docker-compose build --parallel
 $ make build
 ```
 
-### Case 4: Using pre-built image
+### Case 4: Using pre-built image (Ubuntu/Mac users only)
 
 ```
 $ make pull
