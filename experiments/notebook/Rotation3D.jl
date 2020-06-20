@@ -6,9 +6,9 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.4.2
+#       jupytext_version: 1.5.0
 #   kernelspec:
-#     display_name: Julia 1.4.1
+#     display_name: Julia 1.4.2
 #     language: julia
 #     name: julia-1.4
 # ---
@@ -293,5 +293,3 @@ Rx(θ) * Rz(PI/2-φ) * Rz(φ) * Ry(θ) * Rz(ψ) .|> simplify
 r1 = Rz(φ-PI/2) * Rx(-θ) * Rz(ψ+PI/2)
 r2 = Rz(φ) * Ry(θ) * Rz(ψ)
 r2 - r1
-
-# 良さそうである.

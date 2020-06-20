@@ -6,9 +6,9 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.4.2
+#       jupytext_version: 1.5.0
 #   kernelspec:
-#     display_name: Julia 1.4.1
+#     display_name: Julia 1.4.2
 #     language: julia
 #     name: julia-1.4
 # ---
@@ -17,24 +17,26 @@
 #
 # - https://docs.sciml.ai/v5.0.0/tutorials/ode_example.html#Example-1-:-Solving-Scalar-Equations-1
 
+using DifferentialEquations
+using Plots
+
 # ## simple form
 
-using DifferentialEquations
+# +
 f(u,p,t) = 1.01*u
 u0=1/2
 tspan = (0.0,1.0)
 prob = ODEProblem(f,u0,tspan)
 sol = solve(prob,Tsit5(),reltol=1e-8,abstol=1e-8)
-using Plots
+
 plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
      xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
 plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
+# -
 
 # ## a little generic form
 
 # +
-using DifferentialEquations
-
 # function form and `du` argument is added
 function f(du, u, p, t)
     du[1] = 1.01 * u[1]
@@ -44,11 +46,10 @@ u0 = [1 / 2] # 1/2 -> [1/2] scalar to arrays
 tspan = (0.0, 1.0)
 prob = ODEProblem(f, u0, tspan)
 sol = solve(prob,Tsit5(),reltol=1e-8,abstol=1e-8)
-using Plots
+
 plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
      xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
 plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
-
 # -
 
 # # Lotka-Voltera equation
