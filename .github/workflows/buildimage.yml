@@ -13,7 +13,8 @@ jobs:
         with:
           username: terasakisatoshi
           password: ${{ secrets.DOCKER_PASSWORD }}
-          image_name: terasakisatoshi/myworkflowjl:build
+          image_name: terasakisatoshi/myworkflowjl
+          image_tag: build
           push_image_and_stages: true
       - name: Build Docker Image
         run: docker build --cache-from terasakisatoshi/myworkflowjl:build -t myworkflowjl .
