@@ -17,7 +17,7 @@ all: build
 pull:
 	rm -f Manifest.toml
 	docker pull ${REMOTE_DOCKER_REPOSITORY}
-	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
+	docker build --cache-from ${REMOTE_DOCKER_REPOSITORY} -t ${DOCKERIMAGE} .
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 build:
