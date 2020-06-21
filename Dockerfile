@@ -128,25 +128,15 @@ end\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
-RUN julia -e 'using InteractiveUtils; versioninfo()'
-
-WORKDIR /work
-ENV JULIA_PROJECT=/work
-# create Project file at /work
-RUN echo '\
-name = "MyWorkflow"\n\
-uuid = "7abf360e-92cb-4f35-becd-441c2614658a"\n\
-' >> /work/Project.toml && cat /work/Project.toml
-
 # Install Julia Packages with --project=/work
 RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="PackageCompiler", version="1.1.1"), \
-    PackageSpec(name="Atom", version="0.12.11"), \
+    PackageSpec(name="Atom", version="0.12.15"), \
     PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.7.0"), \
-    PackageSpec(name="Plots", version="1.3.3"), \
+    PackageSpec(name="Revise", version="2.7.2"), \
+    PackageSpec(name="Plots", version="1.4.3"), \
     PackageSpec(name="ORCA", version="0.3.1"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
@@ -189,10 +179,10 @@ RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
               using Pkg; \
-    		  Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
-              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-              Pkg.pin(["IJulia", "WebIO","Interact"]); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
@@ -207,7 +197,8 @@ RUN mkdir -p /sysimages && julia -e '\
         sysimage_path="/sysimages/ijulia.so", \
     ) \
     '
-
+WORKDIR /work
+ENV JULIA_PROJECT=/work
 COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
