@@ -32,12 +32,7 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
-    jupyterlab_code_formatter autopep8 black \
-    numpy \
-    sympy==1.5.* \
-    pandas \
-    matplotlib \
-    numba
+    jupyterlab_code_formatter autopep8 black
 
 RUN jupyter notebook --generate-config && \
     echo "\
