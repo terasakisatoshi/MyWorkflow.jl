@@ -1,3 +1,8 @@
 numpy
-sympy
+sympy==1.5
+pandas
+matplotlib
+numba
 sklearn
+seaborn
+
