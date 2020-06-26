@@ -65,6 +65,8 @@ $ tree .
 │       ├── ode.jl
 │       ├── plotly_surface.jl
 │       ├── plots_sample.jl
+│       ├── pyplot.jl
+│       ├── seaborn.jl
 │       ├── tangent_space.jl
 │       ├── tangent_vector.jl
 │       └── turing_getting_started.jl
