@@ -38,4 +38,4 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 ax1.set_title("lena")
 ax1.imshow(permutedims(m, (2,3,1)), cmap=:gray)
 ax2.set_title("hist")
-ax2.hist(vec.([m[1,:,:], m[2,:,:], m[3,:,:]]), density=true, bins=25);
+ax2.hist(vec.([m[1,:,:], m[2,:,:], m[3,:,:]]), density=true, bins=25, color=[:red, :green, :blue]);
