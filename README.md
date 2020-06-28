@@ -38,6 +38,9 @@ $ tree .
 │   ├── make.jl
 │   └── src
 │       ├── assets
+│       │   ├── lab.png
+│       │   ├── open_notebook_on_jupyterlab.png
+│       │   ├── port9999.png
 │       │   └── theorem.css
 │       ├── example.md
 │       ├── index.md
@@ -57,9 +60,11 @@ $ tree .
 │       ├── fitting.jl
 │       ├── gradient_descent.jl
 │       ├── histogram_eq.jl
+│       ├── hop_step_jump.jl
 │       ├── image_filtering.jl
 │       ├── interact_sample.jl
 │       ├── iris.jl
+│       ├── lazysets.jl
 │       ├── linear_regression.jl
 │       ├── n-Soliton.jl
 │       ├── ode.jl
@@ -68,8 +73,7 @@ $ tree .
 │       ├── pyplot.jl
 │       ├── seaborn.jl
 │       ├── tangent_space.jl
-│       ├── tangent_vector.jl
-│       └── turing_getting_started.jl
+│       └── tangent_vector.jl
 ├── gitpod
 │   └── Dockerfile
 ├── requirements.txt
