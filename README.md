@@ -133,6 +133,18 @@ You can also initialize JupyterLab as you like via
 $ docker-compose up lab
 ```
 
+- You'll see a JupyterLab screen its theme is Monokai++ (This choice comes from my preference.) :D .
+
+![img](docs/src/assets/lab.png)
+
+- If you like to open `experiments/notebook/<ournotebook>.jl`, right click the file to select and `Open with` -> `Notebook`. You're good to go.
+
+ ![img](docs/src/assets/open_notebook_on_jupyterlab.png)
+
+- Note that since we adopt `jupytext` technology, we do not have to commit/push `*.ipynb` file. Namely, we can manage Jupyter Notebook as a normal source code.
+
+- Enjoy your Jupyter life.
+
 ## Juno/Atom (For Linux or Mac users only)
 
 
