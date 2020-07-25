@@ -141,12 +141,12 @@ end\n\
 # Install Julia Packages with --project=/work
 RUN julia -e 'using Pkg; \
 Pkg.add([\
-    PackageSpec(name="PackageCompiler", version="1.1.1"), \
-    PackageSpec(name="Atom", version="0.12.15"), \
+    PackageSpec(name="PackageCompiler", version="1.2.1"), \
+    PackageSpec(name="Atom", version="0.12.18"), \
     PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.7.2"), \
-    PackageSpec(name="Plots", version="1.4.3"), \
+    PackageSpec(name="Revise", version="2.7.3"), \
+    PackageSpec(name="Plots", version="1.5.6"), \
     PackageSpec(name="ORCA", version="0.3.1"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
@@ -157,12 +157,11 @@ using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 
 # suppress warning for related to GR backend
 ENV GKSwstype=100
-# Do Ahead of Time Compilation using PackageCompiler
-# For some technical reason, we switch default user to root then we switch back again
 
+# Do Ahead of Time Compilation using PackageCompiler
 RUN julia --trace-compile="traced.jl" -e '\
     using Plots; \
-    plot(sin); plot(rand(10),rand(10)) |> display; \
+    plot(sin); plot(rand(10),rand(10)); scatter(rand(10),rand(10)) |> display; \
     ' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage(\
