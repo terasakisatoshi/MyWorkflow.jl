@@ -95,6 +95,21 @@ RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension && 
 \
 ' >> /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings
 
+# assig `Alt-R` restart run all command 
+RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension && echo '\
+{\n\
+    "shortcuts": [\n\
+        {\n\
+            "command": "runmenu:restart-and-run-all",\n\
+            "keys": [\n\
+                "Alt R"\n\
+            ],\n\
+            "selector": "[data-jp-code-runner]"\n\
+        }\n\
+    ]\n\
+}\n\
+' >> /root/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/shortcuts.jupyterlab-settings
+
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
 # set environment variables\n\
