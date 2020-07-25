@@ -162,7 +162,7 @@ ENV GKSwstype=100
 
 RUN julia --trace-compile="traced.jl" -e '\
     using Plots; \
-    plot(sin); plot(rand(10),rand(10)) |> display; \
+    plot(sin); plot(rand(10),rand(10)); scatter(rand(10),rand(10)) |> display; \
     ' && \
     julia -e 'using PackageCompiler; \
               PackageCompiler.create_sysimage(\
