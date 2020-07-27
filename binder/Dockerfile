@@ -108,19 +108,20 @@ ENV JULIA_PROJECT=${HOME}
 # Install Julia Packages
 RUN julia -e 'using Pkg; \
 Pkg.add([\
-    PackageSpec(name="PackageCompiler", version="1.1.1"), \
-    PackageSpec(name="Atom", version="0.12.11"), \
+    PackageSpec(name="PackageCompiler", version="1.2.1"), \
+    PackageSpec(name="Atom", version="0.12.18"), \
     PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.7.0"), \
-    PackageSpec(name="Plots", version="1.3.3"), \
+    PackageSpec(name="Revise", version="2.7.3"), \
+    PackageSpec(name="Plots", version="1.5.6"), \
+    PackageSpec(name="ORCA", version="0.3.1"), \
 ]); \
-Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
-Pkg.add(["Plotly", "PlotlyJS", "ORCA"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
+Pkg.add(["Plotly", "PlotlyJS"]); \
 Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
-Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
 Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-Pkg.pin(["IJulia", "WebIO","Interact"]); \
+Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+Pkg.pin(["IJulia", "Interact", "WebIO"]); \
 '
 
 # suppress warning for related to GR backend
