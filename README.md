@@ -6,7 +6,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.14.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.14.0)
+- stable (v0.15.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.15.0)
 
 - An example of workflow using Docker and GitHub Actions
 
@@ -149,8 +149,17 @@ $ docker-compose up lab
 
 - Enjoy your Jupyter life.
 
-## Juno/Atom (For Linux or Mac users only)
+## Running Pluto
 
+[Pluto.jl](https://github.com/fonsp/Pluto.jl) is a lightweight reactive notebooks for Julia. Just run the following command:
+
+```console
+$ docker-compose up pluto
+```
+
+Then, go to `localhost:9999`
+
+## Connect to docker container with Juno/Atom (For Linux or Mac users only)
 
 - We we will assume you've installed Juno.
 - Go to `Open Settings` -> `Julia Client` -> `Julia Options` -> `Port for Communicating with the Julia process` and set value from `random` to `9999`.
