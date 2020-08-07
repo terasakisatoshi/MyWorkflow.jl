@@ -1,4 +1,4 @@
-FROM julia:1.4.2
+FROM julia:1.5.0
 
 RUN apt-get update && \
     apt-get install -y \
@@ -127,14 +127,7 @@ let\n\
 end\n\
 using OhMyREPL \n\
 enable_autocomplete_brackets(false) \n\
-atreplinit() do repl\n\
-    try\n\
-        @eval using Revise\n\
-        @async Revise.wait_steal_repl_backend()\n\
-    catch e\n\
-        @warn(e.msg)\n\
-    end\n\
-end\n\
+using Revise \n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
@@ -211,6 +204,7 @@ ENV JULIA_PROJECT=/work
 COPY ./requirements.txt /work/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./Project.toml /work/Project.toml
+COPY ./src/MyWorkflow.jl /work/src/MyWorkflow.jl
 
 # Initialize Julia package using /work/Project.toml
 RUN rm -f Manifest.toml && julia -e 'using Pkg; \

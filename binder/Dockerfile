@@ -1,4 +1,4 @@
-FROM julia:1.4.2
+FROM julia:1.5.0
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -92,14 +92,7 @@ let\n\
 end\n\
 using OhMyREPL \n\
 enable_autocomplete_brackets(false) \n\
-atreplinit() do repl\n\
-    try\n\
-        @eval using Revise\n\
-        @async Revise.wait_steal_repl_backend()\n\
-    catch e\n\
-        @warn(e.msg)\n\
-    end\n\
-end\n\
+using Revise\n\
 \n\
 ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
@@ -167,6 +160,8 @@ WORKDIR ${HOME}
 COPY ./experiments/notebook ${HOME}
 COPY ./requirements.txt ${HOME}
 COPY ./Project.toml ${HOME}
+# we need copy  src/MyWorkflow.jl from julia 1.5
+COPY ./src/MyWorkflow.jl ${HOME}/src/MyWorkflow.jl
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
