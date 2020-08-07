@@ -120,7 +120,7 @@ Tulip = "0.5"
 UnicodePlots = "1.2"
 WebIO = "0.8"
 Zygote = "0.4, 0.5"
-julia = "1.4"
+julia = "1.5"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
