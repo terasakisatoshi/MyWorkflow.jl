@@ -1,7 +1,7 @@
 name = "MyWorkflow"
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"
 authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
-version = "0.15.0"
+version = "0.16.0"
 
 [deps]
 Atom = "c52e3926-4ff0-5f6e-af25-54175e0327b1"
@@ -121,7 +121,7 @@ Tulip = "0.5"
 UnicodePlots = "1.2"
 WebIO = "0.8"
 Zygote = "0.4, 0.5"
-julia = "1.4"
+julia = "1.5"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

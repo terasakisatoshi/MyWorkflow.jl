@@ -6,7 +6,11 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://terasakisatoshi.github.io/MyWorkflow.jl/dev)
 
 - dev    (master) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
-- stable (v0.15.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.15.0)
+- Julia 1.5.0 stable (v0.16.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.15.0)
+
+- Julia v1.4.2 (MyWorkflow.jl v0.15.0)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.15.0)
+
+
 
 - An example of workflow using Docker and GitHub Actions
 
