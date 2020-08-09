@@ -139,7 +139,7 @@ Pkg.add([\
     PackageSpec(name="Juno", version="0.8.2"), \
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
     PackageSpec(name="Revise", version="2.7.3"), \
-    PackageSpec(name="Plots", version="1.5.6"), \
+    PackageSpec(name="Plots", version="1.5.8"), \
     PackageSpec(name="ORCA", version="0.3.1"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
@@ -150,31 +150,6 @@ using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 
 # suppress warning for related to GR backend
 ENV GKSwstype=100
-
-# Do Ahead of Time Compilation using PackageCompiler
-RUN julia --trace-compile="traced.jl" -e '\
-    using Plots; \
-    plot(sin); plot(rand(10),rand(10)); scatter(rand(10),rand(10)) |> display; \
-    ' && \
-    julia -e 'using PackageCompiler; \
-              PackageCompiler.create_sysimage(\
-                  [\
-                    :OhMyREPL, :Revise, :Plots, \
-                  ], \
-                  precompile_statements_file="traced.jl", \
-                  replace_default=true); \
-             ' && \
-    rm traced.jl
-
-COPY ./.statements /tmp
-
-RUN mkdir -p /sysimages && julia -e '\
-    using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:Plots, :Juno, :Atom], \
-        precompile_statements_file="/tmp/atomcompile.jl", \
-        sysimage_path="/sysimages/atom.so", \
-    ) \
-    '
 
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
@@ -188,17 +163,62 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
-              installkernel("Julia", "--project=$envhome", "-J/sysimages/ijulia.so");\
+              installkernel("Julia", "--project=$envhome");\
               ' && \
     echo "Done"
 
+RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
+              ENV["JUPYTER"]=Sys.which("jupyter"); \
+              using Pkg; \
+              # Install test dependencies for IJulia \
+              Pkg.add(PackageSpec(name="JSON", version="0.21.0")); \
+              # Install test dependencies for Plots \
+              Pkg.add(PackageSpec(name="ImageMagick", version="1.1.5")); \
+              Pkg.add(PackageSpec(name="VisualRegressionTests", version="1.0.0")); \
+              Pkg.add(PackageSpec(name="FileIO", version="1.4.0")); \
+              Pkg.add(PackageSpec(name="StableRNGs", version="0.1.1")); \
+              Pkg.add(PackageSpec(name="Gtk", version="1.1.4")); \
+              Pkg.add(PackageSpec(name="GeometryTypes", version="0.8.3")); \
+              Pkg.add(PackageSpec(name="GeometryBasics", version="0.2.15")); \
+              Pkg.add(PackageSpec(name="HDF5", version="0.13.3")); \
+              Pkg.add(PackageSpec(name="PGFPlotsX", version="1.2.8")); \
+              Pkg.add(PackageSpec(name="StaticArrays", version="0.12.4")); \
+              Pkg.add(PackageSpec(name="OffsetArrays", version="1.1.2")); \
+              Pkg.add(PackageSpec(name="UnicodePlots", version="1.1.0")); \
+              Pkg.add(PackageSpec(name="Distributions", version="0.23.8")); \
+              Pkg.pin([\
+                  "ImageMagick", "VisualRegressionTests", "FileIO", \
+                  "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
+                  "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
+                  "UnicodePlots", "Distributions" \
+              ])'
+
+# generate precompile_statements_file
+RUN xvfb-run julia \
+             --trace-compile=ijuliacompile.jl \
+             -e 'using Plots, IJulia; \
+                include(joinpath(pkgdir(IJulia), "test", "runtests.jl")); \
+                include(joinpath(pkgdir(Plots), "test", "runtests.jl"))'
+
+# update sysimage
+RUN julia -e 'using PackageCompiler; \
+              create_sysimage(\
+                  [:IJulia, :Plots], \
+                  precompile_statements_file="ijuliacompile.jl", \
+                  replace_default=true\
+              )'
+
+COPY ./.statements /tmp
+
+# generate sysimage for Atom/Juno user
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
-        [:IJulia], \
-        precompile_statements_file="/tmp/ijuliacompile.jl", \
-        sysimage_path="/sysimages/ijulia.so", \
+        [:Plots, :Juno, :Atom], \
+        precompile_statements_file="/tmp/atomcompile.jl", \
+        sysimage_path="/sysimages/atom.so", \
     ) \
     '
+
 WORKDIR /work
 ENV JULIA_PROJECT=/work
 COPY ./requirements.txt /work/requirements.txt
