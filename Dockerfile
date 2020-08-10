@@ -203,7 +203,7 @@ RUN xvfb-run julia \
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:IJulia, :Plots], \
+                  [:IJulia, :Plots, :Revise, :OhMyREPL], \
                   precompile_statements_file="ijuliacompile.jl", \
                   replace_default=true\
               )'
@@ -238,5 +238,7 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
+
+
 
 CMD ["julia"]
