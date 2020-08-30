@@ -196,9 +196,9 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
 # generate precompile_statements_file
 RUN xvfb-run julia \
              --trace-compile=ijuliacompile.jl \
-             -e 'using Plots, IJulia; \
+             -e 'ENV["CI"]="true"; using Plots, IJulia; \
                 include(joinpath(pkgdir(IJulia), "test", "runtests.jl")); \
-                include(joinpath(pkgdir(Plots), "test", "runtests.jl"))'
+                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end'
 
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
