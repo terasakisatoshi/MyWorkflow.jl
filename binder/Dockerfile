@@ -172,7 +172,7 @@ RUN xvfb-run julia \
 # update sysimage
 RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:IJulia, :Plots, :Revise, :OhMyREPL], \
+                  [:Plots], \
                   # precompile_statements_file="ijuliacompile.jl", \
                   sysimage_path="/sysimages/ijulia.so" \
               )'
