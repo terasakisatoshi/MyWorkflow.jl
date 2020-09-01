@@ -170,9 +170,9 @@ RUN xvfb-run julia \
                 try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end'
 
 # update sysimage
-RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
+RUN mkdir /sysimages && julia -e 'using Pkg; Pkg.add("Example"); using PackageCompiler; \
               create_sysimage(\
-                  [:Plots], \
+                  [:Example], \
                   precompile_statements_file="ijuliacompile.jl", \
                   sysimage_path="/sysimages/ijulia.so" \
               )'
