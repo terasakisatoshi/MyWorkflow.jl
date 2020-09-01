@@ -178,7 +178,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
 #              )'
 
 # Make NB_USER Occupy julia binary
-RUN chown -R ${NB_UID} /usr/local/julia /sysimages
+#RUN chown -R ${NB_UID} /usr/local/julia /sysimages
 # Swich user again to NB_USER
 USER ${NB_USER}
 
