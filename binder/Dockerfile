@@ -136,49 +136,49 @@ RUN jupyter nbextension uninstall --user webio/main && \
               ' && \
     echo "Done"
 
-#RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
-#              ENV["JUPYTER"]=Sys.which("jupyter"); \
-#              using Pkg; \
-#              # Install test dependencies for IJulia \
-#              Pkg.add(PackageSpec(name="JSON", version="0.21.0")); \
-#              # Install test dependencies for Plots \
-#              Pkg.add(PackageSpec(name="ImageMagick", version="1.1.5")); \
-#              Pkg.add(PackageSpec(name="VisualRegressionTests", version="1.0.0")); \
-#              Pkg.add(PackageSpec(name="FileIO", version="1.4.0")); \
-#              Pkg.add(PackageSpec(name="StableRNGs", version="0.1.1")); \
-#              Pkg.add(PackageSpec(name="Gtk", version="1.1.4")); \
-#              Pkg.add(PackageSpec(name="GeometryTypes", version="0.8.3")); \
-#              Pkg.add(PackageSpec(name="GeometryBasics", version="0.2.15")); \
-#              Pkg.add(PackageSpec(name="HDF5", version="0.13.3")); \
-#              Pkg.add(PackageSpec(name="PGFPlotsX", version="1.2.8")); \
-#              Pkg.add(PackageSpec(name="StaticArrays", version="0.12.4")); \
-#              Pkg.add(PackageSpec(name="OffsetArrays", version="1.1.2")); \
-#              Pkg.add(PackageSpec(name="UnicodePlots", version="1.1.0")); \
-#              Pkg.add(PackageSpec(name="Distributions", version="0.23.8")); \
-#              Pkg.pin([\
-#                  "ImageMagick", "VisualRegressionTests", "FileIO", \
-#                  "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
-#                  "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
-#                  "UnicodePlots", "Distributions" \
-#              ])'
+RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
+              ENV["JUPYTER"]=Sys.which("jupyter"); \
+              using Pkg; \
+              # Install test dependencies for IJulia \
+              Pkg.add(PackageSpec(name="JSON", version="0.21.0")); \
+              # Install test dependencies for Plots \
+              Pkg.add(PackageSpec(name="ImageMagick", version="1.1.5")); \
+              Pkg.add(PackageSpec(name="VisualRegressionTests", version="1.0.0")); \
+              Pkg.add(PackageSpec(name="FileIO", version="1.4.0")); \
+              Pkg.add(PackageSpec(name="StableRNGs", version="0.1.1")); \
+              Pkg.add(PackageSpec(name="Gtk", version="1.1.4")); \
+              Pkg.add(PackageSpec(name="GeometryTypes", version="0.8.3")); \
+              Pkg.add(PackageSpec(name="GeometryBasics", version="0.2.15")); \
+              Pkg.add(PackageSpec(name="HDF5", version="0.13.3")); \
+              Pkg.add(PackageSpec(name="PGFPlotsX", version="1.2.8")); \
+              Pkg.add(PackageSpec(name="StaticArrays", version="0.12.4")); \
+              Pkg.add(PackageSpec(name="OffsetArrays", version="1.1.2")); \
+              Pkg.add(PackageSpec(name="UnicodePlots", version="1.1.0")); \
+              Pkg.add(PackageSpec(name="Distributions", version="0.23.8")); \
+              Pkg.pin([\
+                  "ImageMagick", "VisualRegressionTests", "FileIO", \
+                  "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
+                  "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
+                  "UnicodePlots", "Distributions" \
+              ])'
 
 # generate precompile_statements_file
-#RUN xvfb-run julia \
-#             --trace-compile=ijuliacompile.jl \
-#             -e 'ENV["CI"]="true"; using Plots, IJulia; \
-#                include(joinpath(pkgdir(IJulia), "test", "runtests.jl")); \
-#                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end'
+RUN xvfb-run julia \
+             --trace-compile=ijuliacompile.jl \
+             -e 'ENV["CI"]="true"; using Plots, IJulia; \
+                include(joinpath(pkgdir(IJulia), "test", "runtests.jl")); \
+                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end'
 
 # update sysimage
-#RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
-#              create_sysimage(\
-#                  [:Plots], \
-#                  precompile_statements_file="ijuliacompile.jl", \
-#                  sysimage_path="/sysimages/ijulia.so" \
-#              )'
+RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
+              create_sysimage(\
+                  [:Plots], \
+                  precompile_statements_file="ijuliacompile.jl", \
+                  sysimage_path="/sysimages/ijulia.so" \
+              )'
 
 # Make NB_USER Occupy julia binary
-#RUN chown -R ${NB_UID} /usr/local/julia /sysimages
+RUN chown -R ${NB_UID} /usr/local/julia /sysimages
 # Swich user again to NB_USER
 USER ${NB_USER}
 
