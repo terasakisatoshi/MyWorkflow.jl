@@ -140,7 +140,7 @@ Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.5"), \
     PackageSpec(name="Revise", version="2.7.3"), \
     PackageSpec(name="Plots", version="1.5.8"), \
-    PackageSpec(name="ORCA", version="0.3.1"), \
+    PackageSpec(name="ORCA", version="0.5.0"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
 Pkg.add(["Plotly", "PlotlyJS"]); \
