@@ -205,7 +205,8 @@ RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
                   [:IJulia, :Plots, :Revise, :OhMyREPL], \
                   precompile_statements_file="ijuliacompile.jl", \
-                  replace_default=true\
+                  cpu_target = PackageCompiler.default_app_cpu_target(), \
+                  replace_default=true, \
               )'
 
 COPY ./.statements /tmp
@@ -216,6 +217,7 @@ RUN mkdir -p /sysimages && julia -e '\
         [:Plots, :Juno, :Atom], \
         precompile_statements_file="/tmp/atomcompile.jl", \
         sysimage_path="/sysimages/atom.so", \
+        cpu_target = PackageCompiler.default_app_cpu_target(), \
     ) \
     '
 
