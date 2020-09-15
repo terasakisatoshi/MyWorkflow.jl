@@ -3,12 +3,13 @@
 OS:=$(shell uname -s)
 DOCKERIMAGE=myworkflowjl
 
+# leave conditional branch just in case.
 ifeq ($(OS), Linux)
 TAG=latest
 REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 endif
 ifeq ($(OS), Darwin)
-TAG=mac
+TAG=latest
 REMOTE_DOCKER_REPOSITORY:=terasakisatoshi/${DOCKERIMAGE}:${TAG}
 endif
 
@@ -17,7 +18,7 @@ all: build
 pull:
 	rm -f Manifest.toml
 	docker pull ${REMOTE_DOCKER_REPOSITORY}
-	docker build --cache-from ${REMOTE_DOCKER_REPOSITORY} -t ${DOCKERIMAGE} .
+	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 build:
