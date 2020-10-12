@@ -1,4 +1,4 @@
-FROM julia:1.5.1
+FROM julia:1.5.2
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -98,15 +98,15 @@ using Revise\n\
 
 ENV JULIA_PROJECT=${HOME}
 
-# Install Julia Packages with
+# Install Julia Packages
 RUN julia -e 'using Pkg; \
 Pkg.add([\
-    PackageSpec(name="PackageCompiler", version="1.2.1"), \
-    PackageSpec(name="Atom", version="0.12.18"), \
-    PackageSpec(name="Juno", version="0.8.2"), \
-    PackageSpec(name="OhMyREPL", version="0.5.5"), \
-    PackageSpec(name="Revise", version="2.7.3"), \
-    PackageSpec(name="Plots", version="1.5.8"), \
+    PackageSpec(name="PackageCompiler", version="1.2.2"), \
+    PackageSpec(name="Atom", version="0.12.24"), \
+    PackageSpec(name="Juno", version="0.8.4"), \
+    PackageSpec(name="OhMyREPL", version="0.5.9"), \
+    PackageSpec(name="Revise", version="3.1.4"), \
+    PackageSpec(name="Plots", version="1.6.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
@@ -125,7 +125,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
               using Pkg; \
-              Pkg.add(PackageSpec(name="IJulia", version="1.21.2")); \
+              Pkg.add(PackageSpec(name="IJulia", version="1.21.4")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
               Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
