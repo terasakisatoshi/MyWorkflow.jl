@@ -158,7 +158,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using Pkg; \
               Pkg.add(PackageSpec(name="IJulia", version="1.21.4")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-              Pkg.add(PackageSpec(name="WebIO", version="0.8.14")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
@@ -171,21 +171,21 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ENV["JUPYTER"]=Sys.which("jupyter"); \
               using Pkg; \
               # Install test dependencies for IJulia \
-              Pkg.add(PackageSpec(name="JSON", version="0.21.0")); \
+              Pkg.add(PackageSpec(name="JSON", version="0.21.1")); \
               # Install test dependencies for Plots \
-              Pkg.add(PackageSpec(name="ImageMagick", version="1.1.5")); \
+              Pkg.add(PackageSpec(name="ImageMagick", version="1.1.6")); \
               Pkg.add(PackageSpec(name="VisualRegressionTests", version="1.0.0")); \
-              Pkg.add(PackageSpec(name="FileIO", version="1.4.0")); \
-              Pkg.add(PackageSpec(name="StableRNGs", version="0.1.1")); \
-              Pkg.add(PackageSpec(name="Gtk", version="1.1.4")); \
+              Pkg.add(PackageSpec(name="FileIO", version="1.4.3")); \
+              Pkg.add(PackageSpec(name="StableRNGs", version="1.0.0")); \
+              Pkg.add(PackageSpec(name="Gtk", version="1.1.5")); \
               Pkg.add(PackageSpec(name="GeometryTypes", version="0.8.3")); \
-              Pkg.add(PackageSpec(name="GeometryBasics", version="0.2.15")); \
-              Pkg.add(PackageSpec(name="HDF5", version="0.13.3")); \
-              Pkg.add(PackageSpec(name="PGFPlotsX", version="1.2.8")); \
+              Pkg.add(PackageSpec(name="GeometryBasics", version="0.3.3")); \
+              Pkg.add(PackageSpec(name="HDF5", version="0.13.6")); \
+              Pkg.add(PackageSpec(name="PGFPlotsX", version="1.2.10")); \
               Pkg.add(PackageSpec(name="StaticArrays", version="0.12.4")); \
-              Pkg.add(PackageSpec(name="OffsetArrays", version="1.1.2")); \
-              Pkg.add(PackageSpec(name="UnicodePlots", version="1.1.0")); \
-              Pkg.add(PackageSpec(name="Distributions", version="0.23.8")); \
+              Pkg.add(PackageSpec(name="OffsetArrays", version="1.3.1")); \
+              Pkg.add(PackageSpec(name="UnicodePlots", version="1.3.0")); \
+              Pkg.add(PackageSpec(name="Distributions", version="0.24.0")); \
               Pkg.pin([\
                   "ImageMagick", "VisualRegressionTests", "FileIO", \
                   "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
