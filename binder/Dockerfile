@@ -30,6 +30,7 @@ RUN apt-get update && \
     texlive-latex-recommended  \
     zip \
     htop \
+    r-base \
     libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
     apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
 
@@ -74,6 +75,12 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
 
+
+# Install packages for R
+USER root
+RUN Rscript -e "install.packages(c('IRkernel')); IRkernel::installspec()" && \
+    Rscript -e "install.packages('ggplot2')"
+USER ${NB_USER}
 
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
