@@ -16,14 +16,18 @@ RUN apt-get update && \
     dvipng \
     texlive-latex-recommended  \
     zip \
-    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
+    r-base \
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR \
+    && \
     apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
 
+# install NodeJS
 RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/* # clean up  
 
+# Install packages for Jupyter Notebook/JupyterLab
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
@@ -109,6 +113,10 @@ RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension &&
     ]\n\
 }\n\
 ' >> /root/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/shortcuts.jupyterlab-settings
+
+# Install packages for R
+RUN Rscript -e "install.packages(c('IRkernel')); IRkernel::installspec()" && \
+    Rscript -e "install.packages('ggplot2')"
 
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
@@ -240,7 +248,5 @@ julia -e 'using InteractiveUtils; versioninfo()'
 EXPOSE 8888
 # For Http Server
 EXPOSE 8000
-
-
 
 CMD ["julia"]
