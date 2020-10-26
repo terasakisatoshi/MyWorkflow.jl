@@ -38,7 +38,6 @@ $ tree .
 │   └── Dockerfile
 ├── docker-compose.yml
 ├── docs
-│   ├── Manifest.toml
 │   ├── Project.toml
 │   ├── make.jl
 │   └── src
@@ -59,6 +58,7 @@ $ tree .
 │       ├── Rotation3D.jl
 │       ├── apply_PCA_to_MNIST.jl
 │       ├── box_and_ball_system.jl
+│       ├── clang.jl
 │       ├── coordinate_system.jl
 │       ├── curve.jl
 │       ├── example.jl
@@ -74,8 +74,10 @@ $ tree .
 │       ├── n-Soliton.jl
 │       ├── ode.jl
 │       ├── plotly_surface.jl
+│       ├── plots_fill_example.jl
 │       ├── plots_sample.jl
 │       ├── pyplot.jl
+│       ├── rcall.jl
 │       ├── seaborn.jl
 │       ├── tangent_space.jl
 │       └── tangent_vector.jl
