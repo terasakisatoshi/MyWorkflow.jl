@@ -10,7 +10,7 @@
 
 - MyWorkflow.jl master (nightly) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master) Julia v1.5.2
 
-- MyWorkflow.jl v0.17.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.17.0) Julia v1.5.1
+- MyWorkflow.jl v0.18.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.18.0) Julia v1.5.1
 
 - MyWorkflow.jl v0.15.0 (legacy) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.15.0) Julia v1.4.2
 
