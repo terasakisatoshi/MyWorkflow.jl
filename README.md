@@ -125,6 +125,22 @@ $ docker-compose build
 $ docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 ```
 
+## Pull Docker image (Optional)
+
+- Running `make build` may take much time to build our Docker image. Please use `make pull` instead.
+
+```console
+$ make pull
+```
+
+which is almost equivalent to:
+
+```console
+$ rm -f Manifest.toml
+$ docker pull myworkflowjl
+$ docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
+```
+
 ## Running Jupyter Notebook/JupyterLab
 
 ```console
