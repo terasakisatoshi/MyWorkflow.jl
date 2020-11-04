@@ -5,6 +5,8 @@ using Weave
 # Generate markdown with GitHub flavor
 weave("docs/src/weavesample.jmd", "github")
 
+DocMeta.setdocmeta!(MyWorkflow, :DocTestSetup, :(using MyWorkflow); recursive=true)
+
 makedocs(;
     modules=[MyWorkflow],
     authors="Satoshi Terasaki <terasakisatoshi.math@gmail.com>",
