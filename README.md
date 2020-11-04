@@ -225,3 +225,58 @@ julia> @time begin using Plots; plot(sin) end
 
 
 - You can reproduce the `sysimage` by yourself to reduce the latency of loading time of heavy packages. See This issue https://github.com/JuliaLang/PackageCompiler.jl/issues/352.
+
+## Create docs/test
+
+By running `make web`, you can create documentation files for our packages MyWorkflow.jl, namely:
+
+```console
+$ make web
+
+julia --project=docs -e '\
+    using Pkg;\
+    Pkg.develop(PackageSpec(path=pwd()));\
+    Pkg.instantiate();\
+    include("docs/make.jl");\
+    '
+Path `~/work/MyWorkflow.jl` exists and looks like the correct package. Using existing path.
+  Resolving package versions...
+No Changes to `~/work/MyWorkflow.jl/docs/Project.toml`
+No Changes to `~/work/MyWorkflow.jl/docs/Manifest.toml`
+┌ Info: Weaving chunk 1 from line 25
+└   progress = 0.0
+┌ Info: Weaved all chunks
+└   progress = 1
+[ Info: Weaved to /Users/terasaki/work/MyWorkflow.jl/docs/src/weavesample.md
+[ Info: SetupBuildDirectory: setting up build directory.
+[ Info: Doctest: running doctests.
+[ Info: ExpandTemplates: expanding markdown templates.
+[ Info: CrossReferences: building cross-references.
+[ Info: CheckDocument: running document checks.
+[ Info: Populate: populating indices.
+[ Info: RenderDocument: rendering document.
+[ Info: HTMLWriter: rendering HTML pages.
+┌ Warning: Documenter could not auto-detect the building environment Skipping deployment.
+└ @ Documenter ~/.julia/packages/Documenter/3Y8Kg/src/deployconfig.jl:75
+python3 -m http.server --bind 0.0.0.0 --directory docs/build
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+```
+
+- It is good idea to run using `doctest`:
+
+```console
+$ julia --project=@.
+julia> 
+julia> using MyWorkflow, Documenter; DocMeta.setdocmeta!(MyWorkflow, :DocTestSetup, :(using MyWorkflow); recursive=true) ;doctest(MyWorkflow)
+
+[ Info: SetupBuildDirectory: setting up build directory.
+[ Info: Doctest: running doctests.
+[ Info: Skipped ExpandTemplates step (doctest only).
+[ Info: Skipped CrossReferences step (doctest only).
+[ Info: Skipped CheckDocument step (doctest only).
+[ Info: Skipped Populate step (doctest only).
+[ Info: Skipped RenderDocument step (doctest only).
+Test Summary:        | Pass  Total
+Doctests: MyWorkflow |    1      1
+Test.DefaultTestSet("Doctests: MyWorkflow", Any[], 1, false)
+```
