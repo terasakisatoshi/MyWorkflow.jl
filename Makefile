@@ -49,6 +49,6 @@ clean:
 	rm -f docs/src/weavesample.md
 	rm -f experiments/notebook/*.ipynb
 	rm -rf experiments/notebook/*.gif
-	rm -f  Manifest.toml
+	rm -f  Manifest.toml docs/Manifest.toml
 	rm -rf docs/build
 

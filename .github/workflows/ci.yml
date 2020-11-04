@@ -36,6 +36,12 @@ jobs:
           using Pkg;
           Pkg.develop(PackageSpec(; path=pwd()));
           Pkg.instantiate();'
+      - run: |
+          julia --project=docs -e '
+            using Documenter: DocMeta, doctest
+            using MyWorkflow
+            DocMeta.setdocmeta!(MyWorkflow, :DocTestSetup, :(using MyWorkflow); recursive=true)
+            doctest(MyWorkflow)'
       - run: julia --project=docs docs/make.jl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For authentication with GitHub Actions token
