@@ -40,6 +40,7 @@ jobs:
           julia --project=docs -e '
             using Documenter: doctest
             using MyWorkflow
+            DocMeta.setdocmeta!(MyWorkflow, :DocTestSetup, :(using MyWorkflow); recursive=true)
             doctest(MyWorkflow)'
       - run: julia --project=docs docs/make.jl
         env:
