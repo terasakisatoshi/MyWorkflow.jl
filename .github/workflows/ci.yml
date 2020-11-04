@@ -38,7 +38,7 @@ jobs:
           Pkg.instantiate();'
       - run: |
           julia --project=docs -e '
-            using Documenter: doctest
+            using Documenter: DocMeta, doctest
             using MyWorkflow
             DocMeta.setdocmeta!(MyWorkflow, :DocTestSetup, :(using MyWorkflow); recursive=true)
             doctest(MyWorkflow)'
