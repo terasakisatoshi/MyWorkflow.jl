@@ -36,6 +36,8 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
+    jupyter-server-proxy \
+    git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black
 
 RUN jupyter notebook --generate-config && \
@@ -59,14 +61,20 @@ RUN jupyter contrib nbextension install --user && \
     echo Done
 
 # Install/enable extension for JupyterLab users
-RUN jupyter labextension install @lckr/jupyterlab_variableinspector && \
-    jupyter labextension install @jupyterlab/toc && \
+RUN jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
+    jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter nbextension enable --py widgetsnbextension && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install @z-m-k/jupyterlab_sublime && \
-    jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+    jupyter labextension install @z-m-k/jupyterlab_sublime --no-build && \
+    jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
     jupyter serverextension enable --py jupyterlab_code_formatter && \
-    jupyter labextension install @hokyjack/jupyterlab-monokai-plus && \
+    jupyter labextension install @hokyjack/jupyterlab-monokai-plus --no-build && \
+    jupyter labextension install @jupyterlab/server-proxy --no-build && \
+    jupyter lab build -y && \
+    jupyter lab clean -y && \
+    npm cache clean --force && \
+    rm -rf ~/.cache/yarn && \
+    rm -rf ~/.node-gyp && \
     echo Done
 
 # Setup default formatter (For Python Users only)

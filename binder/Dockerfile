@@ -46,6 +46,8 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
+    jupyter-server-proxy \
+    git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black \
     numpy \
     sympy==1.5.* \
