@@ -1,7 +1,7 @@
 name = "MyWorkflow"
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"
 authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
-version = "0.18.0"
+version = "0.19.0"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
@@ -121,7 +121,8 @@ Zygote = "0.4, 0.5"
 julia = "1.5"
 
 [extras]
+Glob = "c27321d9-0574-5035-807b-f59d2c89b15c"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Test", "Glob"]
