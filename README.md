@@ -176,11 +176,20 @@ $ docker-compose up lab
 
 [Pluto.jl](https://github.com/fonsp/Pluto.jl) is a lightweight reactive notebooks for Julia. Just run the following command:
 
+### using Docker Compose
+
 ```console
 $ docker-compose up pluto
 ```
 
 Then, go to `localhost:9999`
+
+### From Jupyter Notebook/Lab
+
+- Run `docker-compose up jupyter` and then click `New` button on the top right of your browser. Then select `Pluto Notebook`.
+
+![image](https://user-images.githubusercontent.com/16760547/98430578-c472d800-20f1-11eb-9dd7-fbcd7e7a086b.png)
+
 
 ## Connect to docker container with Juno/Atom (For Linux or Mac users only)
 
