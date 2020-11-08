@@ -5,11 +5,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 print("Hello world")
@@ -20,10 +20,10 @@ using Plots
 #
 # Just `add IJulia.clear_output(true)` and display `p` plot object simultaneously will improve your visualizatoin life
 
-ps=[]
+ps = []
 for t in 1:0.1:10
     IJulia.clear_output(true)
-    p = plot(x-> sin(x+t))
+    p = plot(x -> sin(x + t))
     p |> display
     push!(ps, p)
 end

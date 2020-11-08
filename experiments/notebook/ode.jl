@@ -6,11 +6,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # Solving Scalar Equations
@@ -23,15 +23,15 @@ using Plots
 # ## simple form
 
 # +
-f(u,p,t) = 1.01*u
-u0=1/2
-tspan = (0.0,1.0)
-prob = ODEProblem(f,u0,tspan)
-sol = solve(prob,Tsit5(),reltol=1e-8,abstol=1e-8)
+f(u,p,t) = 1.01 * u
+u0 = 1 / 2
+tspan = (0.0, 1.0)
+prob = ODEProblem(f, u0, tspan)
+sol = solve(prob, Tsit5(), reltol=1e-8, abstol=1e-8)
 
 plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
      xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
-plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
+plot!(sol.t, t -> 0.5 * exp(1.01t),lw=3,ls=:dash,label="True Solution!")
 # -
 
 # ## a little generic form
@@ -45,11 +45,11 @@ end
 u0 = [1 / 2] # 1/2 -> [1/2] scalar to arrays
 tspan = (0.0, 1.0)
 prob = ODEProblem(f, u0, tspan)
-sol = solve(prob,Tsit5(),reltol=1e-8,abstol=1e-8)
+sol = solve(prob, Tsit5(), reltol=1e-8, abstol=1e-8)
 
 plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
      xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
-plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
+plot!(sol.t, t -> 0.5 * exp(1.01t),lw=3,ls=:dash,label="True Solution!")
 # -
 
 # # Lotka-Voltera equation
@@ -70,8 +70,8 @@ using DifferentialEquations
 function lotka_volterra(du, u, p, t) 
     x, y = u 
     α, β, δ, γ = p 
-    du[1] = α*x - β*x*y 
-    du[2] = -δ*y + γ*x*y 
+    du[1] = α * x - β * x * y 
+    du[2] = -δ * y + γ * x * y 
 end 
 
 # set initial

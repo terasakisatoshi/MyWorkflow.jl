@@ -7,11 +7,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # Box and Ball System (BBS)

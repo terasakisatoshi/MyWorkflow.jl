@@ -10,7 +10,7 @@
 #   kernelspec:
 #     display_name: Julia 1.4.0
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 using Plots
@@ -54,7 +54,7 @@ X = hcat(x .- gx, y .- gy)'
 U, Σ, Vt = svd(X)
 (u11, u21, u12, u22) = U
 
-x = range(-1,1,length=100)
+x = range(-1, 1, length=100)
 y = @. -u12 * (x - gx) / u22 + gy
 plot!(x, y, label="predict")
 
@@ -70,10 +70,10 @@ using LinearAlgebra
 f(x, y) = x + y
 N = 50
 
-plot(xlim = [-1, 1], ylim = [-1, 1])
-x = range(-1.0, 1.0, length = 30)
-y = range(-1.0, 1.0, length = 30)
-plot!(x, y, f, st = :wireframe, label="ground truth")
+plot(xlim=[-1, 1], ylim=[-1, 1])
+x = range(-1.0, 1.0, length=30)
+y = range(-1.0, 1.0, length=30)
+plot!(x, y, f, st=:wireframe, label="ground truth")
 
 x = 2 .* rand(N) .- 1
 y = 2 .* rand(N) .- 1
@@ -88,8 +88,8 @@ gz = mean(z)
 X = hcat(x .- gx, y .- gy, z .- gz)'
 U, Σ, Vt = svd(X)
 ux, uy, uz = U[:, 3]
-x = range(-0.5, 0.5, length = 30)
-y = range(-0.5, 0.5, length = 30)
+x = range(-0.5, 0.5, length=30)
+y = range(-0.5, 0.5, length=30)
 pred(x, y) = -(ux * (x - gx) + uy * (y - gy)) / uz + gz
-plot!(x, y, pred, st = :surface, alpha = 0.5, label="predict")
+plot!(x, y, pred, st=:surface, alpha=0.5, label="predict")
 

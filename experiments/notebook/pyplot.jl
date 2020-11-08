@@ -5,11 +5,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # PyPlot.jl 
@@ -36,6 +36,6 @@ ax2.hist(vec(c), density=true, bins=255);
 m = testimage("lena") |> channelview |> rawview
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 ax1.set_title("lena")
-ax1.imshow(permutedims(m, (2,3,1)), cmap=:gray)
+ax1.imshow(permutedims(m, (2, 3, 1)), cmap=:gray)
 ax2.set_title("hist")
 ax2.hist(vec.([m[1,:,:], m[2,:,:], m[3,:,:]]), density=true, bins=25, color=[:red, :green, :blue]);

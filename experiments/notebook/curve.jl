@@ -11,7 +11,7 @@
 #   kernelspec:
 #     display_name: Julia 1.4.0
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 using Plots
@@ -25,14 +25,14 @@ x = @. cos(θ)
 y = @. sin(θ)
 
 p = plot(
-    xlabel = L"x",
-    ylabel = L"y",
-    xlim = [-1, 1],
-    ylim = [-1, 1],
-    aspect_ratio = :equal,
+    xlabel=L"x",
+    ylabel=L"y",
+    xlim=[-1, 1],
+    ylim=[-1, 1],
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = L"x^2+y^2 = 1")
+plot!(p, x, y, label=L"x^2+y^2 = 1")
 # -
 
 # # Astroid
@@ -46,15 +46,15 @@ y = @. a * sin(θ)^3
 eq = latexstring("x^{2/3}+y^{2/3} = $a^{2/3}")
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    xlim = [-2, 2],
-    ylim = [-2, 2],
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    xlim=[-2, 2],
+    ylim=[-2, 2],
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # # Lissajous
@@ -67,18 +67,18 @@ y = @. sin(2θ)
 eq = latexstring("y^2=4x^2(1-x^2)")
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    xlim = [-1, 1],
-    ylim = [-1, 1],
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    xlim=[-1, 1],
+    ylim=[-1, 1],
+    aspect_ratio=:equal,
 )
 
 plot!(p, x, y, label=false)
 
 # +
-θ = -π/4:0.01:π/4
+θ = -π / 4:0.01:π / 4
 
 x = @. tan(θ)
 y = @. cos(2θ)
@@ -86,15 +86,15 @@ y = @. cos(2θ)
 eq = L"$y=\frac{1-x^2}{1+x^2}$"
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    xlim = [-1, 1],
-    ylim = [0, 1],
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    xlim=[-1, 1],
+    ylim=[0, 1],
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # # Archimedean Spiral
@@ -102,20 +102,20 @@ plot!(p, x, y, label = :false)
 # +
 θ = 0:0.01:2π
 a = 2
-r = @. a*θ
+r = @. a * θ
 x = @. r * cos(θ)
 y = @. r * sin(θ)
 
 eq = L"r=a\theta"
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # # Cardioid 
@@ -123,20 +123,20 @@ plot!(p, x, y, label = :false)
 # +
 θ = 0:0.01:2π
 a = 2
-r = @. a*(1+cos(θ))
+r = @. a * (1 + cos(θ))
 x = @. r * cos(θ)
 y = @. r * sin(θ)
 
 eq = L"r=a(1+\cos(\theta)"
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # # Rose Curve
@@ -147,20 +147,20 @@ plot!(p, x, y, label = :false)
 θ = 0:0.01:2π
 a = 2
 n = 2
-r = @. a*sin(n*θ)
+r = @. a * sin(n * θ)
 x = @. r * cos(θ)
 y = @. r * sin(θ)
 
 eq = latexstring("r=a\\sin($n\\theta)")
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # ## n = 3
@@ -169,17 +169,17 @@ plot!(p, x, y, label = :false)
 θ = 0:0.01:2π
 a = 2
 n = 3
-r = @. a*sin(n*θ)
+r = @. a * sin(n * θ)
 x = @. r * cos(θ)
 y = @. r * sin(θ)
 
 eq = latexstring("r=a\\sin($n\\theta)")
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    aspect_ratio=:equal,
 )
 
 plot!(p, x, y, label=false)
@@ -191,20 +191,20 @@ plot!(p, x, y, label=false)
 θ = 0:0.01:2π
 a = 2
 n = 4
-r = @. a*sin(n*θ)
+r = @. a * sin(n * θ)
 x = @. r * cos(θ)
 y = @. r * sin(θ)
 
 eq = latexstring("r=a\\sin($n\\theta)")
 
 p = plot(
-    title = eq,
-    xlabel = L"x",
-    ylabel = L"y",
-    aspect_ratio = :equal,
+    title=eq,
+    xlabel=L"x",
+    ylabel=L"y",
+    aspect_ratio=:equal,
 )
 
-plot!(p, x, y, label = :false)
+plot!(p, x, y, label=:false)
 # -
 
 # ## Rose (gif)
@@ -213,22 +213,22 @@ plot!(p, x, y, label = :false)
 θ = 0:0.01:2π
 a = 2
 anim = @animate for n in 2:10
-    r = @. a*sin(n*θ)
+    r = @. a * sin(n * θ)
     x = @. r * cos(θ)
     y = @. r * sin(θ)
 
     eq = latexstring("r=a\\sin($n\\theta)")
 
     p = plot(
-        title = eq,
-        xlabel = L"x",
-        ylabel = L"y",
+        title=eq,
+        xlabel=L"x",
+        ylabel=L"y",
         xlim=[-3,3],
         ylim=[-3,3],
-        aspect_ratio = :equal,
+        aspect_ratio=:equal,
     )
 
-    plot!(p, x, y, label = :false)
+    plot!(p, x, y, label=:false)
 end
 
 anim;

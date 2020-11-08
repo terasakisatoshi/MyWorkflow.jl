@@ -6,11 +6,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # Linear Regression
@@ -155,9 +155,9 @@ X |> size
 
 # +
 ## 結果の表示
-function show_result(β,variable_names)
-    for (i, (β̂_i,k)) in enumerate(zip(β,[:bias, variable_names...]))
-        println("k = $k, β̂_$(i-1) = $(β̂_i)")
+function show_result(β, variable_names)
+    for (i, (β̂_i, k)) in enumerate(zip(β, [:bias, variable_names...]))
+        println("k = $k, β̂_$(i - 1) = $(β̂_i)")
     end
 end
 
@@ -182,10 +182,10 @@ X = hcat(ones(ndata), [X_[k] for k in [name]]...)
 β̂ = inv(X' * X) * X' * y
 show_result(β̂,[name])
 
-β̂ = OffsetArray(β̂,0:length(β̂)-1)
-p=plot(xlabel="x",ylabel="y")
-scatter!(p, X_[variable_names[1]], y,label=variable_names[1])
-plot!(p, x->β̂[0] + β̂[1]*x, xlim=[minimum(X_[name]),maximum(X_[name])], label=L"y=\beta_0+\beta_1 x")
+β̂ = OffsetArray(β̂, 0:length(β̂) - 1)
+p = plot(xlabel="x", ylabel="y")
+scatter!(p, X_[variable_names[1]], y, label=String(variable_names[1]))
+plot!(p, x -> β̂[0] + β̂[1] * x, xlim=[minimum(X_[name]),maximum(X_[name])], label=L"y=\beta_0+\beta_1 x")
 
 # # MLJ で解いてみる
 #
@@ -194,7 +194,7 @@ plot!(p, x->β̂[0] + β̂[1]*x, xlim=[minimum(X_[name]),maximum(X_[name])], lab
 # +
 using MLJ
 
-@load LinearRegressor pkg=MLJLinearModels 
+@load LinearRegressor pkg = MLJLinearModels 
 # -
 
 # `fit_intercept=true` を指定しておくことで切片 $\beta_0$ も考慮できるようになる.
@@ -230,7 +230,7 @@ fit!(m)
 fp = fitted_params(m)
 β̂ = [fp.intercept, [c.second for c in fp.coefs]...]
 
-β̂ = OffsetArray(β̂,0:length(β̂)-1)
-p=plot(xlabel="x",ylabel="y")
-scatter!(p, X_[variable_names[1]], y,label=variable_names[1])
-plot!(p, x->β̂[0] + β̂[1]*x, xlim=[minimum(X_[name]),maximum(X_[name])], label=L"y=\beta_0+\beta_1 x")
+β̂ = OffsetArray(β̂, 0:length(β̂) - 1)
+p = plot(xlabel="x", ylabel="y")
+scatter!(p, X_[variable_names[1]], y,label=String(variable_names[1]))
+plot!(p, x -> β̂[0] + β̂[1] * x, xlim=[minimum(X_[name]),maximum(X_[name])], label=L"y=\beta_0+\beta_1 x")
