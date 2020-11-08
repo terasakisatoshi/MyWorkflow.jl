@@ -6,11 +6,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # Gradient descent (勾配法)
@@ -45,7 +45,7 @@ A = [
     0.2  1.0
 ]
 
-f(v) =  dot(v,A,v)
+f(v) =  dot(v, A, v)
 f(x, y) = f([x, y])
 ∇f(v) = A * v
 η = 0.05 # learning rate
@@ -53,8 +53,8 @@ f(x, y) = f([x, y])
 
 # ## 等高線の描画
 
-x = range(-10,stop=10,length=50)
-y = range(-10,stop=10,length=50)
+x = range(-10, stop=10, length=50)
+y = range(-10, stop=10, length=50)
 p = contour(x, y, f)
 
 # ## 勾配法を試す
@@ -81,9 +81,9 @@ plot(p)
 # +
 x = range(-5, stop=5, length=50)
 y = range(-5, stop=5, length=50)
-p = contour(x, y, f, levels=range(0,stop=100,step=3))
+p = contour(x, y, f, levels=range(0, stop=100, step=3))
 for _ in 1:10
-    v = rand(range(-5,stop=5,step=0.01), 2)
+    v = rand(range(-5, stop=5, step=0.01), 2)
     c =　RGB(rand(3)...)
     for _ in 1:30 # num steps
         v .-= η .* ∇f(v)

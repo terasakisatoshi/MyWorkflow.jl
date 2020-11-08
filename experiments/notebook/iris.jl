@@ -5,11 +5,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # Visualize Iris dataset
@@ -40,7 +40,7 @@ scatter(df.SepalL, df.SepalW)
 # ## Grid Scatter Plots
 
 # +
-splots=[]
+splots = []
 
 for j in 1:length(feature_names)
     for i in 1:length(feature_names)
@@ -48,7 +48,7 @@ for j in 1:length(feature_names)
         yfname = feature_names[j]
         s = plot()
         if i != j
-            for t in 0:length(target_names)-1
+            for t in 0:length(target_names) - 1
                 fx = df[!, xfname]
                 fy = df[!, yfname]
                 scatter!(
@@ -67,4 +67,4 @@ for j in 1:length(feature_names)
     end
 end
 
-plot(splots..., layout=grid(4,4), figsize=(10,10), size=(800,800))
+plot(splots..., layout=grid(4, 4), figsize=(10, 10), size=(800, 800))

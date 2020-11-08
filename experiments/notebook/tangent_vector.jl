@@ -6,11 +6,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # 曲線座標系での接ベクトルのお話
@@ -44,22 +44,22 @@ using LaTeXStrings
 
 # +
 # P=P(p,q)=(φ¹(p,q),φ²(p,q))
-φ¹(p::Real,q::Real) = p^(-2/3)*q^(-1/3)
-φ²(p::Real,q::Real) = p^(-1/3)*q^(-2/3)
+φ¹(p::Real,q::Real) = p^(-2 / 3) * q^(-1 / 3)
+φ²(p::Real,q::Real) = p^(-1 / 3) * q^(-2 / 3)
 
 
-xlim=(0.,3.)
-ylim=(0.,3.)
+xlim = (0., 3.)
+ylim = (0., 3.)
 
 function vis_pqcurve(p, q)
-    x = range(xlim...,length=30) |> collect
-    y = range(ylim...,length=30) |> collect
-    plot!(x,p*x.^2,color=:blue, label=L"C_p")
-    plot!(q*y.^2,y,color=:orange, label=L"C_q")
-    scatter!([φ¹(p,q)],[φ²(p,q)], label=L"P")
+    x = range(xlim..., length=30) |> collect
+    y = range(ylim..., length=30) |> collect
+    plot!(x, p * x.^2, color=:blue, label=L"C_p")
+    plot!(q * y.^2, y, color=:orange, label=L"C_q")
+    scatter!([φ¹(p, q)], [φ²(p, q)], label=L"P")
 end
 
-p₀, q₀=(1.,2.4) # 適当に定める.
+p₀, q₀ = (1., 2.4) # 適当に定める.
 plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2")
 vis_pqcurve(p₀, q₀)
 # -
@@ -68,16 +68,16 @@ vis_pqcurve(p₀, q₀)
 # - せっかくなので $(p,q)$ を動かした時に $C_p$, $C_q$ がどのように振舞うかを確認する.
 
 # +
-p_slider = slider(0.001:0.1:3,label="p")
-q_slider = slider(0.001:0.1:3,label="q")
+p_slider = slider(0.001:0.1:3, label="p")
+q_slider = slider(0.001:0.1:3, label="q")
 
 
 cross_pt = map(
-    (p,q) -> begin 
-            plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2")
-            vis_pqcurve(p,q) 
-    end,
-    map(observe,[p_slider,q_slider])...,
+    (p, q) -> begin 
+    plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2")
+    vis_pqcurve(p, q) 
+end,
+    map(observe, [p_slider,q_slider])...,
 )
 
 [p_slider,q_slider,cross_pt] .|> display;
@@ -106,25 +106,25 @@ cross_pt = map(
 # - 描画された $(p,q)$ に対応する $C_p$, $C_q$ から定まる $P$ は $(z^1,z^2)$ と一致する
 
 # +
-xlim=(0.,3.)
-ylim=(0.,3.)
+xlim = (0., 3.)
+ylim = (0., 3.)
 
-z1_slider = slider(0.001:0.1:3,label="z¹")
-z2_slider = slider(0.001:0.1:3,label="z²")
+z1_slider = slider(0.001:0.1:3, label="z¹")
+z2_slider = slider(0.001:0.1:3, label="z²")
 
 cross_pt = map(
-    (z1,z2) -> begin 
-        p, q = z2/z1^2, z1/z2^2 # (2) の実装
-        plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p", ylabel=L"q",aspect_ratio=:equal)
-        scatter!(plt1, [p],[q], label=L"(p,q)")
-        plt2=plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2",aspect_ratio=:equal)
+    (z1, z2) -> begin 
+    p, q = z2 / z1^2, z1 / z2^2 # (2) の実装
+    plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
+    scatter!(plt1, [p], [q], label=L"(p,q)")
+    plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
         # ここで求めたp, q で定まる二次曲線 C_p, C_q の曲線を描画する．
-        vis_pqcurve(p, q)
+    vis_pqcurve(p, q)
         # (z^1,z^2) の点を描画. vis_pqcurve 関数で描画する P と重なるはず．
-        scatter!([z1],[z2],color=:red, alpha=0.4,label=L"(z^1,z^2)")
-        plot(plt1,plt2,layout=(1,2))
-    end,
-    map(observe,[z1_slider,z2_slider])...,
+    scatter!([z1], [z2], color=:red, alpha=0.4, label=L"(z^1,z^2)")
+    plot(plt1, plt2, layout=(1, 2))
+end,
+    map(observe, [z1_slider,z2_slider])...,
 )
 
 [z1_slider,z2_slider,cross_pt] .|> display;
@@ -143,28 +143,28 @@ cross_pt = map(
 # - もちろん $p$ を止めて $q$ を動かすこともできる. 適宜 `ui` 変数をいじると良い．
 
 # +
-p_slider = slider(0.001:0.1:3,label="p")
-q_slider = slider(0.001:0.1:3,label="q")
+p_slider = slider(0.001:0.1:3, label="p")
+q_slider = slider(0.001:0.1:3, label="q")
 
-function vis_interactie_pqcurve(p,q)
-    plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
-    scatter!([p],[q],label=L"(p,q)")
-    plt2=plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2",aspect_ratio=:equal)
+function vis_interactie_pqcurve(p, q)
+    plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
+    scatter!([p], [q], label=L"(p,q)")
+    plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
     vis_pqcurve(p, q)
-    plot(plt1,plt2,layout=(1,2))
+    plot(plt1, plt2, layout=(1, 2))
 end
 
 cross_pt = map(
-    (p,q) -> begin 
-        vis_interactie_pqcurve(p,q)
-    end,
-    map(observe,[p_slider,q_slider])...,
+    (p, q) -> begin 
+    vis_interactie_pqcurve(p, q)
+end,
+    map(observe, [p_slider,q_slider])...,
 )
 
 
-ui=[
+ui = [
     p_slider,
-    #q_slider,
+    # q_slider,
     cross_pt
 ] 
 
@@ -227,51 +227,51 @@ ui .|> display;
 # である.
 
 # +
-φ¹(pq)=φ¹(pq...) # almost same as φ¹(pq[1], pq[2])
-φ²(pq)=φ²(pq...)
-∇φ¹=pq->ForwardDiff.gradient(φ¹,pq)
-∇φ²=pq->ForwardDiff.gradient(φ²,pq)
+φ¹(pq) = φ¹(pq...) # almost same as φ¹(pq[1], pq[2])
+φ²(pq) = φ²(pq...)
+∇φ¹ = pq -> ForwardDiff.gradient(φ¹, pq)
+∇φ² = pq -> ForwardDiff.gradient(φ², pq)
 
-function vis_tangent_vector(p,q)
-    pq=[p,q]
+function vis_tangent_vector(p, q)
+    pq = [p,q]
     ∂P∂p = [∇φ¹(pq)[1],∇φ²(pq)[1]]
     ∂P∂q = [∇φ¹(pq)[2],∇φ²(pq)[2]]
     plot!(
-        [φ¹(pq),φ¹(pq)+∂P∂p[1]],
-        [φ²(pq),φ²(pq)+∂P∂p[2]],
+        [φ¹(pq),φ¹(pq) + ∂P∂p[1]],
+        [φ²(pq),φ²(pq) + ∂P∂p[2]],
         line=:arrow,
         label=L"e_p(P)"
     )
     plot!(
-        [φ¹(pq),φ¹(pq)+∂P∂q[1]],
-        [φ²(pq),φ²(pq)+∂P∂q[2]],
+        [φ¹(pq),φ¹(pq) + ∂P∂q[1]],
+        [φ²(pq),φ²(pq) + ∂P∂q[2]],
         line=:arrow,
         label=L"e_q(P)"
     )
 end
 
 
-p_slider = slider(0.001:0.05:3,label="p")
-q_slider = slider(0.001:0.1:3,label="q")
+p_slider = slider(0.001:0.05:3, label="p")
+q_slider = slider(0.001:0.1:3, label="q")
 
-function vis_interactie_pqcurve(p,q)
-    plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
-    scatter!([p],[q],label=L"(p,q)")
-    plt2=plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2",aspect_ratio=:equal)
+function vis_interactie_pqcurve(p, q)
+    plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
+    scatter!([p], [q], label=L"(p,q)")
+    plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
     vis_pqcurve(p, q)
     vis_tangent_vector(p, q)
-    plot(plt1,plt2,layout=(1,2))
+    plot(plt1, plt2, layout=(1, 2))
 end
 
 cross_pt = map(
-    (p,q) -> begin 
-        vis_interactie_pqcurve(p,q)
-    end,
-    map(observe,[p_slider,q_slider])...,
+    (p, q) -> begin 
+    vis_interactie_pqcurve(p, q)
+end,
+    map(observe, [p_slider,q_slider])...,
 )
 
 
-ui=[
+ui = [
     p_slider,
     q_slider,
     cross_pt
@@ -286,26 +286,26 @@ ui .|> display;
 # SymPy.jl に優しい形で `φ¹(p::Sym,q::Sym), φ²(p::Sym,q::Sym)` を定義しておく
 #
 
-φ¹(p::Sym,q::Sym) = 1/(∛(p))^2 * 1/∛(q)
-φ²(p::Sym,q::Sym) = 1/∛(p) * 1/(∛(q))^2
+φ¹(p::Sym,q::Sym) = 1 / (∛(p))^2 * 1 / ∛(q)
+φ²(p::Sym,q::Sym) = 1 / ∛(p) * 1 / (∛(q))^2
 
 # ### 偏微分を計算できるようにする
 
-∂φ¹∂p(p::Sym,q::Sym)=diff(φ¹(p,q),p)
-∂φ¹∂q(p::Sym,q::Sym)=diff(φ¹(p,q),q)
-∂φ²∂p(p::Sym,q::Sym)=diff(φ²(p,q),p)
-∂φ²∂q(p::Sym,q::Sym)=diff(φ²(p,q),q)
+∂φ¹∂p(p::Sym,q::Sym) = diff(φ¹(p, q), p)
+∂φ¹∂q(p::Sym,q::Sym) = diff(φ¹(p, q), q)
+∂φ²∂p(p::Sym,q::Sym) = diff(φ²(p, q), p)
+∂φ²∂q(p::Sym,q::Sym) = diff(φ²(p, q), q)
 
 # ### `p`, `q` の型が実数などの数値を取れば ForwardDiffのロジックを使って微分計算をすることになる
 
-∂φ¹∂p(p::Real,q::Real)=∇φ¹([p,q])[1]
-∂φ¹∂q(p::Real,q::Real)=∇φ¹([p,q])[2]
-∂φ²∂p(p::Real,q::Real)=∇φ²([p,q])[1]
-∂φ²∂q(p::Real,q::Real)=∇φ²([p,q])[2]
+∂φ¹∂p(p::Real,q::Real) = ∇φ¹([p,q])[1]
+∂φ¹∂q(p::Real,q::Real) = ∇φ¹([p,q])[2]
+∂φ²∂p(p::Real,q::Real) = ∇φ²([p,q])[1]
+∂φ²∂q(p::Real,q::Real) = ∇φ²([p,q])[2]
 
 # Julia のマルチプルディスパッチの機能を用いて p, q の型から振る舞いを変えることができる．
-∂P∂p(p,q) = [∂φ¹∂p(p,q),∂φ²∂p(p,q)]
-∂P∂q(p,q) = [∂φ¹∂q(p,q),∂φ²∂q(p,q)]
+∂P∂p(p,q) = [∂φ¹∂p(p, q),∂φ²∂p(p, q)]
+∂P∂q(p,q) = [∂φ¹∂q(p, q),∂φ²∂q(p, q)]
 
 # ### SymPy で計算
 #
@@ -315,13 +315,13 @@ ui .|> display;
 
 # 次にForwardDiffを呼ぶようにランダムな値を生成しその出力を見る
 
-pq=[rand(), rand()]
+pq = [rand(), rand()]
 ∂P∂p(pq...)
 
 # SymPyのオブジェクト p,q に具体的な値を代入して一致しているかを調べる
 
 symp, symq = Sym("p"), Sym("q")
-map(x->x(symp=>pq[1],symq=>pq[2]), ∂P∂p(symp,symq))
+map(x -> x(symp => pq[1], symq => pq[2]), ∂P∂p(symp, symq))
 
 ∂P∂q(Sym("p"),Sym("q"))
 
@@ -329,7 +329,7 @@ map(x->x(symp=>pq[1],symq=>pq[2]), ∂P∂p(symp,symq))
 
 ∂P∂q(pq...)
 
-map(x->x(p=>pq[1],q=>pq[2]), ∂P∂q(p,q))
+map(x -> x(symp => pq[1], symq => pq[2]), ∂P∂q(symp, symq))
 
 # 良さそうである
 
@@ -349,45 +349,45 @@ map(x->x(p=>pq[1],q=>pq[2]), ∂P∂q(p,q))
 # +
 p₀, q₀ = 3., 3. # 時刻 t=0 での初期位置
 # v_q のような q の下付きが備わっていないので vp, vq という変数名を採用する
-vp, vq = 3*1.5 ,3*1.25 # 右辺は適当に決めた．読者は好きなようにいじって良い
+vp, vq = 3 * 1.5, 3 * 1.25 # 右辺は適当に決めた．読者は好きなようにいじって良い
 
-p(t::Float64) = vp*t + p₀
-q(t::Float64) = vq*t + q₀
+p(t::Float64) = vp * t + p₀
+q(t::Float64) = vq * t + q₀
 φ¹(t::Float64) = p(t)
 φ²(t::Float64) = q(t)
-φ(t::Float64) = (p(t),q(t))
+φ(t::Float64) = (p(t), q(t))
 # -
 
 # - $t$ を変動させたときの $(p,q)$-平面での $(p(t),q(t))$ の動き，パラメータが定める $(z^1, z^2)$-平面での点 $P:=P(p,q)$ の動きをみておくことにする．
 
 # +
-t_slider = slider(-0.5:0.01:0.5,label="t")
+t_slider = slider(-0.5:0.01:0.5, label="t")
 # value を指定することで t のスライダーを変化させたときに p,qのスライダーが動くようになる．
 # だたしこのアプローチだと，p, q　を動かす操作ができない
-p_slider = slider(0.001:0.01:5.,value=map(a->p(a), observe(t_slider)),label="p")
-q_slider = slider(0.001:0.01:5.,value=map(a->q(a), observe(t_slider)),label="q")
+p_slider = slider(0.001:0.01:5., value=map(a -> p(a), observe(t_slider)), label="p")
+q_slider = slider(0.001:0.01:5., value=map(a -> q(a), observe(t_slider)), label="q")
 
 
 
 
 function vis_interactive_pqcurve(p, q)
-    xlim=(0,5)
-    ylim=(0,5)
+    xlim = (0, 5)
+    ylim = (0, 5)
     plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
-    plot!(plt1, [p₀-vp,p₀+vp],[q₀-vq, q₀+vq], color=:green, label=L"(v_p,v_q)")
-    scatter!(plt1, [p],[q],label=L"(p,q)")
+    plot!(plt1, [p₀ - vp,p₀ + vp], [q₀ - vq, q₀ + vq], color=:green, label=L"(v_p,v_q)")
+    scatter!(plt1, [p], [q], label=L"(p,q)")
     plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
     vis_pqcurve(p, q)
     vis_tangent_vector(p, q)
-    plot(plt1, plt2,layout=(1,2))
+    plot(plt1, plt2, layout=(1, 2))
 end
 
 
 ui = map(
-    t ->begin 
-        vis_interactive_pqcurve(p(t),q(t))
+    t -> begin 
+    vis_interactive_pqcurve(p(t), q(t))
         
-    end,
+end,
     observe(t_slider)
 )
 
@@ -450,51 +450,51 @@ vbox([
 # - さて, 接ベクトルの可視化の実装を思い出そう. もう一度同じコードを貼り付けている．
 
 # +
-φ¹(pq)=φ¹(pq...) # almost same as φ¹(pq[1], pq[2])
-φ²(pq)=φ²(pq...)
-∇φ¹=pq->ForwardDiff.gradient(φ¹,pq)
-∇φ²=pq->ForwardDiff.gradient(φ²,pq)
+φ¹(pq) = φ¹(pq...) # almost same as φ¹(pq[1], pq[2])
+φ²(pq) = φ²(pq...)
+∇φ¹ = pq -> ForwardDiff.gradient(φ¹, pq)
+∇φ² = pq -> ForwardDiff.gradient(φ², pq)
 
-function vis_tangent_vector(p,q)
-    pq=[p,q]
+function vis_tangent_vector(p, q)
+    pq = [p,q]
     ∂P∂p = [∇φ¹(pq)[1],∇φ²(pq)[1]]
     ∂P∂q = [∇φ¹(pq)[2],∇φ²(pq)[2]]
     plot!(
-        [φ¹(pq),φ¹(pq)+∂P∂p[1]],
-        [φ²(pq),φ²(pq)+∂P∂p[2]],
+        [φ¹(pq),φ¹(pq) + ∂P∂p[1]],
+        [φ²(pq),φ²(pq) + ∂P∂p[2]],
         line=:arrow,
         label=L"e_p(P)"
     )
     plot!(
-        [φ¹(pq),φ¹(pq)+∂P∂q[1]],
-        [φ²(pq),φ²(pq)+∂P∂q[2]],
+        [φ¹(pq),φ¹(pq) + ∂P∂q[1]],
+        [φ²(pq),φ²(pq) + ∂P∂q[2]],
         line=:arrow,
         label=L"e_q(P)"
     )
 end
 
 
-p_slider = slider(0.001:0.05:3,label="p")
-q_slider = slider(0.001:0.1:3,label="q")
+p_slider = slider(0.001:0.05:3, label="p")
+q_slider = slider(0.001:0.1:3, label="q")
 
-function vis_interactie_pqcurve(p,q)
-    plt1=plot(xlim=xlim,ylim=ylim,xlabel=L"p",ylabel=L"q",aspect_ratio=:equal)
-    scatter!([p],[q],label=L"(p,q)")
-    plt2=plot(xlim=xlim,ylim=ylim,xlabel=L"z^1", ylabel=L"z^2",aspect_ratio=:equal)
+function vis_interactie_pqcurve(p, q)
+    plt1 = plot(xlim=xlim, ylim=ylim, xlabel=L"p", ylabel=L"q", aspect_ratio=:equal)
+    scatter!([p], [q], label=L"(p,q)")
+    plt2 = plot(xlim=xlim, ylim=ylim, xlabel=L"z^1", ylabel=L"z^2", aspect_ratio=:equal)
     vis_pqcurve(p, q)
     vis_tangent_vector(p, q)
-    plot(plt1,plt2,layout=(1,2))
+    plot(plt1, plt2, layout=(1, 2))
 end
 
 cross_pt = map(
-    (p,q) -> begin 
-        vis_interactie_pqcurve(p,q)
-    end,
-    map(observe,[p_slider,q_slider])...,
+    (p, q) -> begin 
+    vis_interactie_pqcurve(p, q)
+end,
+    map(observe, [p_slider,q_slider])...,
 )
 
 
-ui=[
+ui = [
     p_slider,
     q_slider,
     cross_pt

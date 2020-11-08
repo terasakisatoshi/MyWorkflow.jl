@@ -10,7 +10,7 @@
 #   kernelspec:
 #     display_name: Julia 1.4.1
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # # ヒストグラム平坦化
@@ -29,7 +29,7 @@ c = testimage("c")
 
 # ## Visualize gray scale image histogram
 
-data=reshape(255 .* channelview(c),prod(size(c)))
+data = reshape(255 .* channelview(c), prod(size(c)))
 histogram(data, bins=0:255,normalize=:pdf)
 
 # ## Visualize cumulative distribution function (so called CDF)
@@ -47,7 +47,7 @@ end
 
 arr = [i2c[i] for i in 0:255]
 cdf = [sum(arr[begin:i]) for i in 1:length(arr)]
-plot(cdf./length(c), label="CDF")
+plot(cdf ./ length(c), label="CDF")
 
 # # Histogram Equalization
 
@@ -93,14 +93,14 @@ n_pixels = length(c)
 function hist_eq(p)
     s = 0
     for i in 0:p
-        s+=i2c[i]
+        s += i2c[i]
     end
-    floor(255*s/n_pixels)
+    floor(255 * s / n_pixels)
 end
 
-new_c=hist_eq.(255 .* channelview(c))
+new_c = hist_eq.(255 .* channelview(c))
 
-colorview(Gray, new_c./255)
+colorview(Gray, new_c ./ 255)
 
 histogram(new_c[:], normalize=:pdf, bins=0:255)
 
@@ -119,5 +119,5 @@ end
 
 arr = [new_i2c[i] for i in 0:255]
 cdf = [sum(arr[begin:i]) for i in 1:length(arr)]
-plot(cdf./length(c))
+plot(cdf ./ length(c))
 # 直線になっている様子がわかるはず

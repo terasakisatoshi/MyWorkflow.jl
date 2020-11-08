@@ -6,11 +6,11 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.0
+#       jupytext_version: 1.6.0
 #   kernelspec:
-#     display_name: Julia 1.4.2
+#     display_name: Julia 1.5.2
 #     language: julia
-#     name: julia-1.4
+#     name: julia-1.5
 # ---
 
 # + active=""
@@ -44,12 +44,12 @@ Ix = imfilter(img, ∂x)
 
 Iy = imfilter(img, ∂y)
 
-Iy .^ 2.
+Iy.^2.
 
 # ## Calculate Harris response
 
 # +
-#=
+#= 
 W = [Wxx Wxy
      Wxy Wyy]y
   = G * I
@@ -57,13 +57,12 @@ where G * I is the convolution between Gauss Operator G and I
 I = [Ix^2  IxIy
     IyIx  Iy^2]
   = [Ix * [Ix Iy]
-    Iy]
-=#
+    Iy] =#
 
 σ = 3.
 
-Wxx = imfilter(Ix .^ 2., Kernel.gaussian([σ,σ], [3,3]))
-Wyy = imfilter(Iy .^ 2., Kernel.gaussian([σ,σ], [3,3]))
+Wxx = imfilter(Ix.^2., Kernel.gaussian([σ,σ], [3,3]))
+Wyy = imfilter(Iy.^2., Kernel.gaussian([σ,σ], [3,3]))
 Wyx = Wxy = imfilter(Ix .* Iy, Kernel.gaussian([σ,σ], [3,3]))
 
 detW = @. Wxx * Wyy - Wxy * Wyx
@@ -80,7 +79,7 @@ colorview(Gray, iscorner)
 
 # +
 mindist = 10
-indices_ = sortperm(κ[:],rev=true) # reshape Mat to Vector
+indices_ = sortperm(κ[:], rev=true) # reshape Mat to Vector
 indices = Int[]
 for i in indices_
     if κ[i] > corner_thresh
@@ -93,16 +92,16 @@ indices;
 
 loc = ones(Bool, img |> size)
 H, W = img |> size
-valids = zeros(img|>size)
+valids = zeros(img |> size)
 for i in indices
-    ix = min(div(i, H)+1,W)
-    iy = min(rem(i, H)+1,H)
+    ix = min(div(i, H) + 1, W)
+    iy = min(rem(i, H) + 1, H)
     if loc[iy, ix] == true
         valids[iy, ix] = 1
         for s in -mindist:mindist
             for t in -mindist:mindist
-                if 1<= iy+s <= H && 1<= ix+t <=W
-                    loc[iy+s, ix+t] = false
+                if 1 <= iy + s <= H && 1 <= ix + t <= W
+                    loc[iy + s, ix + t] = false
                 end
             end
         end
