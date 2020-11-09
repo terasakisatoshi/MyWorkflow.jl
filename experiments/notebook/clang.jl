@@ -156,5 +156,4 @@ rm("example_common.jl")
 rm("example_api.jl")
 
 rm("LibTemplate.jl")
-rm("clang.jl")
 rm("ctypes.jl")
