@@ -21,4 +21,5 @@ jobs:
       - name: Runtime Test   
         run: docker run myworkflowjl julia -e 'using InteractiveUtils; versioninfo()'
       - name: Notebook Test
+        run: docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
         run: docker-compose run --rm julia julia -e 'include("experiments/test/runtests.jl")'
