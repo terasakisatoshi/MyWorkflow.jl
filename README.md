@@ -10,13 +10,13 @@
 
 - MyWorkflow.jl master (nightly) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master) Julia v1.5.2
 
-- MyWorkflow.jl v0.19.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.19.0) Julia v1.5.2
+- MyWorkflow.jl v0.19.1 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.19.1) Julia v1.5.2
 
 # Feature
 
 - This repository gives us some useful techniques such as:
   1. how to utilize Docker Docker Compose with your Julia workflow.
-  2. how to customize Julia's system image via PackageCompiler.jl to reduce an overhead of package's loading time e.g. Plots.jl, PyCall.jl, or DataFrames.jl etc...
+  2. how to customize Julia's system image via PackageCompiler.jl to reduce an overhead of package's loading time e.g. Plots.jl etc...
   3. how to share our work on the Internet. Check our repository on Binder from [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master)
   4. how to use GitHub actions as a CI functionality.
   5. how to communicate between a Docker container and Juno/Atom
