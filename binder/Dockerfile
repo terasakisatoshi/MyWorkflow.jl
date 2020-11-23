@@ -134,7 +134,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
               using Pkg; \
-              Pkg.add(PackageSpec(name="IJulia", version="1.21.4")); \
+              Pkg.add(PackageSpec(name="IJulia", version="1.23.0")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
               Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
