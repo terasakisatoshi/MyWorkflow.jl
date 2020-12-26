@@ -47,8 +47,9 @@ c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
 c.NotebookApp.open_browser = False\n\
 " >> ${HOME}/.jupyter/jupyter_notebook_config.py
 
-# prepare to install extension
-RUN jupyter contrib nbextension install --user && \
+# Install/enable extension for Jupyter Notebook users
+RUN pip3 install jupyter-resource-usage && \
+    jupyter contrib nbextension install --user && \
     jupyter nbextensions_configurator enable --user && \
     # enable extensions what you want
     jupyter nbextension enable select_keymap/main && \
@@ -61,7 +62,9 @@ RUN jupyter contrib nbextension install --user && \
     echo Done
 
 # Install/enable extension for JupyterLab users
-RUN jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
+RUN jupyter labextension install jupyterlab-topbar-extension && \
+    jupyter labextension install jupyterlab-system-monitor && \
+    jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter nbextension enable --py widgetsnbextension && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \

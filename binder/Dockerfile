@@ -63,8 +63,9 @@ c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
 c.NotebookApp.open_browser = False\n\
 " >> ${HOME}/.jupyter/jupyter_notebook_config.py
 
-# prepare to install extension
-RUN jupyter contrib nbextension install --user && \
+# Install/enable extension for Jupyter Notebook users
+RUN pip3 install jupyter-resource-usage && \
+    jupyter contrib nbextension install --user && \
     jupyter nbextensions_configurator enable --user && \
     # enable extensions what you want
     jupyter nbextension enable select_keymap/main && \
@@ -73,10 +74,8 @@ RUN jupyter contrib nbextension install --user && \
     jupyter nbextension enable varInspector/main && \
     jupyter nbextension enable toc2/main && \
     jupyter nbextension enable equation-numbering/main && \
-    jupyter nbextension enable livemdpreview/livemdpreview && \
     jupyter nbextension enable execute_time/ExecuteTime && \
     echo Done
-
 
 # Install packages for R
 USER root
