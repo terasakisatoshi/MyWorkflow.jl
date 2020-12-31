@@ -4,6 +4,7 @@ authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
 version = "0.20.0"
 
 [deps]
+ArrayInterface = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Clang = "40e3b903-d033-50b4-a0cc-940c62c95e31"
