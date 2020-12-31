@@ -110,7 +110,7 @@ RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension && 
 \
 ' >> /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings
 
-# assig `Alt-R` restart run all command 
+# assign `Alt-R` to restart run all command 
 RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension && echo '\
 {\n\
     "shortcuts": [\n\
