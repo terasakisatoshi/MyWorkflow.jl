@@ -31,7 +31,7 @@ RUN apt-get update && \
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
-    jupyterlab \
+    jupyterlab==2.* \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
