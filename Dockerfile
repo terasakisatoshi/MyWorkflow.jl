@@ -23,7 +23,7 @@ RUN apt-get update && \
 
 # install NodeJS
 RUN apt-get update && \
-    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/* # clean up  
 
