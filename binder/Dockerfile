@@ -32,7 +32,7 @@ RUN apt-get update && \
     htop \
     r-base \
     libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
+    apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
 # Switch default user
 USER ${NB_USER}

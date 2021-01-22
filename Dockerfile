@@ -19,13 +19,13 @@ RUN apt-get update && \
     r-base \
     libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR \
     && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up
+    apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
 # install NodeJS
 RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* # clean up  
+    apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
 # Install packages for Jupyter Notebook/JupyterLab
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
@@ -39,13 +39,6 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     jupyter-server-proxy \
     git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black
-
-RUN jupyter notebook --generate-config && \
-    echo "\
-c.ContentsManager.default_jupytext_formats = 'ipynb,jl'\n\
-c.NotebookApp.contents_manager_class = 'jupytext.TextFileContentsManager'\n\
-c.NotebookApp.open_browser = False\n\
-" >> ${HOME}/.jupyter/jupyter_notebook_config.py
 
 # Install/enable extension for Jupyter Notebook users
 RUN pip3 install jupyter-resource-usage && \
