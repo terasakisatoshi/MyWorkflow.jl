@@ -1,4 +1,4 @@
-.phony : all, pull, build, atom, web, clean
+.phony : all, pull, build, atom, web, test, clean
 
 OS:=$(shell uname -s)
 DOCKERIMAGE=myworkflowjl
@@ -43,6 +43,10 @@ web: docs
 		include("docs/make.jl");\
 		'
 	python3 -m http.server --bind 0.0.0.0 --directory docs/build
+
+test: build
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("experiments/test/runtests.jl")'
 
 clean:
 	docker-compose down
