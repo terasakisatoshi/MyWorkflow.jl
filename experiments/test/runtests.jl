@@ -11,7 +11,7 @@ using Glob
 @testset "MyWorkflow.jl" begin
     files = glob("*.md", joinpath(@__DIR__, "..", "notebook")) |> sort
     for f in files
-        f == "wav_example.md" && continue
+        basename(f) == "wav_example.md" && continue
         @info "Running $f"
         proc = run(`jupytext --to ipynb --execute $f`)
         @test proc.exitcode == 0
