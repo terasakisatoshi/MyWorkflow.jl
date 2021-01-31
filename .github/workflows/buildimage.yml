@@ -23,4 +23,5 @@ jobs:
       - name: Instantiate
         run: docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
       - name: Notebook Test
-        run: docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("experiments/test/runtests.jl")'
+        #run: docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("experiments/test/runtests.jl")'
+        run: make test
