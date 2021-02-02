@@ -192,7 +192,7 @@ USER ${NB_USER}
 
 # Make sure the contents of our repo are in ${HOME}
 WORKDIR ${HOME}
-COPY ./experiments/notebook ${HOME}
+COPY ./playground/notebook ${HOME}
 COPY ./requirements.txt ${HOME}
 COPY ./Project.toml ${HOME}
 # we need copy  src/MyWorkflow.jl from julia 1.5

@@ -46,13 +46,13 @@ web: docs
 
 test: build
 	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("experiments/test/runtests.jl")'
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playgound/test/runtests.jl")'
 
 clean:
 	docker-compose down
 	rm -f docs/src/weavesample.md
-	rm -f experiments/notebook/*.ipynb
-	rm -rf experiments/notebook/*.gif
+	rm -f playgound/notebook/*.ipynb
+	rm -rf playgound/notebook/*.gif
 	rm -f  Manifest.toml docs/Manifest.toml
 	rm -rf docs/build
 
