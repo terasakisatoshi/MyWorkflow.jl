@@ -46,7 +46,7 @@ web: docs
 
 test: build
 	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playgound/test/runtests.jl")'
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
 
 clean:
 	docker-compose down
