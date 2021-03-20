@@ -1,7 +1,7 @@
 name = "MyWorkflow"
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"
 authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
-version = "0.21.0"
+version = "0.22.0"
 
 [deps]
 ArrayInterface = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
@@ -35,6 +35,7 @@ Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
 MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
 MLJLinearModels = "6ee0df7b-362f-4a72-a706-9e79364fb692"
+MetaUtils = "ed17dc9e-20eb-4460-9701-8d0520e45e1f"
 ORCA = "47be7bcc-f1a6-5447-8b36-7eeeff7534fd"
 OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 OhMyREPL = "5fb14364-9ced-5910-84b2-373655c76a03"

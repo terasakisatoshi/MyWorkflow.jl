@@ -8,11 +8,9 @@
 
 # Have a try MyWorkflow.jl
 
-- MyWorkflow.jl master (nightly) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master) Julia v1.5.3
+- MyWorkflow.jl master (nightly) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/master) Julia v1.5.4
 
-- MyWorkflow.jl v0.21.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.21.0) Julia v1.5.3
-
-- MyWorkflow.jl v0.19.2 (old) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.19.2) Julia v1.5.2
+- MyWorkflow.jl v0.22.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.22.0) Julia v1.5.4
 
 # Feature
 
@@ -46,42 +44,57 @@ $ tree .
 │       │   ├── port9999.png
 │       │   └── theorem.css
 │       ├── example.md
+│       ├── figures
 │       ├── index.md
 │       ├── math.md
 │       ├── myworkflow.md
 │       └── weavesample.jmd
-├── experiments
-│   └── notebook
-│       ├── Chisq.jl
-│       ├── Harris.jl
-│       ├── Rotation3D.jl
-│       ├── apply_PCA_to_MNIST.jl
-│       ├── box_and_ball_system.jl
-│       ├── clang.jl
-│       ├── coordinate_system.jl
-│       ├── curve.jl
-│       ├── example.jl
-│       ├── fitting.jl
-│       ├── gradient_descent.jl
-│       ├── histogram_eq.jl
-│       ├── hop_step_jump.jl
-│       ├── image_filtering.jl
-│       ├── interact_sample.jl
-│       ├── iris.jl
-│       ├── lazysets.jl
-│       ├── linear_regression.jl
-│       ├── n-Soliton.jl
-│       ├── ode.jl
-│       ├── plotly_surface.jl
-│       ├── plots_fill_example.jl
-│       ├── plots_sample.jl
-│       ├── pyplot.jl
-│       ├── rcall.jl
-│       ├── seaborn.jl
-│       ├── tangent_space.jl
-│       └── tangent_vector.jl
 ├── gitpod
 │   └── Dockerfile
+├── jupytext.toml
+├── playground
+│   ├── notebook
+│   │   ├── Chisq.md
+│   │   ├── Harris.md
+│   │   ├── Rotation3D.md
+│   │   ├── apply_PCA_to_MNIST.md
+│   │   ├── box_and_ball_system.md
+│   │   ├── clang.md
+│   │   ├── convex_hull.md
+│   │   ├── coordinate_system.md
+│   │   ├── curve.md
+│   │   ├── example.md
+│   │   ├── fitting.md
+│   │   ├── free_fall.md
+│   │   ├── gradient_descent.md
+│   │   ├── histogram_eq.md
+│   │   ├── hop_step_jump.md
+│   │   ├── image_filtering.md
+│   │   ├── interact_sample.md
+│   │   ├── iris.md
+│   │   ├── jsxgraph_julia.md
+│   │   ├── jsxgraph_with_rawJS.md
+│   │   ├── jsxgraph_with_webio_jsexpr.md
+│   │   ├── lazysets.md
+│   │   ├── linear_regression.md
+│   │   ├── n-Soliton.md
+│   │   ├── ode.md
+│   │   ├── plots_fill_example.md
+│   │   ├── plots_sample.md
+│   │   ├── pluto
+│   │   │   └── sample.jl
+│   │   ├── point_on_circle.md
+│   │   ├── pyjulia.md
+│   │   ├── pyplot.md
+│   │   ├── rcall.md
+│   │   ├── reuleaux_triangle.md
+│   │   ├── seaborn.md
+│   │   ├── simple_harmonic_motion.md
+│   │   ├── tangent_space.md
+│   │   ├── tangent_vector.md
+│   │   └── wav_example.md
+│   └── test
+│       └── runtests.jl
 ├── requirements.txt
 ├── src
 │   └── MyWorkflow.jl
