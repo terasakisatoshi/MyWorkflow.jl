@@ -1,0 +1,62 @@
+body {
+  counter-reset: theorem;
+}
+
+.theorem {
+    counter-increment: theorem;
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+.theorem:before {
+    content: "Theorem " counter(theorem) ".";
+    font-weight: bold;
+    font-style: normal;
+}
+.proposition {
+    counter-increment: theorem;
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+.proposition:before {
+    content: "Proposition " counter(theorem) ".";
+    font-weight: bold;
+    font-style: normal;
+}
+.lemma {
+    counter-increment: theorem;
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+.lemma:before {
+    content: "Lemma " counter(theorem) ".";
+    font-weight: bold;
+    font-style: normal;
+}
+.proof {
+    display: block;
+    margin: 12px 0;
+    font-style: normal;
+}
+.proof:before {
+    content: "Proof.";
+    font-style: italic;
+}
+.proof:after {
+    content: "\25FC";
+    float:right;
+}
+
+.definition {
+    counter-increment: theorem;
+    display: block;
+    margin: 12px 0;
+    font-style: normal;
+}
+.definition:before {
+    content: "Definition " counter(theorem) ".";
+    font-weight: bold;
+    font-style: normal;
+}
