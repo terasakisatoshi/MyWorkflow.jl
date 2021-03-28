@@ -1,3 +1,4 @@
+
 FROM julia:1.6.0
 
 RUN apt-get update && \
@@ -198,22 +199,26 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               Pkg.add(PackageSpec(name="OffsetArrays")); \
               Pkg.add(PackageSpec(name="UnicodePlots")); \
               Pkg.add(PackageSpec(name="Distributions")); \
-              #=\
+              Pkg.add(PackageSpec(name="Images")); \
+              Pkg.add(PackageSpec(name="RecipesBase")); \
+              Pkg.add(PackageSpec(name="TestImages")); \
               Pkg.pin([\
                   "ImageMagick", "VisualRegressionTests", "FileIO", \
                   "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
                   "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
-                  "UnicodePlots", "Distributions" \
+                  "UnicodePlots", "Distributions", \
+                  "Images", "TestImages", "RecipesBase", \
               ]) \
-              =# \
               '
 
 # generate precompile_statements_file
 RUN xvfb-run julia \
              --trace-compile=ijuliacompile.jl \
-             -e 'ENV["CI"]="true"; using Plots, IJulia; \
-                include(joinpath(pkgdir(IJulia), "test", "runtests.jl")); \
-                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end'
+             -e '\
+                ENV["CI"]="true"; \
+                using Plots, IJulia; \
+                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
+                '
 
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
