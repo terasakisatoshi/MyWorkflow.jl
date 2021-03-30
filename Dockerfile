@@ -147,13 +147,13 @@ using Revise \n\
 # Install Julia Packages
 RUN julia -e 'using Pkg; \
 Pkg.add([\
-    PackageSpec(name="PackageCompiler"), \
-    PackageSpec(name="Atom"), \
-    PackageSpec(name="Juno"), \
-    PackageSpec(name="OhMyREPL"), \
-    PackageSpec(name="Revise"), \
-    PackageSpec(name="Plots"), \
-    PackageSpec(name="ORCA"), \
+    PackageSpec(name="Atom", version="0.12.30"), \
+    PackageSpec(name="Juno", version="0.8.4"), \
+    PackageSpec(name="PackageCompiler", version="1.2.5"), \
+    PackageSpec(name="OhMyREPL", version="0.5.10"), \
+    PackageSpec(name="ORCA", version="0.5.0"), \
+    PackageSpec(name="Plots", version="1.11.0"), \
+    PackageSpec(name="Revise", version="3.1.14"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
 Pkg.add(["Plotly", "PlotlyJS"]); \
@@ -169,9 +169,9 @@ RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
               using Pkg; \
-              Pkg.add(PackageSpec(name="IJulia")); \
-              Pkg.add(PackageSpec(name="Interact")); \
-              Pkg.add(PackageSpec(name="WebIO")); \
+              Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
+              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
@@ -184,24 +184,26 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ENV["JUPYTER"]=Sys.which("jupyter"); \
               using Pkg; \
               # Install test dependencies for IJulia \
-              Pkg.add(PackageSpec(name="JSON")); \
+              Pkg.add(PackageSpec(name="JSON", version="0.21.1")); \
               # Install test dependencies for Plots \
-              Pkg.add(PackageSpec(name="ImageMagick")); \
-              Pkg.add(PackageSpec(name="VisualRegressionTests")); \
-              Pkg.add(PackageSpec(name="FileIO")); \
-              Pkg.add(PackageSpec(name="StableRNGs")); \
-              Pkg.add(PackageSpec(name="Gtk")); \
-              Pkg.add(PackageSpec(name="GeometryTypes")); \
-              Pkg.add(PackageSpec(name="GeometryBasics")); \
-              Pkg.add(PackageSpec(name="HDF5")); \
-              Pkg.add(PackageSpec(name="PGFPlotsX")); \
-              Pkg.add(PackageSpec(name="StaticArrays")); \
-              Pkg.add(PackageSpec(name="OffsetArrays")); \
-              Pkg.add(PackageSpec(name="UnicodePlots")); \
-              Pkg.add(PackageSpec(name="Distributions")); \
-              Pkg.add(PackageSpec(name="Images")); \
-              Pkg.add(PackageSpec(name="RecipesBase")); \
-              Pkg.add(PackageSpec(name="TestImages")); \
+              Pkg.add([\
+                  PackageSpec(name="FileIO", version="1.6.5"), \
+                  PackageSpec(name="StableRNGs", version="1.0.0"), \
+                  PackageSpec(name="Gtk", version="1.1.7"), \
+                  PackageSpec(name="Distributions", version="0.24.15"), \
+                  PackageSpec(name="GeometryTypes", version="0.8.4"), \
+                  PackageSpec(name="GeometryBasics", version="0.3.11"), \
+                  PackageSpec(name="HDF5", version="0.15.4"), \
+                  PackageSpec(name="ImageMagick", version="1.2.0"), \
+                  PackageSpec(name="Images", version="0.23.3"), \
+                  PackageSpec(name="OffsetArrays", version="1.6.2"), \
+                  PackageSpec(name="PGFPlotsX", version="1.2.10"), \
+                  PackageSpec(name="RecipesBase", version="1.1.1"), \
+                  PackageSpec(name="StaticArrays", version="1.1.0"), \
+                  PackageSpec(name="TestImages", version="1.4.0"), \
+                  PackageSpec(name="UnicodePlots", version="1.3.0"), \
+              PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
+              ]) ;\
               Pkg.pin([\
                   "ImageMagick", "VisualRegressionTests", "FileIO", \
                   "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
