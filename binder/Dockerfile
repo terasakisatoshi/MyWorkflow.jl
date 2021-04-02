@@ -1,4 +1,4 @@
-FROM julia:1.5.3
+FROM julia:1.6.0
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
