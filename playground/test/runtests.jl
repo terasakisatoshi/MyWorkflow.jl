@@ -8,7 +8,7 @@ julia> include("experiments/test/runtests.jl")
 using Test
 using Glob
 
-ignore_files = ["wav_example.md", "clang.md"]
+ignore_files = ["wav_example.md", "clang.md", "linear_regression.md"]
 
 @testset "MyWorkflow.jl" begin
     files = glob("*.md", joinpath(@__DIR__, "..", "notebook")) |> sort
