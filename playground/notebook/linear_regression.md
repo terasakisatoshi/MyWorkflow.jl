@@ -9,9 +9,9 @@ jupyter:
       format_version: '1.2'
       jupytext_version: 1.5.2
   kernelspec:
-    display_name: Julia 1.5.2
+    display_name: Julia 1.6.0
     language: julia
-    name: julia-1.5
+    name: julia-1.6
 ---
 
 # Linear Regression

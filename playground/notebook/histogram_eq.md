@@ -11,7 +11,7 @@ jupyter:
   kernelspec:
     display_name: Julia 1.4.1
     language: julia
-    name: julia-1.5
+    name: julia-1.6
 ---
 
 # ヒストグラム平坦化

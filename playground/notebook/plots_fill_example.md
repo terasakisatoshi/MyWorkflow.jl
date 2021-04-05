@@ -10,7 +10,7 @@ jupyter:
   kernelspec:
     display_name: Julia 1.5.1
     language: julia
-    name: julia-1.5
+    name: julia-1.6
 ---
 
 ```julia

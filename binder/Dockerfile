@@ -1,4 +1,4 @@
-FROM julia:1.5.3
+FROM julia:1.6.0
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -109,13 +109,13 @@ ENV JULIA_PROJECT=${HOME}
 # Install Julia Packages
 RUN julia -e 'using Pkg; \
 Pkg.add([\
-    PackageSpec(name="PackageCompiler", version="1.2.2"), \
-    PackageSpec(name="Atom", version="0.12.24"), \
+    PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="OhMyREPL", version="0.5.9"), \
-    PackageSpec(name="Revise", version="3.1.4"), \
-    PackageSpec(name="Plots", version="1.6.10"), \
+    PackageSpec(name="PackageCompiler", version="1.2.5"), \
+    PackageSpec(name="OhMyREPL", version="0.5.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
+    PackageSpec(name="Plots", version="1.11.0"), \
+    PackageSpec(name="Revise", version="3.1.14"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
 Pkg.add(["Plotly", "PlotlyJS"]); \
@@ -128,18 +128,18 @@ ENV GKSwstype=100
 # For some technical reason, we switch default user to root then we switch back again
 USER root
 
-# Install kernel so that `JULIA_PROJECT` should be ${HOME}
+# Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
 RUN jupyter nbextension uninstall --user webio/main && \
     jupyter nbextension uninstall --user webio-jupyter-notebook && \
     julia -e '\
               using Pkg; \
-              Pkg.add(PackageSpec(name="IJulia", version="1.23.0")); \
+              Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
               Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
-              envhome=ENV["HOME"]; \
+              envhome="/work"; \
               installkernel("Julia", "--project=$envhome");\
               ' && \
     echo "Done"
