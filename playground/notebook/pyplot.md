@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.2'
-      jupytext_version: 1.5.2
+      format_version: '1.3'
+      jupytext_version: 1.11.1
   kernelspec:
     display_name: Julia 1.6.0
     language: julia
@@ -40,9 +40,10 @@ ax2.hist(vec(c), density=true, bins=255);
 ```
 
 ```julia
-m = testimage("lena") |> channelview |> rawview
+m = testimage("m") |> channelview |> rawview |> Array{UInt8}
+
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
-ax1.set_title("lena")
+ax1.set_title("m")
 ax1.imshow(permutedims(m, (2, 3, 1)), cmap=:gray)
 ax2.set_title("hist")
 ax2.hist(vec.([m[1,:,:], m[2,:,:], m[3,:,:]]), density=true, bins=25, color=[:red, :green, :blue]);
