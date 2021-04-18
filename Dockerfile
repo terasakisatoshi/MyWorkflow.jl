@@ -58,7 +58,7 @@ RUN pip3 install jupyter-resource-usage && \
 # Install/enable extension for JupyterLab users
 RUN jupyter labextension install jupyterlab-topbar-extension && \
     jupyter labextension install jupyterlab-system-monitor && \
-    jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
+    #jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter nbextension enable --py widgetsnbextension && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
