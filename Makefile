@@ -16,13 +16,13 @@ endif
 all: build
 
 pull:
-	rm -f Manifest.toml
+	-rm -f Manifest.toml
 	docker pull ${REMOTE_DOCKER_REPOSITORY}
 	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 build:
-	rm -f Manifest.toml
+	-rm -f Manifest.toml
 	docker build -t ${DOCKERIMAGE} .
 	docker-compose build
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
@@ -50,9 +50,9 @@ test: build
 
 clean:
 	docker-compose down
-	rm -f docs/src/weavesample.md
-	rm -f playgound/notebook/*.ipynb
-	rm -rf playgound/notebook/*.gif
-	rm -f  Manifest.toml docs/Manifest.toml
-	rm -rf docs/build
+	-rm -f docs/src/weavesample.md
+	-rm -f playgound/notebook/*.ipynb
+	-rm -rf playgound/notebook/*.gif
+	-rm -f  Manifest.toml docs/Manifest.toml
+	-rm -rf docs/build
 

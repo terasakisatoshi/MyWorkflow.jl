@@ -118,7 +118,7 @@ $ docker run --rm -it julia
 # some staff happens ...
 ```
 
-- It will initialize the fresh Julia environment even if you do not have a Julia on your (host) machine.
+- It will initialize a fresh Julia environment even if you do not have a Julia on your (host) machine.
 
 ## Buiding Docker image
 
@@ -135,6 +135,25 @@ $ rm -f Manifest.toml
 $ docker build -t myworkflojl .
 $ docker-compose build
 $ docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
+```
+
+### Tips for Windows Users
+
+- You can install `make` command via [winget](https://github.com/microsoft/winget-cli).
+
+```ps
+PS> # open powershell NOT `cmd.exe`
+PS> winget install "Make for Windows" # install `make` command
+PS> make
+```
+
+- Or try the following procedure:
+
+```ps
+PS> Remove-Item -Path Manifest.toml -ErrorAction Ignore
+PS> docker build -t myworkflowjl .
+PS> docker-compose build
+PS> docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 ```
 
 ## Pull Docker image (Optional)
