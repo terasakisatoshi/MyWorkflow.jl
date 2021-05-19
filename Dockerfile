@@ -239,8 +239,6 @@ RUN julia -e 'using PackageCompiler; \
                   replace_default=true, \
               )'
 
-COPY ./.statements /tmp
-
 # generate sysimage for Atom/Juno user
 RUN mkdir -p /sysimages && julia -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
