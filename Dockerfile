@@ -221,7 +221,7 @@ RUN julia -e '\
 '  
 # generate precompile_statements_file
 RUN xvfb-run julia \
-             --trace-compile=ijuliacompile.jl \
+             --trace-compile=traced_runtests.jl \
              -e '\
                 ENV["CI"]="true"; \
                 using Plots, IJulia; \
@@ -232,7 +232,7 @@ RUN xvfb-run julia \
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
                   [:IJulia, :Plots, :Revise, :OhMyREPL], \
-                  precompile_statements_file="ijuliacompile.jl", \
+                  precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
                   replace_default=true, \
               )'
