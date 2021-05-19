@@ -226,14 +226,14 @@ RUN xvfb-run julia \
              --trace-compile=traced_runtests.jl \
              -e '\
                 ENV["CI"]="true"; \
-                using Plots, IJulia; \
+                using Plots; \
                 try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
                 '
 
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:IJulia, :Plots, :Revise, :OhMyREPL], \
+                  [:Plots, :Revise, :OhMyREPL], \
                   precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
                   replace_default=true, \
