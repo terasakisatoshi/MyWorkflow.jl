@@ -164,6 +164,7 @@ using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 # suppress warning for related to GR backend
 ENV GKSwstype=100
 
+# Install test dependencies for Plots.jl
 RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ENV["JUPYTER"]=Sys.which("jupyter"); \
               using Pkg; \
@@ -219,6 +220,7 @@ RUN jupytext --to ipynb --execute /tmp/nb.jl
 RUN julia -e '\
     using IJulia; installkernel("Julia", "--project=/work"); \
 '  
+
 # generate precompile_statements_file
 RUN xvfb-run julia \
              --trace-compile=traced_runtests.jl \
