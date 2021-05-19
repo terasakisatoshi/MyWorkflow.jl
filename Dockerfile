@@ -213,6 +213,12 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ]) \
               '
 
+COPY ./.statements /tmp
+# generate traced_nb.jl
+RUN jupytext --to ipynb --execute /tmp/nb.jl
+RUN julia -e '\
+    using IJulia; installkernel("Julia", "--project=/work"); \
+'  
 # generate precompile_statements_file
 RUN xvfb-run julia \
              --trace-compile=ijuliacompile.jl \
