@@ -164,22 +164,7 @@ using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 # suppress warning for related to GR backend
 ENV GKSwstype=100
 
-# Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
-RUN jupyter nbextension uninstall --user webio/main && \
-    jupyter nbextension uninstall --user webio-jupyter-notebook && \
-    julia -e '\
-              using Pkg; \
-              Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
-              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
-              Pkg.pin(["IJulia", "Interact", "WebIO"]); \
-              using IJulia, WebIO; \
-              WebIO.install_jupyter_nbextension(); \
-              envhome="/work"; \
-              installkernel("Julia", "--project=$envhome");\
-              ' && \
-    echo "Done"
-
+# Install test dependencies for Plots.jl
 RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ENV["JUPYTER"]=Sys.which("jupyter"); \
               using Pkg; \
@@ -213,25 +198,46 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               ]) \
               '
 
+# Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
+RUN jupyter nbextension uninstall --user webio/main && \
+    jupyter nbextension uninstall --user webio-jupyter-notebook && \
+    julia -e '\
+              using Pkg; \
+              Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
+              Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
+              Pkg.pin(["IJulia", "Interact", "WebIO"]); \
+              using IJulia, WebIO; \
+              WebIO.install_jupyter_nbextension(); \
+              envhome="/work"; \
+              installkernel("Julia", "--project=$envhome", "--trace-compile=/tmp/traced_nb.jl");\
+              ' && \
+    echo "Done"
+
+COPY ./.statements /tmp
+# generate traced_nb.jl
+RUN jupytext --to ipynb --execute /tmp/nb.jl
+RUN julia -e '\
+    using IJulia; installkernel("Julia", "--project=/work"); \
+'  
+
 # generate precompile_statements_file
 RUN xvfb-run julia \
-             --trace-compile=ijuliacompile.jl \
+             --trace-compile=traced_runtests.jl \
              -e '\
                 ENV["CI"]="true"; \
-                using Plots, IJulia; \
+                using Plots; \
                 try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
                 '
 
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:IJulia, :Plots, :Revise, :OhMyREPL], \
-                  precompile_statements_file="ijuliacompile.jl", \
+                  [:Plots, :Revise, :OhMyREPL], \
+                  precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
                   replace_default=true, \
               )'
-
-COPY ./.statements /tmp
 
 # generate sysimage for Atom/Juno user
 RUN mkdir -p /sysimages && julia -e '\
