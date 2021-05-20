@@ -202,7 +202,7 @@ RUN xvfb-run julia \
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
                   [:Plots, :Revise, :OhMyREPL], \
-                  precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
+                  precompile_statements_file=["/tmp/traced_nb.jl"], \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
                   replace_default=true, \
               )'
