@@ -177,35 +177,35 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
               envhome=ENV["HOME"]; \
-              installkernel("Julia", "--project=$envhome", "--trace-compile=/tmp/traced_nb.jl");\
+              installkernel("Julia", "--project=$envhome");\
               ' && \
     echo "Done"
 
-COPY ./.statements /tmp
+#COPY ./.statements /tmp
 
 # generate traced_nb.jl
-RUN jupytext --to ipynb --execute /tmp/nb.jl
-RUN julia -e '\
-    using IJulia; envhome=ENV["HOME"]; installkernel("Julia", "--project=$envhome"); \
-'  
+#RUN jupytext --to ipynb --execute /tmp/nb.jl
+#RUN julia -e '\
+#    using IJulia; envhome=ENV["HOME"]; installkernel("Julia", "--project=$envhome"); \
+#'  
 
 # generate precompile_statements_file
-RUN xvfb-run julia \
-             --trace-compile=traced_runtests.jl \
-             -e '\
-                ENV["CI"]="true"; \
-                using Plots; \
-                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
-                '
+#RUN xvfb-run julia \
+#             --trace-compile=traced_runtests.jl \
+#             -e '\
+#                ENV["CI"]="true"; \
+#                using Plots; \
+#                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
+#                '
 
 # update sysimage
-RUN julia -e 'using PackageCompiler; \
-              create_sysimage(\
-                  [:Plots, :Revise, :OhMyREPL], \
-                  precompile_statements_file=["/tmp/traced_nb.jl"], \
-                  cpu_target = PackageCompiler.default_app_cpu_target(), \
-                  replace_default=true, \
-              )'
+#RUN julia -e 'using PackageCompiler; \
+#              create_sysimage(\
+#                  [:Plots, :Revise, :OhMyREPL], \
+#                  precompile_statements_file=["/tmp/traced_nb.jl"], \
+#                  cpu_target = PackageCompiler.default_app_cpu_target(), \
+#                  replace_default=true, \
+#              )'
 
 # Make NB_USER Occupy julia binary
 RUN chown -R ${NB_UID} /usr/local/julia
