@@ -153,6 +153,7 @@ Pkg.add([\
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
     PackageSpec(name="Plots", version="1.18.2"), \
+    PackageSpec(name="StatsPlots", version="0.14.25"), \
     PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
