@@ -189,6 +189,7 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
                   PackageSpec(name="StaticArrays", version="1.2.6"), \
                   PackageSpec(name="TestImages", version="1.6.0"), \
                   PackageSpec(name="UnicodePlots", version="1.3.0"), \
+                  PackageSpec(name="RecipesPipeline", version="0.3.4"), \
                   PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
               ]) ;\
               Pkg.pin([\
@@ -196,7 +197,7 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
                   "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
                   "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
                   "UnicodePlots", "Distributions", \
-                  "Images", "TestImages", "RecipesBase", \
+                  "Images", "TestImages", "RecipesBase", "RecipesPipeline", \
               ]) \
               '
 
