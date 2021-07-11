@@ -149,11 +149,11 @@ RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="PackageCompiler", version="1.2.5"), \
+    PackageSpec(name="PackageCompiler", version="1.2.6"), \
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
-    PackageSpec(name="Plots", version="1.11.0"), \
-    PackageSpec(name="Revise", version="3.1.14"), \
+    PackageSpec(name="Plots", version="1.18.2"), \
+    PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
 Pkg.add(["Plotly", "PlotlyJS"]); \
@@ -172,22 +172,22 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               Pkg.add(PackageSpec(name="JSON", version="0.21.1")); \
               # Install test dependencies for Plots \
               Pkg.add([\
-                  PackageSpec(name="FileIO", version="1.6.5"), \
+                  PackageSpec(name="FileIO", version="1.10.1"), \
                   PackageSpec(name="StableRNGs", version="1.0.0"), \
-                  PackageSpec(name="Gtk", version="1.1.7"), \
-                  PackageSpec(name="Distributions", version="0.24.15"), \
+                  PackageSpec(name="Gtk", version="1.1.8"), \
+                  PackageSpec(name="Distributions", version="0.25.10"), \
                   PackageSpec(name="GeometryTypes", version="0.8.4"), \
-                  PackageSpec(name="GeometryBasics", version="0.3.11"), \
-                  PackageSpec(name="HDF5", version="0.15.4"), \
-                  PackageSpec(name="ImageMagick", version="1.2.0"), \
-                  PackageSpec(name="Images", version="0.23.3"), \
-                  PackageSpec(name="OffsetArrays", version="1.6.2"), \
-                  PackageSpec(name="PGFPlotsX", version="1.2.10"), \
+                  PackageSpec(name="GeometryBasics", version="0.3.13"), \
+                  PackageSpec(name="HDF5", version="0.15.5"), \
+                  PackageSpec(name="ImageMagick", version="1.2.1"), \
+                  PackageSpec(name="Images", version="0.24.1"), \
+                  PackageSpec(name="OffsetArrays", version="1.10.2"), \
+                  PackageSpec(name="PGFPlotsX", version="1.3.0"), \
                   PackageSpec(name="RecipesBase", version="1.1.1"), \
-                  PackageSpec(name="StaticArrays", version="1.1.0"), \
-                  PackageSpec(name="TestImages", version="1.4.0"), \
+                  PackageSpec(name="StaticArrays", version="1.2.6"), \
+                  PackageSpec(name="TestImages", version="1.6.0"), \
                   PackageSpec(name="UnicodePlots", version="1.3.0"), \
-              PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
+                  PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
               ]) ;\
               Pkg.pin([\
                   "ImageMagick", "VisualRegressionTests", "FileIO", \
