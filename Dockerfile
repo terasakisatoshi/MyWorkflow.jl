@@ -173,6 +173,7 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               Pkg.add(PackageSpec(name="JSON", version="0.21.1")); \
               # Install test dependencies for Plots \
               Pkg.add([\
+                  PackageSpec(name="Clustering", version="0.14.2"), \
                   PackageSpec(name="FileIO", version="1.10.1"), \
                   PackageSpec(name="StableRNGs", version="1.0.0"), \
                   PackageSpec(name="Gtk", version="1.1.8"), \
