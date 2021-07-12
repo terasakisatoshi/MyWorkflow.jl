@@ -111,11 +111,12 @@ RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="PackageCompiler", version="1.2.5"), \
+    PackageSpec(name="PackageCompiler", version="1.2.6"), \
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
-    PackageSpec(name="Plots", version="1.11.0"), \
-    PackageSpec(name="Revise", version="3.1.14"), \
+    PackageSpec(name="Plots", version="1.18.2"), \
+    PackageSpec(name="StatsPlots", version="0.14.25"), \
+    PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
 Pkg.add(["Plotly", "PlotlyJS"]); \
