@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
 ---
 jupyter:
   jupytext:
+    encoding: '# -*- coding: utf-8 -*-'
     formats: jl,md
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.2'
-      jupytext_version: 1.5.2
+      format_version: '1.3'
+      jupytext_version: 1.11.4
   kernelspec:
-    display_name: Julia 1.5.3
+    display_name: Julia 1.6.1
     language: julia
     name: julia-1.6
 ---

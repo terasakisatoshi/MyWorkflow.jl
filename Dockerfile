@@ -149,11 +149,12 @@ RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="PackageCompiler", version="1.2.6"), \
+    PackageSpec(name="PackageCompiler", version="1.3.0"), \
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
     PackageSpec(name="ORCA", version="0.5.0"), \
     PackageSpec(name="Plots", version="1.18.2"), \
     PackageSpec(name="StatsPlots", version="0.14.25"), \
+    PackageSpec(name="DifferentialEquations", version="6.18.0"), \
     PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
 Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
@@ -191,8 +192,10 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
                   PackageSpec(name="UnicodePlots", version="1.3.0"), \
                   PackageSpec(name="RecipesPipeline", version="0.3.4"), \
                   PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
+                  PackageSpec(name="NaNMath", version="0.3.5"), \
               ]) ;\
               Pkg.pin([\
+                　"NaNMath", \
                   "ImageMagick", "VisualRegressionTests", "FileIO", \
                   "StableRNGs", "Gtk", "GeometryTypes", "GeometryBasics", \
                   "HDF5", "PGFPlotsX", "StaticArrays", "OffsetArrays", \
@@ -229,14 +232,16 @@ RUN xvfb-run julia \
              --trace-compile=traced_runtests.jl \
              -e '\
                 ENV["CI"]="true"; \
-                using Plots; \
-                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end \
+                using Plots, StatsPlots; \
+                try include(joinpath(pkgdir(Plots), "test", "runtests.jl")) catch end; \
+                include(joinpath(pkgdir(StatsPlots), "test", "runtests.jl")); \
+                ENV["CI"]="false"; \
                 '
 
 # update sysimage
 RUN julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:Plots, :Revise, :OhMyREPL], \
+                  [:StatsPlots, :Plots, :DifferentialEquations], \
                   precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
                   replace_default=true, \
