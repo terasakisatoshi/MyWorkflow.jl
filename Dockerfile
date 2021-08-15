@@ -32,12 +32,14 @@ RUN apt-get update && \
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
-    jupyterlab==3.* \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
     jupyter-server-proxy \
+    nbconvert \
+    ipykernel \
     git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black
 
