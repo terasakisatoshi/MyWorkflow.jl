@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
 ---
 jupyter:
   jupytext:
+    encoding: '# -*- coding: utf-8 -*-'
     formats: jl,md
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.2'
-      jupytext_version: 1.5.2
+      format_version: '1.3'
+      jupytext_version: 1.12.0
   kernelspec:
-    display_name: Julia 1.6.0
+    display_name: Julia 1.6.1
     language: julia
     name: julia-1.6
 ---
@@ -33,11 +33,11 @@ Point(xyz::Vector{T}) where {T} = Point{T}(T.(xyz)...)
 ```
 
 ```julia
-struct Tp
-    zfunc::Function
-    gx::Float64
-    gy::Float64
-    p::Point{Float64}
+struct Tp{T <: Real, F}
+    zfunc::F
+    gx::T
+    gy::T
+    p::Point{T}
 end
 
 function Tp(zfunc, p_xy)
@@ -66,7 +66,7 @@ function visualize(tp::Tp; camera=(0, 30))
     tp_ys = range(tp.p.y - tp_offset, tp.p.y + tp_offset, length=10)
     xs = range(tp.p.x - offset, tp.p.x + offset, length=20)
     ys = range(tp.p.y - offset, tp.p.y + offset, length=20)
-    p = plot(xlabel="x", ylabel="y")
+    p = plot(xlabel="x", ylabel="y", title="camera=$camera")
     wireframe!(p, xs, ys, (x, y) -> tp.zfunc(x, y), camera=camera)
     surface!(p, tp_xs, tp_ys, (x, y) -> tangent_plane(tp, x, y), camera=camera)
     scatter3d!(p, [tp.p.x], [tp.p.y], [tp.p.z], label="p")
@@ -75,17 +75,12 @@ end
 ```
 
 ```julia
-ps = []
-for θ in 1:90
-    IJulia.clear_output(true)
+anim = @animate for θ in 1:90
+    mod(θ, 5) == 0 && isdefined(Main, :IJulia) && IJulia.clear_output(true)
     p = visualize(tp, camera=(θ, 30))
-    p |> display
-    push!(ps, p)
+    mod(θ, 5) == 0 && display(p)
+    p
 end
-```
 
-```julia
-@gif for p in ps
-    plot(p)
-end
+gif(anim)
 ```
