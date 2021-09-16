@@ -1,7 +1,7 @@
 name = "MyWorkflow"
 uuid = "7abf360e-92cb-4f35-becd-441c2614658a"
 authors = ["Satoshi Terasaki <terasakisatoshi.math@gmail.com>"]
-version = "0.24.0"
+version = "0.25.0"
 
 [deps]
 ArrayInterface = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
