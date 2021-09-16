@@ -1,4 +1,4 @@
-.phony : all, pull, build, atom, web, test, clean
+.phony : all, pull, build, atom, web, test, test-parallel, clean
 
 OS:=$(shell uname -s)
 DOCKERIMAGE=myworkflowjl
@@ -47,6 +47,10 @@ web: docs
 test: build
 	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
 	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
+
+test-parallel: build
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+	docker-compose run --rm julia julia -t auto -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
 
 clean:
 	docker-compose down
