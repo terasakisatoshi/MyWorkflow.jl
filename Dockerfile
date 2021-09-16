@@ -1,5 +1,4 @@
-
-FROM julia:1.6.1
+FROM julia:1.6.2
 
 RUN apt-get update && \
     apt-get install -y \
@@ -32,12 +31,14 @@ RUN apt-get update && \
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
-    jupyterlab==3.* \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
     jupyter-server-proxy \
+    nbconvert \
+    ipykernel \
     git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black
 
@@ -59,7 +60,6 @@ RUN pip3 install jupyter-resource-usage && \
 RUN jupyter labextension install jupyterlab-topbar-extension && \
     jupyter labextension install jupyterlab-system-monitor && \
     #jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter nbextension enable --py widgetsnbextension && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install @z-m-k/jupyterlab_sublime --no-build && \

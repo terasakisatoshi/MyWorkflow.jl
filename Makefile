@@ -51,8 +51,9 @@ test: build
 clean:
 	docker-compose down
 	-rm -f docs/src/weavesample.md
-	-rm -f playgound/notebook/*.ipynb
-	-rm -rf playgound/notebook/*.gif
+	-rm -f playground/notebook/*.ipynb
+	-rm -rf playground/notebook/*.gif
+	-rm -rf playground/notebook/*.png
 	-rm -f  Manifest.toml docs/Manifest.toml
 	-rm -rf docs/build
 
