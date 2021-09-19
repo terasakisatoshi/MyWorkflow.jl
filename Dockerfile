@@ -149,16 +149,15 @@ RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="PackageCompiler", version="1.3.0"), \
+    PackageSpec(name="PackageCompiler", version="1.5.0"), \
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
-    PackageSpec(name="ORCA", version="0.5.0"), \
-    PackageSpec(name="Plots", version="1.18.2"), \
+    PackageSpec(name="Plots", version="1.22.1"), \
     PackageSpec(name="StatsPlots", version="0.14.25"), \
     PackageSpec(name="DifferentialEquations", version="6.18.0"), \
     PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
-Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
-Pkg.add(["Plotly", "PlotlyJS"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
+Pkg.add(["PlotlyJS"]); \
 Pkg.add(["Documenter", "Literate", "Weave", "Franklin", "NodeJS"]); \
 using NodeJS; run(`$(npm_cmd()) install highlight.js`); using Franklin; \
 '
@@ -175,23 +174,23 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               # Install test dependencies for Plots \
               Pkg.add([\
                   PackageSpec(name="Clustering", version="0.14.2"), \
-                  PackageSpec(name="FileIO", version="1.10.1"), \
+                  PackageSpec(name="FileIO", version="1.11.1"), \
                   PackageSpec(name="StableRNGs", version="1.0.0"), \
                   PackageSpec(name="Gtk", version="1.1.8"), \
-                  PackageSpec(name="Distributions", version="0.25.10"), \
+                  PackageSpec(name="Distributions", version="0.25.16"), \
                   PackageSpec(name="GeometryTypes", version="0.8.4"), \
-                  PackageSpec(name="GeometryBasics", version="0.3.13"), \
-                  PackageSpec(name="HDF5", version="0.15.5"), \
+                  PackageSpec(name="GeometryBasics", version="0.4.1"), \
+                  PackageSpec(name="HDF5", version="0.15.6"), \
                   PackageSpec(name="ImageMagick", version="1.2.1"), \
                   PackageSpec(name="Images", version="0.24.1"), \
-                  PackageSpec(name="OffsetArrays", version="1.10.2"), \
-                  PackageSpec(name="PGFPlotsX", version="1.3.0"), \
-                  PackageSpec(name="RecipesBase", version="1.1.1"), \
-                  PackageSpec(name="StaticArrays", version="1.2.6"), \
-                  PackageSpec(name="TestImages", version="1.6.0"), \
-                  PackageSpec(name="UnicodePlots", version="1.3.0"), \
-                  PackageSpec(name="RecipesPipeline", version="0.3.4"), \
-                  PackageSpec(name="VisualRegressionTests", version="1.0.0"), \
+                  PackageSpec(name="OffsetArrays", version="1.10.7"), \
+                  PackageSpec(name="PGFPlotsX", version="1.4.1"), \
+                  PackageSpec(name="RecipesBase", version="1.1.2"), \
+                  PackageSpec(name="StaticArrays", version="1.2.12"), \
+                  PackageSpec(name="TestImages", version="1.6.1"), \
+                  PackageSpec(name="UnicodePlots", version="2.4.4"), \
+                  PackageSpec(name="RecipesPipeline", version="0.4.1"), \
+                  PackageSpec(name="VisualRegressionTests", version="1.1.1"), \
                   PackageSpec(name="NaNMath", version="0.3.5"), \
               ]) ;\
               Pkg.pin([\
@@ -211,7 +210,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using Pkg; \
               Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.16")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
