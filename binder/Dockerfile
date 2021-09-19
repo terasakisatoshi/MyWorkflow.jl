@@ -1,4 +1,4 @@
-FROM julia:1.6.1
+FROM julia:1.6.2
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -29,10 +29,11 @@ RUN apt-get update && \
     dvipng \
     texlive-latex-recommended  \
     zip \
-    htop \
     r-base \
-    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR && \
+    libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5 # GR \
+    && \
     apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
+
 
 # Switch default user
 USER ${NB_USER}
@@ -41,16 +42,19 @@ ENV PATH=${HOME}/.local/bin:$PATH
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter \
-    jupyterlab==2.* \
+    jupyterlab \
     jupytext \
     ipywidgets \
     jupyter-contrib-nbextensions \
     jupyter-nbextensions-configurator \
     jupyter-server-proxy \
+    nbconvert \
+    ipykernel \
     git+https://github.com/IllumiDesk/jupyter-pluto-proxy.git \
     jupyterlab_code_formatter autopep8 black \
     numpy \
-    sympy==1.5.* \
+    sympy \
+    scipy \
     pandas \
     matplotlib \
     numba
@@ -111,15 +115,15 @@ RUN julia -e 'using Pkg; \
 Pkg.add([\
     PackageSpec(name="Atom", version="0.12.30"), \
     PackageSpec(name="Juno", version="0.8.4"), \
-    PackageSpec(name="PackageCompiler", version="1.2.6"), \
+    PackageSpec(name="PackageCompiler", version="1.5.0"), \
     PackageSpec(name="OhMyREPL", version="0.5.10"), \
-    PackageSpec(name="ORCA", version="0.5.0"), \
-    PackageSpec(name="Plots", version="1.18.2"), \
+    PackageSpec(name="Plots", version="1.22.1"), \
     PackageSpec(name="StatsPlots", version="0.14.25"), \
+    PackageSpec(name="DifferentialEquations", version="6.18.0"), \
     PackageSpec(name="Revise", version="3.1.17"), \
 ]); \
-Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots", "ORCA"]); \
-Pkg.add(["Plotly", "PlotlyJS"]); \
+Pkg.pin(["PackageCompiler", "Atom", "Juno", "OhMyREPL", "Revise", "Plots"]); \
+Pkg.add(["PlotlyJS"]); \
 '
 
 # suppress warning for related to GR backend
@@ -173,7 +177,7 @@ RUN jupyter nbextension uninstall --user webio/main && \
               using Pkg; \
               Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
-              Pkg.add(PackageSpec(name="WebIO", version="0.8.15")); \
+              Pkg.add(PackageSpec(name="WebIO", version="0.8.16")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
               WebIO.install_jupyter_nbextension(); \
