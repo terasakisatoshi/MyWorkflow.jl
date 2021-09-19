@@ -204,8 +204,7 @@ RUN julia -e 'ENV["PYTHON"]=Sys.which("python3"); \
               '
 
 # Install kernel so that `JULIA_PROJECT` should be $JULIA_PROJECT
-RUN jupyter nbextension uninstall --user webio/main && \
-    jupyter nbextension uninstall --user webio-jupyter-notebook && \
+RUN pip install webio_jupyter_extension && \
     julia -e '\
               using Pkg; \
               Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
@@ -213,7 +212,6 @@ RUN jupyter nbextension uninstall --user webio/main && \
               Pkg.add(PackageSpec(name="WebIO", version="0.8.16")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
-              WebIO.install_jupyter_nbextension(); \
               envhome="/work"; \
               installkernel("Julia", "--project=$envhome", "--trace-compile=/tmp/traced_nb.jl");\
               ' && \
