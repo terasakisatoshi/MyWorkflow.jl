@@ -12,6 +12,8 @@
 
 - MyWorkflow.jl v0.26.0 (stable) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.26.0) Julia v1.6.3
 
+- MyWorkflow.jl v0.25.0 (old) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/terasakisatoshi/MyWorkflow.jl/v0.25.0) Julia v1.6.2
+
 # Feature
 
 - This repository gives us some useful techniques such as:
