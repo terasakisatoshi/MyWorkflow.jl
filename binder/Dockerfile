@@ -34,6 +34,11 @@ RUN apt-get update && \
     && \
     apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
+# install NodeJS
+RUN apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
 # Switch default user
 USER ${NB_USER}
@@ -58,6 +63,24 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pandas \
     matplotlib \
     numba
+
+# Install/enable extension for JupyterLab users
+RUN jupyter labextension install jupyterlab-topbar-extension && \
+    jupyter labextension install jupyterlab-system-monitor && \
+    #jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
+    jupyter nbextension enable --py widgetsnbextension && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+    jupyter labextension install @z-m-k/jupyterlab_sublime --no-build && \
+    jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
+    jupyter serverextension enable --py jupyterlab_code_formatter && \
+    jupyter labextension install @hokyjack/jupyterlab-monokai-plus --no-build && \
+    jupyter labextension install @jupyterlab/server-proxy --no-build && \
+    jupyter lab build -y && \
+    jupyter lab clean -y && \
+    npm cache clean --force && \
+    rm -rf ~/.cache/yarn && \
+    rm -rf ~/.node-gyp && \
+    echo Done
 
 # Install packages for R
 USER root
