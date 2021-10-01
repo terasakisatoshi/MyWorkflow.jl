@@ -24,7 +24,7 @@ services:
     volumes:
       - ./:/work
     working_dir: /work
-    command: julia --project=/work
+    command: julia -J /sysimages/ijulia.so --project=/work
   web:
     image: myworkflowjl
     container_name: mypackagedocs

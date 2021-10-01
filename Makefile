@@ -3,6 +3,8 @@
 OS:=$(shell uname -s)
 DOCKERIMAGE=myworkflowjl
 
+SYSIMAGE=/sysimages/ijulia.so
+
 # leave conditional branch just in case.
 ifeq ($(OS), Linux)
 TAG=latest
@@ -19,13 +21,13 @@ pull:
 	-rm -f Manifest.toml
 	docker pull ${REMOTE_DOCKER_REPOSITORY}
 	docker tag ${REMOTE_DOCKER_REPOSITORY} ${DOCKERIMAGE}
-	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 build:
 	-rm -f Manifest.toml
 	docker build -t ${DOCKERIMAGE} .
 	docker-compose build
-	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 atom:
 ifeq ($(OS), Linux)
@@ -45,12 +47,12 @@ web: docs
 	python3 -m http.server --bind 0.0.0.0 --directory docs/build
 
 test: build
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
 
 test-parallel: build
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
-	docker-compose run --rm julia julia -t auto -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+	docker-compose run --rm julia julia -J ${SYSIMAGE} -t auto -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); include("playground/test/runtests.jl")'
 
 clean:
 	docker-compose down
