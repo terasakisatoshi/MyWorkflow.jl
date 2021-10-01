@@ -17,7 +17,10 @@
     // Use 'settings' to set *default* container specific settings.json values on container create. 
     // You can edit these settings after create using File > Preferences > Settings > Remote.
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash",
+        "julia.additionalArgs": [
+            "-J",
+            "/sysimages/ijulia.so",
+        ]
     },
     // Uncomment the next line if you want to publish any ports.
     // "appPort": [],
@@ -29,5 +32,15 @@
         "julialang.language-julia",
         "colinfang.markdown-julia",
         "formulahendry.code-runner",
+        "wayou.vscode-icons-mac",
+        "mutantdino.resourcemonitor",
+        "shardulm94.trailing-spaces",
+        "cliffordfajardo.hightlight-selections-vscode",
+        "wdawson.better-kill-ring", // great kill ring
+        "oderwat.indent-rainbow",
+        "github.vscode-pull-request-github",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
     ]
 }

@@ -221,7 +221,7 @@ COPY ./.statements /tmp
 # generate traced_nb.jl
 RUN jupytext --to ipynb --execute /tmp/nb.jl
 RUN julia -e '\
-    using IJulia; installkernel("Julia", "--project=/work"); \
+    using IJulia; installkernel("Julia", "--project=/work", "--sysimage=/sysimages/ijulia.so"); \
 '  
 
 # generate precompile_statements_file
@@ -236,16 +236,16 @@ RUN xvfb-run julia \
                 '
 
 # update sysimage
-RUN julia -e 'using PackageCompiler; \
+RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
               create_sysimage(\
                   [:StatsPlots, :Plots, :DifferentialEquations], \
                   precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
+                  sysimage_path="/sysimages/ijulia.so", \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
-                  replace_default=true, \
               )'
 
 # generate sysimage for Atom/Juno user
-RUN mkdir -p /sysimages && julia -e '\
+RUN julia -J /sysimages/ijulia.so -e '\
     using PackageCompiler; PackageCompiler.create_sysimage(\
         [:Plots, :Juno, :Atom], \
         precompile_statements_file="/tmp/atomcompile.jl", \
@@ -262,12 +262,12 @@ COPY ./Project.toml /work/Project.toml
 COPY ./src/MyWorkflow.jl /work/src/MyWorkflow.jl
 
 # Initialize Julia package using /work/Project.toml
-RUN rm -f Manifest.toml && julia -e 'using Pkg; \
+RUN rm -f Manifest.toml && julia -J /sysimages/ijulia.so -e 'using Pkg; \
 Pkg.instantiate(); \
 Pkg.precompile(); \
 ' && \
 # Check Julia version \
-julia -e 'using InteractiveUtils; versioninfo()'
+julia -J /sysimages/ijulia.so -e 'using InteractiveUtils; versioninfo()'
 
 # For Jupyter Notebook
 EXPOSE 8888
