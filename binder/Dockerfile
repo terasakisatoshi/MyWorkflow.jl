@@ -139,6 +139,9 @@ COPY ./jupytext.toml ${HOME}
 # we need copy  src/MyWorkflow.jl from julia 1.5
 COPY ./src/MyWorkflow.jl ${HOME}/src/MyWorkflow.jl
 
+# convert all md files except README.md
+RUN jupytext --to ipynb `ls *.md | grep -v README`
+
 USER root
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
