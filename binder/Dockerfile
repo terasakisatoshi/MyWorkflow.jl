@@ -140,7 +140,7 @@ COPY ./jupytext.toml ${HOME}
 COPY ./src/MyWorkflow.jl ${HOME}/src/MyWorkflow.jl
 
 # convert all md files except README.md
-RUN jupytext --to ipynb `ls *.md | grep -v README`
+RUN jupytext --to ipynb `ls *.md | grep -v README` && rm `ls *.md | grep -v README`
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
