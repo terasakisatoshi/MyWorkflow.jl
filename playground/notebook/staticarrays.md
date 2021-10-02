@@ -12,6 +12,9 @@ jupyter:
     name: julia-1.6
 ---
 
+# Create Point struct
+- This notebook privides how to create Point class. The following technique is taken from GeometryBasics.
+
 ```julia
 using StaticArrays
 abstract type AbstractPoint{N,T} <: StaticVector{N,T} end
