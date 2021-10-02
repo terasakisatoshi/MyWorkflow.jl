@@ -1,7 +1,7 @@
 FROM julia:1.6.3
 
-ARG NB_USER
-ARG NB_UID
+ARG NB_USER=jovyan
+ARG NB_UID=1000
 ENV USER ${NB_USER}
 ENV NB_UID ${NB_UID}
 ENV HOME /home/${NB_USER}
@@ -46,7 +46,6 @@ ENV PATH=${HOME}/.local/bin:$PATH
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
-    jupyter \
     jupyterlab \
     notebook \
     jupytext \
@@ -131,6 +130,7 @@ WORKDIR ${HOME}
 COPY ./playground/notebook ${HOME}
 COPY ./requirements.txt ${HOME}
 COPY ./Project.toml ${HOME}
+COPY ./jupytext.toml ${HOME}
 # we need copy  src/MyWorkflow.jl from julia 1.5
 COPY ./src/MyWorkflow.jl ${HOME}/src/MyWorkflow.jl
 
