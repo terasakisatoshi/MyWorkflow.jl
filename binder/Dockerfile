@@ -40,10 +40,7 @@ RUN apt-get update && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
-# Switch default user
-USER ${NB_USER}
-ENV PATH=${HOME}/.local/bin:$PATH
-
+# We need install jupyterlab with sudo user, NOT ${USER}
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyterlab \
@@ -67,7 +64,6 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
 # Install/enable extension for JupyterLab users
 RUN jupyter labextension install jupyterlab-topbar-extension && \
     jupyter labextension install jupyterlab-system-monitor && \
-    #jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
     jupyter nbextension enable --py widgetsnbextension && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install @z-m-k/jupyterlab_sublime --no-build && \
@@ -82,11 +78,27 @@ RUN jupyter labextension install jupyterlab-topbar-extension && \
     rm -rf ~/.node-gyp && \
     echo Done
 
+RUN mkdir -p ${HOME}/.local ${HOME}/.jupyter
+# Set color theme Monokai++ by default
+RUN mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/apputils-extension && \
+    echo '{"theme": "Monokai++"}' >> \
+    ${HOME}/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+
+RUN mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/notebook-extension && \
+    echo '{"codeCellConfig": {"lineNumbers": true}}' \
+    >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings
+
+RUN mkdir -p ${HOME}/mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension && \
+    echo '{"shortcuts": [{"command": "runmenu:restart-and-run-all", "keys": ["Alt R"], "selector": "[data-jp-code-runner]"}]}' \
+    >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/shortcuts.jupyterlab-settings
+RUN chown -R ${NB_UID} ${HOME}
+
 # Install packages for R
-USER root
 RUN Rscript -e "install.packages(c('IRkernel')); IRkernel::installspec()" && \
     Rscript -e "install.packages('ggplot2')"
-USER ${NB_USER}
+
+# switch to USER
+USER ${USER}
 
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
@@ -107,23 +119,16 @@ USER root
 # suppress warning for related to GR backend
 ENV GKSwstype=100
 
-RUN pip install webio_jupyter_extension && \
-    julia -e '\
+RUN julia -e '\
               using Pkg; \
               Pkg.add(PackageSpec(name="IJulia",version="1.23.2")); \
               Pkg.add(PackageSpec(name="Interact", version="0.10.3")); \
               Pkg.add(PackageSpec(name="WebIO", version="0.8.16")); \
               Pkg.pin(["IJulia", "Interact", "WebIO"]); \
               using IJulia, WebIO; \
-              envhome="/work"; \
-              installkernel("Julia", "--project=$envhome", "--trace-compile=/tmp/traced_nb.jl");\
+              installkernel("Julia");\
               ' && \
     echo "Done"
-
-# Make NB_USER Occupy julia binary
-RUN chown -R ${NB_UID} /usr/local/julia
-# Swich user again to NB_USER
-USER ${NB_USER}
 
 # Make sure the contents of our repo are in ${HOME}
 WORKDIR ${HOME}
@@ -147,7 +152,6 @@ Pkg.precompile()' && \
 # Check Julia version \
 julia -e 'using InteractiveUtils; versioninfo()'
 
-# For Jupyter Notebook
-EXPOSE 8888
-# For Http Server
-EXPOSE 8000
+WORKDIR ${HOME}
+USER ${USER}
+
