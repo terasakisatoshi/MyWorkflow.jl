@@ -55,11 +55,10 @@ end
 
 ```julia
 # ofcourse you may add const keyword before each variable.
-ymin = -2.
-xmin = -2.
-ymax = 2.
-xmax = 2.
-T = 300;
+const ymin = -2.
+const xmin = -2.
+const ymax = 2.
+const xmax = 2.;
 ```
 
 ```julia
@@ -162,7 +161,7 @@ function main(disp::Bool=false)
         any(has_contact.(Ref(c_plus_r), circles)) && continue
         push!(circles, c)
     end
-
+    T = 500
     anim = @animate for t in 1:T
         disp && IJulia.clear_output(true)
         p = plot(aspect_ratio=true, legend=false)
@@ -205,6 +204,8 @@ function main(disp::Bool=false)
             size=(400, 400),
             xlim=(xmin, xmax), ylim=(ymin, ymax), 
             aspect_ratio=:equal, legend=false,
+            grid=false, ticks=false,
+            framestyle = :box,
         )
         
         for c in circles
