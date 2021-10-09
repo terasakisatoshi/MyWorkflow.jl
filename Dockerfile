@@ -238,7 +238,7 @@ RUN xvfb-run julia \
 # update sysimage
 RUN mkdir /sysimages && julia -e 'using PackageCompiler; \
               create_sysimage(\
-                  [:StatsPlots, :Plots, :DifferentialEquations], \
+                  [:StatsPlots, :Plots], \
                   precompile_statements_file=["traced_runtests.jl", "/tmp/traced_nb.jl"], \
                   sysimage_path="/sysimages/ijulia.so", \
                   cpu_target = PackageCompiler.default_app_cpu_target(), \
