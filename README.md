@@ -65,6 +65,7 @@ $ tree .
 │   │   ├── convex_hull.md
 │   │   ├── coordinate_system.md
 │   │   ├── curve.md
+│   │   ├── elastic_collision.md
 │   │   ├── example.md
 │   │   ├── fitting.md
 │   │   ├── free_fall.md
@@ -92,7 +93,8 @@ $ tree .
 │   │   ├── reuleaux_triangle.md
 │   │   ├── seaborn.md
 │   │   ├── simple_harmonic_motion.md
-│   │   ├── tangent_space.md
+│   │   ├── staticarrays.md
+│   │   ├── staticarrays_fieldvector.md
 │   │   ├── tangent_vector.md
 │   │   └── wav_example.md
 │   └── test
@@ -145,9 +147,11 @@ $ docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instant
 
 ```ps
 PS> # open powershell NOT `cmd.exe`
-PS> winget install "Make for Windows" # install `make` command
-PS> make
+PS> winget install -e GnuWin32.Make
 ```
+
+The `make.exe` lives in `C:\Program Files (x86)\GnuWin32\bin\make.exe`. Therefore please add it to your `PATH` environment variable.
+After that, if `PS> Get-Command make` works fine, you're good to go.
 
 - Or try the following procedure:
 
