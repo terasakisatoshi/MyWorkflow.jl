@@ -1,4 +1,5 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+LiveServer = "16fef848-5104-11e9-1b77-fb7a48bbb589"
 MyWorkflow = "7abf360e-92cb-4f35-becd-441c2614658a"
 Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
