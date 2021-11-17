@@ -43,8 +43,8 @@ web: docs
 		Pkg.develop(PackageSpec(path=pwd()));\
 		Pkg.instantiate();\
 		include("docs/make.jl");\
+		using LiveServer; serve(dir="docs/build", host="0.0.0.0");\
 		'
-	python3 -m http.server --bind 0.0.0.0 --directory docs/build
 
 test: build
 	docker-compose run --rm julia julia -J ${SYSIMAGE} -e 'using Pkg; Pkg.activate("."); Pkg.test()'
