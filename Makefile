@@ -43,7 +43,7 @@ web: docs
 		Pkg.develop(PackageSpec(path=pwd()));\
 		Pkg.instantiate();\
 		include("docs/make.jl");\
-		using LiveServer; serve(dir="docs/build", host="0.0.0.0");\
+		using LiveServer; servedocs(host="0.0.0.0");\
 		'
 
 test: build
