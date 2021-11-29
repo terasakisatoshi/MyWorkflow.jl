@@ -15,7 +15,7 @@ jobs:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     env:
-      R_HOME: "*"
+      R_HOME: *
     strategy:
       matrix:
         version:
