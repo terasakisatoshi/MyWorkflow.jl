@@ -32,7 +32,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - run: julia -e 'ENV["R_HOME"]="*"; using Pkg; Pkg.instantiate(); Pkg.precompile()'
+      - run: julia .github/workflows/instantiate.jl
       - uses: julia-actions/julia-runtest@latest
   docs:
     name: Documentation
