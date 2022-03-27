@@ -1,11 +1,21 @@
 name: CI
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+    tags: '*'
+  pull_request:
+concurrency:
+  # Skip intermediate builds: always.
+  # Cancel intermediate builds: only if it is a pull request build.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
+    env:
+      R_HOME: '*'
     strategy:
       matrix:
         version:
@@ -22,7 +32,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: julia-actions/julia-buildpkg@latest
+      - run: julia .github/workflows/instantiate.jl
       - uses: julia-actions/julia-runtest@latest
   docs:
     name: Documentation
@@ -31,7 +41,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: julia-actions/setup-julia@latest
         with:
-          version: '1.5'
+          version: '1.6'
       - run: julia --project=docs -e '
           using Pkg;
           Pkg.develop(PackageSpec(; path=pwd()));
